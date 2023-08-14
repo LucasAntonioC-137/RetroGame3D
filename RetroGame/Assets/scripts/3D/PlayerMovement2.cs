@@ -5,7 +5,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerMovement2 : MonoBehaviour
 {
-
+    [Header("Public References")]
     public float xySpeed = 18;
     public float lookSpeed = 340f;
     public float forwardSpeed = 6;
@@ -15,11 +15,13 @@ public class PlayerMovement2 : MonoBehaviour
     public Transform cameraParent;
     public int invert = -1;
     private Transform playerModel;
+    public Transform aimTarget;
+    public CinemachineDollyCart dolly;
     // Start is called before the first frame update
     void Start()
     {
         playerModel = transform.GetChild(0);
-        //SetSpeed(forwardSpeed);
+        SetSpeed(forwardSpeed);
     }
     // Update is called once per frame
     void Update()
@@ -29,7 +31,8 @@ public class PlayerMovement2 : MonoBehaviour
         Vector3 direction = new Vector3(h, invert * v, 0);
         Vector3 finalDirection = new Vector3(h, invert * v, 2.0f);
         LocalMove(direction, xySpeed);
-        RotationLook(finalDirection, lookSpeed, maxAngle);
+        //RotationLook(finalDirection, lookSpeed, maxAngle);
+        RotationLookPath(h, v, lookSpeed);
         HorizontalLean(playerModel, h, 80, .1f);
         if (Input.GetButtonDown("Fire2"))
             Boost(true);
@@ -59,14 +62,22 @@ public class PlayerMovement2 : MonoBehaviour
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
-    void RotationLook(Vector3 direction, float speed, float maxAngle)
+    void RotationLookPath(float h, float v, float speed)
     {
+        aimTarget.parent.position = Vector3.zero;
+        aimTarget.localPosition = new Vector3(h,invert * v, 1);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(aimTarget.position), Mathf.Deg2Rad * speed * Time.deltaTime);
+    }
+
+    /*void RotationLook(Vector3 direction, float speed, float maxAngle)
+    {
+
         if (direction.x != 0 || direction.y != 0)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), Mathf.Deg2Rad * maxAngle);
         }
 
-    }
+    }*/
 
     void HorizontalLean(Transform target, float axis, float leanlimit, float lerpTime)
     {
@@ -74,14 +85,22 @@ public class PlayerMovement2 : MonoBehaviour
         target.localEulerAngles = new Vector3(targetEulerAngels.x, targetEulerAngels.y, Mathf.LerpAngle(targetEulerAngels.z, -axis * leanlimit, lerpTime));
     }
 
-    /*void SetSpeed(float x)
+    void SetSpeed(float x)
     {
         dolly.m_Speed = x;
-    }*/
+    }
 
     void SetCameraZoom(float zoom, float duration)
     {
         cameraParent.DOLocalMove(new Vector3(0, 0, zoom), duration);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(aimTarget.position, .5f);
+        Gizmos.DrawSphere(aimTarget.position, .15f);
+
     }
 
     void DistortionAmount(float x)
