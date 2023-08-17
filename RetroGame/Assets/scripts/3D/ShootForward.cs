@@ -4,17 +4,39 @@ using UnityEngine;
 
 public class ShootForward : MonoBehaviour
 {
-    public Rigidbody bullet;
-    public float velocity = 10.0f;
+    public float fireRate = 0.5f;
+    public float laserSpeed = 10f;
+    public GameObject laserPrefab;
+    public Transform firePoint; // ponto de referência para os tiros
 
-    // Update is called once per frame
+    public float bombFireRate = 1f;
+    public GameObject bombPrefab;
+
+    private float nextFire = 0.0f;
+    private float nextBombFire = 0.0f;
+
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
         {
-            Rigidbody newBullet = Instantiate(bullet, transform.position, transform.rotation) as Rigidbody;
-            newBullet.AddForce(transform.forward * velocity, ForceMode.VelocityChange);
-
+            nextFire = Time.time + fireRate;
+            FireLaser();
         }
+
+        if (Input.GetButton("Fire2") && Time.time > nextBombFire)
+        {
+            nextBombFire = Time.time + bombFireRate;
+            DropBomb();
+        }
+    }
+    void FireLaser()
+    {
+        GameObject laser = Instantiate(laserPrefab, firePoint.position, firePoint.rotation) as GameObject;
+        laser.GetComponent<Rigidbody>().velocity = firePoint.forward * laserSpeed;
+    }
+
+    void DropBomb()
+    {
+        Instantiate(bombPrefab, firePoint.position, firePoint.rotation);
     }
 }
