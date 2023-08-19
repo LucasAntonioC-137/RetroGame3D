@@ -264,6 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 0.5
   laserSpeed: 10
+  bombSpeed: 3
   laserPrefab: {fileID: 0}
   firePoint: {fileID: 0}
   bombFireRate: 1
@@ -581,6 +582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 0
   laserSpeed: 100
+  bombSpeed: 3
   laserPrefab: {fileID: 5858883460643650846, guid: 21728c195c63acc419c8667ca13b3870, type: 3}
   firePoint: {fileID: 338543668}
   bombFireRate: 3
@@ -2253,7 +2255,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

@@ -6,6 +6,7 @@ public class ShootForward : MonoBehaviour
 {
     public float fireRate = 0.5f;
     public float laserSpeed = 10f;
+    public float bombSpeed = 3f;
     public GameObject laserPrefab;
     public Transform firePoint; // ponto de referência para os tiros
 
@@ -37,6 +38,7 @@ public class ShootForward : MonoBehaviour
 
     void DropBomb()
     {
-        Instantiate(bombPrefab, firePoint.position, firePoint.rotation);
+        GameObject bomb = Instantiate(bombPrefab, firePoint.position, firePoint.rotation);
+        bomb.GetComponent<Rigidbody>().velocity = firePoint.forward * bombSpeed;
     }
 }

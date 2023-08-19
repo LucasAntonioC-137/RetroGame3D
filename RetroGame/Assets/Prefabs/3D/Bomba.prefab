@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6242481797097736372}
   - component: {fileID: 1716949119054279591}
   - component: {fileID: 6512190620839354058}
-  m_Layer: 0
+  - component: {fileID: -5924018909293098251}
+  m_Layer: 6
   m_Name: Bomba
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,3 +136,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5924018909293098251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2204219929485787471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04d3af989453c94682d860484715caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 6538935372500371946, guid: 2d6a9b6655bed364a82868ccf282018f, type: 3}
