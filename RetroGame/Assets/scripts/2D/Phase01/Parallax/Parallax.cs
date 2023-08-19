@@ -20,12 +20,15 @@ public class Parallax : MonoBehaviour
         float temp = (MainCamera.transform.position.x * (1 - speedParallax));
         float dist = (MainCamera.transform.position.x * speedParallax);
 
-        transform.position = new Vector3 (startPos + dist, 7f, transform.position.z);
+        //transform.position = new Vector3(startPos + dist, 7f, transform.position.z);
+        transform.position = new Vector3(startPos + dist, transform.position.y, transform.position.z);
 
-        if(temp > startPos + length)
+        if(temp > startPos + length / 2)
         {
-            startPos += length;    
-        }else if(temp < startPos - length){
+            startPos += length;
+        }
+        else if(temp < startPos - length / 2)
+        {
             startPos -= length;
         }
     }
