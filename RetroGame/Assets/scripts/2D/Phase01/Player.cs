@@ -64,6 +64,12 @@ public class Player : MonoBehaviour
             isJumping = false;
             anim.SetBool("jump", false);
         }
+
+        if(collision.gameObject.tag == "GameOver")
+        {
+            EnvironmentController.instance.ShowGameOver();
+            Destroy(gameObject);
+        }
     }
 
     
