@@ -9,7 +9,7 @@ public class PlayerMovement2 : MonoBehaviour
     [Header("Ship parameters")]
     public float xySpeed = 18;
     public float lookSpeed = 340f;
-    public float forwardSpeed = 6;
+    public float forwardSpeed = 20;
     public float turnSpeed = 60f;
     public float maxAngle = 50.0f;
     //public CinemachineDollyCart dolly;
@@ -20,13 +20,14 @@ public class PlayerMovement2 : MonoBehaviour
     public Transform aimTarget;
     public CinemachineDollyCart dolly;
     private float originalFov;
+    public float currentSpeed;
     // Start is called before the first frame update
     void Start()
     {
         playerModel = transform.GetChild(0);
         SetSpeed(forwardSpeed);
         originalFov = Camera.main.fieldOfView;
-        Debug.Log(originalFov.ToString());
+        //Debug.Log(originalFov.ToString());
     }
     // Update is called once per frame
     void Update()
@@ -37,6 +38,7 @@ public class PlayerMovement2 : MonoBehaviour
         LocalMove(horizontal, vertical, xySpeed);
         RotationLookPath(horizontal, vertical, lookSpeed);
         HorizontalLean(playerModel, horizontal, 80, .1f);
+        currentSpeed = dolly.m_Speed;
         if (Input.GetButtonDown("Fire3"))
             Boost(true);
 
