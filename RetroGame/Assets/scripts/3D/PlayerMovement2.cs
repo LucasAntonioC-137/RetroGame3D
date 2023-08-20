@@ -1,56 +1,60 @@
 using Cinemachine;
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerMovement2 : MonoBehaviour
 {
-    [Header("Public References")]
+    [Header("Ship parameters")]
     public float xySpeed = 18;
     public float lookSpeed = 340f;
     public float forwardSpeed = 6;
     public float turnSpeed = 60f;
     public float maxAngle = 50.0f;
     //public CinemachineDollyCart dolly;
+    [Header("Others")]
     public Transform cameraParent;
     public int invert = -1;
     private Transform playerModel;
     public Transform aimTarget;
     public CinemachineDollyCart dolly;
+    private float originalFov;
     // Start is called before the first frame update
     void Start()
     {
         playerModel = transform.GetChild(0);
         SetSpeed(forwardSpeed);
+        originalFov = Camera.main.fieldOfView;
+        Debug.Log(originalFov.ToString());
     }
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(h, invert * v, 0);
-        Vector3 finalDirection = new Vector3(h, invert * v, 2.0f);
-        LocalMove(direction, xySpeed);
-        //RotationLook(finalDirection, lookSpeed, maxAngle);
-        RotationLookPath(h, v, lookSpeed);
-        HorizontalLean(playerModel, h, 80, .1f);
-        if (Input.GetButtonDown("Fire2"))
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(horizontal, invert * vertical, 0);
+        LocalMove(horizontal, vertical, xySpeed);
+        RotationLookPath(horizontal, vertical, lookSpeed);
+        HorizontalLean(playerModel, horizontal, 80, .1f);
+        if (Input.GetButtonDown("Fire3"))
             Boost(true);
 
-        if (Input.GetButtonUp("Fire2"))
+        if (Input.GetButtonUp("Fire3"))
             Boost(false);
 
-        if (Input.GetButtonDown("Fire3"))
+        if (Input.GetButtonDown("Fire4"))
             Break(true);
 
-        if (Input.GetButtonUp("Fire3"))
+        if (Input.GetButtonUp("Fire4"))
             Break(false);
 
     }
 
-    void LocalMove(Vector3 direction, float speed)
+
+    void LocalMove(float x, float y, float speed)
     {
-        transform.localPosition += direction * speed * Time.deltaTime;
+        transform.localPosition += new Vector3(x, invert * y, 0) * speed * Time.deltaTime;
         ClampPosition();
     }
 
@@ -62,22 +66,12 @@ public class PlayerMovement2 : MonoBehaviour
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
-    void RotationLookPath(float h, float v, float speed)
+    void RotationLookPath(float horizontal, float vertical, float speed)
     {
         aimTarget.parent.position = Vector3.zero;
-        aimTarget.localPosition = new Vector3(h,invert * v, 1);
+        aimTarget.localPosition = new Vector3(horizontal,invert * vertical, 1);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(aimTarget.position), Mathf.Deg2Rad * speed * Time.deltaTime);
     }
-
-    /*void RotationLook(Vector3 direction, float speed, float maxAngle)
-    {
-
-        if (direction.x != 0 || direction.y != 0)
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), Mathf.Deg2Rad * maxAngle);
-        }
-
-    }*/
 
     void HorizontalLean(Transform target, float axis, float leanlimit, float lerpTime)
     {
@@ -85,9 +79,9 @@ public class PlayerMovement2 : MonoBehaviour
         target.localEulerAngles = new Vector3(targetEulerAngels.x, targetEulerAngels.y, Mathf.LerpAngle(targetEulerAngels.z, -axis * leanlimit, lerpTime));
     }
 
-    void SetSpeed(float x)
+    void SetSpeed(float forwardSpeed)
     {
-        dolly.m_Speed = x;
+        dolly.m_Speed = forwardSpeed;
     }
 
     void SetCameraZoom(float zoom, float duration)
@@ -115,50 +109,46 @@ public class PlayerMovement2 : MonoBehaviour
 
     void Chromatic(float x)
     {
-        Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<ChromaticAberration>().intensity.value = x;
+        PostProcessVolume postProcessVolume = Camera.main.GetComponent<PostProcessVolume>();
+        if (postProcessVolume != null)
+        {
+            postProcessVolume.profile.GetSetting<ChromaticAberration>().intensity.value = x;
+        }
     }
 
     void Boost(bool state)
     {
-
-        //if (state)
-        //{
-        //    cameraParent.GetComponentInChildren<CinemachineImpulseSource>().GenerateImpulse();
-        //    trail.Play();
-        //    circle.Play();
-        //}
-        //else
-        //{
-        //    trail.Stop();
-        //    circle.Stop();
-        //}
-        //trail.GetComponent<TrailRenderer>().emitting = state;
-
-        float origFov = state ? 40 : 55;
-        float endFov = state ? 55 : 40;
+        if (!state)
+        {
+            Camera.main.fieldOfView = originalFov;
+        }
+        float origFov = state ? 50 : 60;
+        float endFov = state ? 60 : 60;
         float origChrom = state ? 0 : 1;
         float endChrom = state ? 1 : 0;
         float origDistortion = state ? 0 : -30;
         float endDistorton = state ? -30 : 0;
-        float starsVel = state ? -20 : -1;
         float speed = state ? forwardSpeed * 2 : forwardSpeed;
         float zoom = state ? -7 : 0;
 
-        //DOVirtual.Float(origChrom, endChrom, .5f, Chromatic);
-        //DOVirtual.Float(origFov, endFov, .5f, FieldOfView);
-        //DOVirtual.Float(origDistortion, endDistorton, .5f, DistortionAmount);
-        //var pvel = stars.velocityOverLifetime;
-        //pvel.z = starsVel;
-
-        //DOVirtual.Float(dolly.m_Speed, speed, .15f, SetSpeed);
+        DOVirtual.Float(origChrom, endChrom, .5f, Chromatic);
+        DOVirtual.Float(origFov, endFov, 0.5f, FieldOfView);
+        DOVirtual.Float(origDistortion, endDistorton, .5f, DistortionAmount);
+        DOVirtual.Float(dolly.m_Speed, speed, .15f, SetSpeed);
         SetCameraZoom(zoom, .4f);
+
+        // Reset camera zoom to 0 when boost effect ends
+        if (!state)
+        {
+            SetCameraZoom(0, .4f);
+        }
     }
 
     void Break(bool state)
     {
         float speed = state ? forwardSpeed / 3 : forwardSpeed;
         float zoom = state ? 3 : 0;
-        //DOVirtual.Float(dolly.m_Speed, speed, .15f, SetSpeed);
+        DOVirtual.Float(dolly.m_Speed, speed, .15f, SetSpeed);
         SetCameraZoom(zoom, .4f);
     }
 }
