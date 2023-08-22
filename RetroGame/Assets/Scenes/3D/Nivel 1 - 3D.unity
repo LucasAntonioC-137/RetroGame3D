@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &91415904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 91415905}
+  m_Layer: 0
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &91415905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91415904}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 164.69331, y: -191.11859, z: 246.01292}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177090681
 GameObject:
   m_ObjectHideFlags: 3
@@ -234,7 +265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &338543668
 Transform:
   m_ObjectHideFlags: 0
@@ -265,7 +296,7 @@ MonoBehaviour:
   fireRate: 0.5
   laserSpeed: 10
   bombSpeed: 3
-  laserPrefab: {fileID: 0}
+  laserPrefab: {fileID: 5858883460643650846, guid: 21728c195c63acc419c8667ca13b3870, type: 3}
   firePoint: {fileID: 0}
   bombFireRate: 1
   bombPrefab: {fileID: 0}
@@ -1233,6 +1264,7 @@ GameObject:
   - component: {fileID: 1041310424}
   - component: {fileID: 1041310427}
   - component: {fileID: 1041310428}
+  - component: {fileID: 1041310429}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1363,6 +1395,23 @@ MonoBehaviour:
   active: 0
   gameCamera: {fileID: 996032572}
   extraCamera: {fileID: 596275051}
+--- !u!114 &1041310429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041310423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 4c030512a19355245be2270300c730fd, type: 2}
+  isGlobal: 0
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!1 &1054865466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2743,3 +2792,4 @@ SceneRoots:
   - {fileID: 1289681231}
   - {fileID: 1446075608}
   - {fileID: 1680564014}
+  - {fileID: 91415905}
