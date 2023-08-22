@@ -1,6 +1,7 @@
 using Cinemachine;
 using DG.Tweening;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -20,8 +21,9 @@ public class PlayerMovement2 : MonoBehaviour
     public Transform cameraParent;
     public int invert = -1;
     private Transform playerModel;
-    public Transform aimTarget;
+    public Transform aimTargetObject;
     public CinemachineDollyCart dolly;
+    private Transform aimTarget;
     private float originalFov;
 
     [Space]
@@ -30,7 +32,9 @@ public class PlayerMovement2 : MonoBehaviour
     public float boostAmount = 100f; // Quantidade inicial de boost
     public float boostCost = 10f; // Custo por uso do boost
     public float boostRechargeRate = 5f; // Taxa de recarga do boost
-
+    public bool totalCharge = true;
+    public bool isBoosting = false;
+    public bool active;
     private float rotationSpeed = 60f;
     private float maxRotation = 60f;
     private float currentRotation = 0f;
@@ -42,6 +46,7 @@ public class PlayerMovement2 : MonoBehaviour
         playerModel = transform.GetChild(0);
         SetSpeed(forwardSpeed);
         originalFov = Camera.main.fieldOfView;
+        aimTarget = aimTargetObject.transform;
         //Debug.Log(originalFov.ToString());
     }
     // Update is called once per frame
@@ -58,20 +63,46 @@ public class PlayerMovement2 : MonoBehaviour
         {
             boostAmount += boostRechargeRate * Time.deltaTime;
             if (boostAmount > 100f)
+            {
                 boostAmount = 100f;
+                totalCharge = true;
+            }
         }
-        if (Input.GetButtonDown("Fire3"))
-            Boost(true);
+        if (totalCharge)
+        {
+            if (Input.GetButtonDown("Fire3"))
+            {
+                Boost(true);
+                isBoosting = true;
+            }
 
-        if (Input.GetButtonUp("Fire3"))
-            Boost(false);
+            if (Input.GetButtonUp("Fire3"))
+            {
+                Boost(false); isBoosting = false;
+            }
 
-        if (Input.GetButtonDown("Fire4"))
-            Break(true);
+            if (Input.GetButtonDown("Fire4"))
+            {
+                Break(true); isBoosting = true;
+            }
 
-        if (Input.GetButtonUp("Fire4"))
-            Break(false);
 
+            if (Input.GetButtonUp("Fire4"))
+            {
+                Break(false); isBoosting = false;
+            }
+
+            if (isBoosting && totalCharge)
+            {
+                // Boost(isBoosting);
+                boostAmount -= boostCost * Time.deltaTime;
+                if (boostAmount <= 0) {
+                    totalCharge = false;
+                    isBoosting = false;
+                    Boost(isBoosting);
+                }
+            }
+        }
         if (Time.time - lastInputTime > inputDelay)
         {
             if (Input.GetKey(KeyCode.Q))
@@ -107,6 +138,11 @@ public class PlayerMovement2 : MonoBehaviour
 
     void RotationLookPath(float horizontal, float vertical, float speed)
     {
+        Renderer aimTargetRenderer = aimTarget.GetComponent<Renderer>();
+        if (aimTargetRenderer != null)
+        {
+            aimTargetRenderer.enabled = false;
+        }
         aimTarget.parent.position = Vector3.zero;
         aimTarget.localPosition = new Vector3(horizontal,invert * vertical, 1);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(aimTarget.position), Mathf.Deg2Rad * speed * Time.deltaTime);
@@ -128,13 +164,12 @@ public class PlayerMovement2 : MonoBehaviour
         cameraParent.DOLocalMove(new Vector3(0, 0, zoom), duration);
     }
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(aimTarget.position, .5f);
         Gizmos.DrawSphere(aimTarget.position, .15f);
-
-    }
+    }*/
 
     void DistortionAmount(float x)
     {
@@ -158,10 +193,8 @@ public class PlayerMovement2 : MonoBehaviour
     void Boost(bool state)
     {
         if (!state)
-        {
             Camera.main.fieldOfView = originalFov;
-        }
-        if (state && boostAmount >= boostCost)
+        if (state)
         {
         float origFov = state ? 50 : 60;
         float endFov = state ? 60 : 60;
@@ -177,12 +210,9 @@ public class PlayerMovement2 : MonoBehaviour
         DOVirtual.Float(origDistortion, endDistorton, .5f, DistortionAmount);
         DOVirtual.Float(dolly.m_Speed, speed, .15f, SetSpeed);
         SetCameraZoom(zoom, .4f);
-        boostAmount -= boostCost;
         }
         else if (!state)
-        {
             SetCameraZoom(0, .4f);
-        }
     }
 
     void Break(bool state)

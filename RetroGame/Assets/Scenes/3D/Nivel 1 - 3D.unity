@@ -556,7 +556,7 @@ GameObject:
   - component: {fileID: 382591342}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -595,10 +595,17 @@ MonoBehaviour:
   forwardSpeed: 0
   turnSpeed: 60
   maxAngle: 50
+  rotationAmount: 75
   cameraParent: {fileID: 1819478433}
   invert: -1
-  aimTarget: {fileID: 1137027465}
+  aimTargetObject: {fileID: 1137027465}
   dolly: {fileID: 862649262}
+  boostAmount: 100
+  boostCost: 50
+  boostRechargeRate: 30
+  totalCharge: 1
+  isBoosting: 0
+  active: 0
 --- !u!114 &382591342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,7 +641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &596275052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,13 +660,13 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 862649261}
+  m_Follow: {fileID: 862649261}
   m_Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 69
     OrthographicSize: 5
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
+    NearClipPlane: 0.1
+    FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -682,8 +689,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596275051}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.28497708, y: 0.082738146, z: -0.024699248, w: -0.95463735}
-  m_LocalPosition: {x: 2.2663476, y: 5.4556637, z: -3.0028543}
+  m_LocalRotation: {x: -1e-45, y: -0.024626264, z: 0, w: 0.99969673}
+  m_LocalPosition: {x: 0.7363518, y: -2.5, z: -7.721915}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1265,7 +1272,7 @@ GameObject:
   - component: {fileID: 1041310427}
   - component: {fileID: 1041310428}
   - component: {fileID: 1041310429}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1289,7 +1296,7 @@ Camera:
   m_GameObject: {fileID: 1041310423}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1319,7 +1326,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2039
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1421,7 +1428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1054865467}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: AimParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1437,7 +1444,7 @@ Transform:
   m_GameObject: {fileID: 1054865466}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -11.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1558,7 +1565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1137027465}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: AimObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1574,7 +1581,7 @@ Transform:
   m_GameObject: {fileID: 1137027464}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10.57}
+  m_LocalPosition: {x: 0, y: -0, z: 4.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2787,9 +2794,9 @@ SceneRoots:
   - {fileID: 1041310426}
   - {fileID: 1283790128}
   - {fileID: 862649261}
-  - {fileID: 596275053}
   - {fileID: 2117714495}
   - {fileID: 1289681231}
   - {fileID: 1446075608}
   - {fileID: 1680564014}
   - {fileID: 91415905}
+  - {fileID: 596275053}
