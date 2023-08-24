@@ -9,11 +9,11 @@ public class PlayerMovement2 : MonoBehaviour
 {
     [Header("Ship parameters")]
     [ Space ]
-    public float xySpeed = 18;
-    public float lookSpeed = 340f;
+    public float xySpeed = 8;
+    public float lookSpeed = 30f;
     public float forwardSpeed = 6;
     public float turnSpeed = 60f;
-    public float maxAngle = 50.0f;
+    public float maxAngle = 30.0f;
     public float rotationAmount = 75f;
     //public CinemachineDollyCart dolly;
     [ Space ]
@@ -34,7 +34,7 @@ public class PlayerMovement2 : MonoBehaviour
     public float boostRechargeRate = 5f; // Taxa de recarga do boost
     public bool totalCharge = true;
     public bool isBoosting = false;
-    public bool active;
+
     private float rotationSpeed = 60f;
     private float maxRotation = 60f;
     private float currentRotation = 0f;

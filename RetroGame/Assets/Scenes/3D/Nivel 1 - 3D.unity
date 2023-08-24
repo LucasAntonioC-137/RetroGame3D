@@ -592,7 +592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xySpeed: 20
   lookSpeed: 10000
-  forwardSpeed: 0
+  forwardSpeed: 20
   turnSpeed: 60
   maxAngle: 50
   rotationAmount: 75
@@ -605,7 +605,6 @@ MonoBehaviour:
   boostRechargeRate: 30
   totalCharge: 1
   isBoosting: 0
-  active: 0
 --- !u!114 &382591342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,7 +1226,7 @@ MonoBehaviour:
     FieldOfView: 60.000004
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -1272,6 +1271,7 @@ GameObject:
   - component: {fileID: 1041310427}
   - component: {fileID: 1041310428}
   - component: {fileID: 1041310429}
+  - component: {fileID: 1041310430}
   m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1319,7 +1319,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -1419,6 +1419,19 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!114 &1041310430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041310423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26601b9ef8f40da4c9e1449e814865e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceToAppear: 8
 --- !u!1 &1054865466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2376,7 +2389,7 @@ Transform:
   m_GameObject: {fileID: 1680564009}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.25, y: -2.8356342, z: 26.26}
+  m_LocalPosition: {x: 1.25, y: -2.8356342, z: 26.8}
   m_LocalScale: {x: 9.489387, y: 9.766349, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
