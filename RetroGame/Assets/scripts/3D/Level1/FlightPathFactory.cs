@@ -1,15 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Net;
+using UnityEngine;
 using UnityEngine.Splines;
 
 namespace RailShooter {
     public static class FlightPathFactory {
-        public static SplineContainer GenerateFlightPath(Annulus[] annuli) {
-            Vector3[] pathPoints = new Vector3[annuli.Length];
+        public static SplineContainer GenerateFlightPath(Vector3 startPoint, Vector3 endPoint) {
+            /*Vector3[] pathPoints = new Vector3[spawn.Length];
 
-            for (int i = 0; i < annuli.Length; i++) {
-                pathPoints[i] = annuli[i].GetRandomPoint();
-            }
-            
+            for (int i = 0; i < spawn.Length; i++) {
+                pathPoints[i] = spawn[i].GetRandomPoint();
+            }*/
+            Vector3[] pathPoints = new Vector3[2];
+
+            pathPoints[0] = startPoint;
+            pathPoints[1] = endPoint;
+
             return CreateFlightPath(pathPoints);
         }
 
@@ -26,7 +31,7 @@ namespace RailShooter {
                     -30 * Vector3.forward, 
                     30 * Vector3.forward);
             }
-            
+                        
             spline.Knots = knots;
             
             return container;

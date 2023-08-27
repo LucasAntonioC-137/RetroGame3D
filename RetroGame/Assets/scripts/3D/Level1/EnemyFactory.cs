@@ -10,7 +10,14 @@ namespace RailShooter {
                 .withFlightPathParent(flightPathParent)
                 .build(enemyParent);
         }
-        
-        // Add other static methods for different enemy types here...
+
+        public static EnemyBase GenerateEnemyBase(EnemyBase enemyPrefab, SplineContainer flightPath, Transform enemyParent, Transform flightPathParent)
+        {
+            return new EnemyBuilderBase()
+                .withPrefab(enemyPrefab)
+                .withFlightPath(flightPath)
+                .withFlightPathParent(flightPathParent)
+                .build(enemyParent);
+        }
     }
 }
