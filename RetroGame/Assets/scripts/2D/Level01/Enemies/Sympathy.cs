@@ -4,22 +4,16 @@ using UnityEngine;
 
 public class Sympathy : MonoBehaviour
 {
-    
+
     private Rigidbody2D rig;
     private Animator anim;
-
-    public float speed, JumpForce;
-    public float timeLeft;
+    public int Score;
+    public float speed, JumpForce, timeLeft;
     public bool timerOn = false;
 
-    public Transform rightCol;
-    public Transform leftCol;
+    public Transform rightCol, leftCol, headPoint;
 
-    public Transform headPoint;
-
-    private bool colliding;
-
-    public bool jump;
+    private bool colliding; //, Jump;
 
     public LayerMask layer;
 
@@ -36,29 +30,29 @@ public class Sympathy : MonoBehaviour
 
         colliding = Physics2D.Linecast(rightCol.position, leftCol.position, layer);
 
-        if(colliding)
+        if (colliding)
         {
             transform.localScale = new Vector2(transform.localScale.x * -1f, transform.localScale.y);
             speed *= -1f;
         }
 
-        if(timerOn)
+        if (timerOn)
         {
-            if(timeLeft > 0)
+            if (timeLeft > 0)
             {
                 timeLeft -= Time.deltaTime;
                 updateTimer(timeLeft);
             }
             else
-            {
+            {   //pulo
                 rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                 anim.SetBool("Jump", true);
                 Debug.Log("Contador chegou ao fim");
                 timeLeft = 3.5f;
             }
-            
+
         }
-        
+
     }
 
     void updateTimer(float currentTime)
@@ -68,9 +62,23 @@ public class Sympathy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == 8)
+        if (collision.gameObject.layer == 8)
         {
             anim.SetBool("Jump", false);
+        }
+
+        if (collision.gameObject.tag == "Player")
+        {
+            float height = collision.contacts[0].point.y - headPoint.position.y;
+
+            if (height > 0)
+            {
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+                anim.SetTrigger("death");
+                Destroy(gameObject, 0.34f);
+                EnvironmentController.instance.playerScore +=  Score;
+                EnvironmentController.instance.UpdateScoreText();
+            }
         }
     }
 }

@@ -6,13 +6,11 @@ public class Misery : MonoBehaviour
 {
     private Rigidbody2D rig;
     private Animator anim;
+    public int Score;
 
     public float speed;
 
-    public Transform rightCol;
-    public Transform leftCol;
-
-    public Transform headPoint;
+    public Transform leftCol, rightCol, headPoint;
 
     private bool colliding;
 
@@ -23,7 +21,6 @@ public class Misery : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         rig.velocity = new Vector2(speed, rig.velocity.y);
@@ -34,6 +31,22 @@ public class Misery : MonoBehaviour
         {
             transform.localScale = new Vector2(transform.localScale.x * -1f, transform.localScale.y);
             speed *= -1f;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Player")
+        {
+            float height = collision.contacts[0].point.y - headPoint.position.y;
+
+            if (height > 0)
+            {
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+                anim.SetTrigger("death");
+                Destroy(gameObject, 0.3f);
+                EnvironmentController.instance.playerScore +=  Score;
+                EnvironmentController.instance.UpdateScoreText();
+            }
         }
     }
 }

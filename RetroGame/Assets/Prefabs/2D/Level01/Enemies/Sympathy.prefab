@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 5334613024565776257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.117, z: 0}
+  m_LocalPosition: {x: 0, y: 0.055, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3044a0e1627634c4d923df75bb77a8fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Score: 5
   speed: 2.3
   JumpForce: 5
   timeLeft: 3
@@ -332,7 +333,6 @@ MonoBehaviour:
   rightCol: {fileID: 2385876645131403914}
   leftCol: {fileID: 3512102776031189842}
   headPoint: {fileID: 8969646704597420273}
-  jump: 0
   layer:
     serializedVersion: 2
     m_Bits: 256
