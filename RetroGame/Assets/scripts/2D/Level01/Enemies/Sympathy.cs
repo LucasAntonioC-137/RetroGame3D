@@ -60,6 +60,7 @@ public class Sympathy : MonoBehaviour
         currentTime += 1;
     }
 
+    bool playerDestroyed;
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 8)
@@ -71,13 +72,19 @@ public class Sympathy : MonoBehaviour
         {
             float height = collision.contacts[0].point.y - headPoint.position.y;
 
-            if (height > 0)
+            if (height > 0 && !playerDestroyed)
             {
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
                 anim.SetTrigger("death");
-                Destroy(gameObject, 0.34f);
+                speed = 0;
+                Destroy(gameObject, 0.33f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
+            }else
+            {
+                playerDestroyed = true;
+                EnvironmentController.instance.ShowGameOver();
+                Destroy(collision.gameObject);
             }
         }
     }

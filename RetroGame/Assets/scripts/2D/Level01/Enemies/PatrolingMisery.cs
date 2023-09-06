@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem.Android.LowLevel;
 
 public class PatrolingMisery : MonoBehaviour
 {
@@ -46,18 +47,25 @@ public class PatrolingMisery : MonoBehaviour
         }
     }
 
+    bool playerDestroyed;
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Player")
         {
             float height = collision.contacts[0].point.y - headPoint.position.y;
 
-            if (height > 0)
+            if (height > 0 && !playerDestroyed)
             {
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
                 anim.SetTrigger("death");
-                Destroy(transform.parent.gameObject, 0.3f);
+                speed = 0;
+                Destroy(transform.parent.gameObject, 0.33f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
+            }else
+            {
+                playerDestroyed = true;
+                EnvironmentController.instance.ShowGameOver();
+                Destroy(collision.gameObject);
             }
         }
     }

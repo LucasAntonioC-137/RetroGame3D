@@ -9,7 +9,6 @@ public class CameraFollow2D : MonoBehaviour
     
     //Camera movimentation
     public float timeLerp;
-    
 
     private void FixedUpdate()
     {

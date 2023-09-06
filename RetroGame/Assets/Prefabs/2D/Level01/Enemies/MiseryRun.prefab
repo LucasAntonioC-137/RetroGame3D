@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 2192603493424247442}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.33, y: 0.93, z: 0}
+  m_LocalPosition: {x: 0.94, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 2832998368708272859}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.49, y: 0.8, z: 0}
+  m_LocalPosition: {x: 3.12, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -127,7 +127,7 @@ Transform:
   m_GameObject: {fileID: 3148736512166228492}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.7355423, y: 0.8738849, z: -0.15328568}
+  m_LocalPosition: {x: 2.05, y: 0.8738849, z: -0.15328568}
   m_LocalScale: {x: 2.3510277, y: 2.3510277, z: 2.3510277}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -177,7 +177,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7166236263522030466, guid: e362bc6a7c79fce4db16d145d43a5550, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.32, y: 0.32}
@@ -239,7 +239,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0025507212, y: 0.069217764}
+  m_Offset: {x: 0.0040623844, y: 0.064385995}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -250,7 +250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.22563642, y: 0.08465044}
+  m_Size: {x: 0.27729774, y: 0.09431398}
   m_EdgeRadius: 0
 --- !u!50 &6584669970346710980
 Rigidbody2D:
@@ -311,9 +311,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.007969296, y: -0.07}
+  m_Offset: {x: 0.00796927, y: -0.018}
   serializedVersion: 2
-  m_Radius: 0.06436895
+  m_Radius: 0.11657593
 --- !u!1 &6821221340574414861
 GameObject:
   m_ObjectHideFlags: 0
