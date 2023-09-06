@@ -22,7 +22,7 @@ namespace RailShooter {
 
         void OnTriggerEnter(Collider other) {
             //var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            if (other.CompareTag("PlayerBullets"))
+            if (other.CompareTag("PlayerBullets") && GetComponent<EnemyMomSet>() == null)
             {
                 Destroy(gameObject);
                 //var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity

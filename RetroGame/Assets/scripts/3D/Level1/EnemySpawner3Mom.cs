@@ -6,7 +6,7 @@ using UnityEngine.Splines;
 
 namespace RailShooter
 {
-    public class EnemySpawner2Ufo : MonoBehaviour
+    public class EnemySpawner3Mom : MonoBehaviour
     {
         [SerializeField] Square[] spawn;
         [SerializeField] EnemyBase enemyPrefab;

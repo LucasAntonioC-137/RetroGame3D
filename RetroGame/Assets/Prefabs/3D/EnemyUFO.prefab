@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6186660410624271030}
   - component: {fileID: 4949553343380610256}
   - component: {fileID: 3688272355788036651}
+  - component: {fileID: -2929150631262495384}
+  - component: {fileID: 3164799984137905878}
   m_Layer: 0
   m_Name: EnemyUFO
   m_TagString: Untagged
@@ -27,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5417481909926981909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.66022444, y: 29.757164, z: 97.366165}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -70,6 +72,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineAnimate: {fileID: 4949553343380610256}
+--- !u!114 &-2929150631262495384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417481909926981909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a31436ebe37c3428ec61f922b5368e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 20
+  destroyedByPlayer: 0
+--- !u!136 &3164799984137905878
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417481909926981909}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.5723639
+  m_Height: 6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0.114172935}
 --- !u!1001 &5328346724493505275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80,15 +119,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 511757411641820049, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.66023284
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 511757411641820049, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -29.757164
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 511757411641820049, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -37.16617
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 511757411641820049, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -123,10 +162,32 @@ PrefabInstance:
       value: Enemy2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3212223983512133765, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1131354482805933228, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1503232620369124415}
   m_SourcePrefab: {fileID: 100100000, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
+--- !u!1 &5062459350681695831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1131354482805933228, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}
+  m_PrefabInstance: {fileID: 5328346724493505275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1503232620369124415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5062459350681695831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbfd68b44ca5d448b59632024ad779b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 100
 --- !u!4 &5685855805679120746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 511757411641820049, guid: b1e2d97d9a4cf1c4ba8e771dd369bdaa, type: 3}

@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: -1058800300463302416}
   - component: {fileID: 5428334143337815483}
   - component: {fileID: -5791150582046101062}
-  m_Layer: 6
-  m_Name: Balas
-  m_TagString: PlayerBullets
+  m_Layer: 12
+  m_Name: EnemyBullet
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 59bf65b61ac153b4184ad162a3ac47e5, type: 2}
+  - {fileID: 2100000, guid: 59166fe01eccf8343a8e943dd1275e8a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
