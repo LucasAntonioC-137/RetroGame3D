@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6613175582978278264}
   - component: {fileID: 8254705917059988944}
   - component: {fileID: -2364032772162752089}
+  - component: {fileID: 6362636558595211132}
   m_Layer: 0
   m_Name: Child
   m_TagString: Untagged
@@ -49,12 +50,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.7168655, y: 1.8131568, z: 1.9541037}
+  m_Center: {x: 0.017521381, y: -0.05920121, z: -0.26839554}
 --- !u!114 &-2364032772162752089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +71,20 @@ MonoBehaviour:
   moveSpeed: 25
   instabilityFactor: 1
   playerTransform: {fileID: 0}
+--- !u!114 &6362636558595211132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8427208553384055837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a31436ebe37c3428ec61f922b5368e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 20
+  destroyedByPlayer: 0
 --- !u!1001 &1411820320543525898
 PrefabInstance:
   m_ObjectHideFlags: 0
