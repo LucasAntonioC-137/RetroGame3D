@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 4526882856840531255}
   - component: {fileID: -2270551242026838529}
   - component: {fileID: 23125636879620634}
-  m_Layer: 0
+  - component: {fileID: 3777117964373965885}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -137,6 +138,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3846464, y: 0.5714159, z: 2.237873}
   m_Center: {x: 0.019265413, y: 0.006685972, z: 0.51632774}
+--- !u!114 &3777117964373965885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2678128593627716326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a31436ebe37c3428ec61f922b5368e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 20
+  destroyedByPlayer: 0
+  score: 15
 --- !u!1001 &6093066184869904325
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -200,6 +216,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 31291315b3782804992dbde84b487edf, type: 3}
       propertyPath: m_Name
       value: Enemy1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 31291315b3782804992dbde84b487edf, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 31291315b3782804992dbde84b487edf, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

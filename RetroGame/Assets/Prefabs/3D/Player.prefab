@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6819811472655221484}
   - component: {fileID: 4136168080606659480}
+  - component: {fileID: 434756479348033017}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -60,6 +61,19 @@ MonoBehaviour:
   boostRechargeRate: 30
   totalCharge: 1
   isBoosting: 0
+--- !u!114 &434756479348033017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5905849057789058108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4e839c980a0cc4ab04fc4005b80d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
 --- !u!1001 &1579645383006581559
 PrefabInstance:
   m_ObjectHideFlags: 0

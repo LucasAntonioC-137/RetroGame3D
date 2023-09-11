@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1489421617857676329}
   - component: {fileID: 1068386185716927644}
   - component: {fileID: 367944054311272236}
+  - component: {fileID: -4225642675488642486}
   m_Layer: 0
   m_Name: FastShip
   m_TagString: Untagged
@@ -106,6 +107,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.9685183, y: 0.8975997, z: 4.534382}
   m_Center: {x: 0.047361374, y: -0.051199973, z: 0.6109103}
+--- !u!114 &-4225642675488642486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391756899082058278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a31436ebe37c3428ec61f922b5368e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 20
+  destroyedByPlayer: 0
+  score: 10
 --- !u!1001 &1224714568444639390
 PrefabInstance:
   m_ObjectHideFlags: 0
