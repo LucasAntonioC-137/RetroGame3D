@@ -29,7 +29,7 @@ public class PlayerMovement2 : MonoBehaviour
     [Space]
     [Header("Boost")]
 
-    public float boostAmount = 100f; // Quantidade inicial de boost
+    public float boostAmount = 100; // Quantidade inicial de boost
     public float boostCost = 10f; // Custo por uso do boost
     public float boostRechargeRate = 5f; // Taxa de recarga do boost
     public bool totalCharge = true;

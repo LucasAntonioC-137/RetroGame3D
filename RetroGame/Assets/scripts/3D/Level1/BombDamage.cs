@@ -16,19 +16,21 @@ public class BombDamage : MonoBehaviour
         particleSystem = GetComponent<ParticleSystem>();
         sphereCollider = GetComponent<SphereCollider>();
         initialParticleSize = particleSystem.main.startSize.constant;
+        sphereCollider.radius = initialParticleSize;
     }
 
-    void Update()
+    /*void FixedUpdate()
     {
+
         if (particleSystem != null && sphereCollider != null)
         {
             ParticleSystem.Particle[] particles = new ParticleSystem.Particle[1];
             particleSystem.GetParticles(particles);
 
             float currentSize = particles[0].GetCurrentSize(particleSystem);
-            sphereCollider.radius = currentSize / 2f - 1;
+            sphereCollider.radius = (currentSize / 3f);
         }
-    }
+    }*/
     void OnTriggerEnter(Collider other)
     {
         EnemyHealthN13D enemyHealth = other.GetComponent<EnemyHealthN13D>();

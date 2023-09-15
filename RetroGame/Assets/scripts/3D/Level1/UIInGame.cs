@@ -9,18 +9,31 @@ public class UIInGame : MonoBehaviour
     public Text scoreText;
     public Image lifeBar;
     public Image redBar;
+    public Image boostBar;
     public int currentHealth;
+    public int currentBoost;
     private PlayerHealth player;
+    private PlayerMovement2 moveset;
 
     void Start()
     {
         player = GameObject.FindObjectOfType<PlayerHealth>();
+        moveset = GameObject.FindObjectOfType<PlayerMovement2>();
     }
     // Update is called once per frame
     void Update()
     {
         this.scoreText.text = PlayerStats.instance.score.ToString("D9");
         SetHealth(player.currentHealth);
+        SetBoost(moveset.boostAmount);
+    }
+
+    private void SetBoost(float boostAmount)
+    {
+        //currentBoost = Mathf.Clamp(boostAmount, 0, 100);
+        Vector3 boostbarScale = boostBar.rectTransform.localScale;
+        boostbarScale.x = (float)boostAmount / 100;
+        boostBar.rectTransform.localScale = boostbarScale;
     }
 
     public void SetHealth(int amount)
