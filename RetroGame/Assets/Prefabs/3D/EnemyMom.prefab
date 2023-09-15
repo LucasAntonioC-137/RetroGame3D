@@ -87,6 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 80
   destroyedByPlayer: 0
+  score: 50
 --- !u!114 &3451708245373429084
 MonoBehaviour:
   m_ObjectHideFlags: 0
