@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Sympathy : MonoBehaviour
@@ -50,7 +51,6 @@ public class Sympathy : MonoBehaviour
                 Debug.Log("Contador chegou ao fim");
                 timeLeft = 3.5f;
             }
-
         }
 
     }
@@ -63,7 +63,7 @@ public class Sympathy : MonoBehaviour
     bool playerDestroyed;
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 8)
+        if (collision.gameObject.layer == 6)
         {
             anim.SetBool("Jump", false);
         }
