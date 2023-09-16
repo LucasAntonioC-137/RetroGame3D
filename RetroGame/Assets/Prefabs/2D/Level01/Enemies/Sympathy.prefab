@@ -335,4 +335,4 @@ MonoBehaviour:
   headPoint: {fileID: 8969646704597420273}
   layer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
