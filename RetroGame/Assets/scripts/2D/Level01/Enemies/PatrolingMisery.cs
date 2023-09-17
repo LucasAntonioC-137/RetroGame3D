@@ -58,7 +58,7 @@ public class PatrolingMisery : MonoBehaviour
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
                 anim.SetTrigger("death");
                 speed = 0;
-                Destroy(transform.parent.gameObject, 0.33f);
+                Destroy(transform.parent.gameObject, 1.35f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
             }else

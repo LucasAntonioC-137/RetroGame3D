@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Enemy
   - PlayerBullets
-  - FxTemporaire
+  - GameOver
   layers:
   - Default
   - TransparentFX
@@ -14,11 +14,11 @@ TagManager:
   - 
   - Water
   - UI
-  - Enemy
-  - Enemybullet
-  - NotVision
-  - Player
-  - PlayerBullet
+  - Ground
+  - Limiters
+  - Game Over
+  - 
+  - 
   - 
   - 
   - 

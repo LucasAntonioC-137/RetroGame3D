@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "com.eflatun.scenereference": "git+https://github.com/starikcetin/Eflatun.SceneReference.git#3.1.1",
-    "com.kylewbanks.scenerefattribute": "https://github.com/KyleBanks/scene-ref-attribute.git",
+    "com.eflatun.scenereference": "file:D:/Downloads/Eflatun.SceneReference-main/Eflatun.SceneReference/Packages/com.eflatun.scenereference",
+    "com.kylewbanks.scenerefattribute": "file:D:/Downloads/scene-ref-attribute-main",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ads": "4.4.2",

@@ -1,21 +1,19 @@
 {
   "dependencies": {
     "com.eflatun.scenereference": {
-      "version": "git+https://github.com/starikcetin/Eflatun.SceneReference.git#3.1.1",
+      "version": "file:D:/Downloads/Eflatun.SceneReference-main/Eflatun.SceneReference/Packages/com.eflatun.scenereference",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.unity.settings-manager": "2.0.1",
         "com.unity.nuget.newtonsoft-json": "3.0.2"
-      },
-      "hash": "c94f1c9902e06c45975982cc3ac448e9330cc96d"
+      }
     },
     "com.kylewbanks.scenerefattribute": {
-      "version": "https://github.com/KyleBanks/scene-ref-attribute.git",
+      "version": "file:D:/Downloads/scene-ref-attribute-main",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "5de6e390c5374e64c28f43d80dbf34d9889da256"
+      "source": "local",
+      "dependencies": {}
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
