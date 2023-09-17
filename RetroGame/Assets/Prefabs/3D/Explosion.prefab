@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2298550897248912065}
   - component: {fileID: 3289552300324893727}
   - component: {fileID: 7527198265067620472}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: Explosion
   m_TagString: PlayerBullets
   m_Icon: {fileID: 0}

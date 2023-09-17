@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7819967472498206737}
   - component: {fileID: 8337354622250841625}
   - component: {fileID: -3832522983765453082}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: ExplosionBombExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}

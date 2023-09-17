@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1716949119054279591}
   - component: {fileID: 6512190620839354058}
   - component: {fileID: -5924018909293098251}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: Bomba
   m_TagString: PlayerBullets
   m_Icon: {fileID: 0}

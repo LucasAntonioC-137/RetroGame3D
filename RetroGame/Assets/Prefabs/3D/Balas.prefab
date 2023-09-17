@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -1058800300463302416}
   - component: {fileID: 5428334143337815483}
   - component: {fileID: -5791150582046101062}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Balas
   m_TagString: PlayerBullets
   m_Icon: {fileID: 0}
