@@ -77,7 +77,7 @@ public class Sympathy : MonoBehaviour
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
                 anim.SetTrigger("death");
                 speed = 0;
-                Destroy(gameObject, 0.33f);
+                Destroy(gameObject, 1.4f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
             }else
