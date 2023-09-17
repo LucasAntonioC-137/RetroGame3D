@@ -9,13 +9,15 @@ public class BombSpawer : MonoBehaviour
     public GameObject bombPrefab;
     private float nextBombFire = 0.0f;
     public Transform firePoint;
+    public int bombLimit = 3;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire2") && Time.time > nextBombFire)
+        if (Input.GetButton("Fire2") && Time.time > nextBombFire && bombLimit > 0)
         {
             nextBombFire = Time.time + bombFireRate;
+            bombLimit -= 1;
             DropBomb();
         }
     }

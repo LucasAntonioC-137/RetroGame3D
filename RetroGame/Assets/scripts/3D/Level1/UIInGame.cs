@@ -1,22 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIInGame : MonoBehaviour
 {
     public Text scoreText;
+    public TextMeshProUGUI bombText;
     public Image lifeBar;
     public Image redBar;
     public Image boostBar;
+    public Image bomb;
     public int currentHealth;
     public int currentBoost;
     private PlayerHealth player;
     private PlayerMovement2 moveset;
+    private BombSpawer bomb2;
 
     void Start()
     {
+        bomb2 = GameObject.FindObjectOfType<BombSpawer>();
         player = GameObject.FindObjectOfType<PlayerHealth>();
         moveset = GameObject.FindObjectOfType<PlayerMovement2>();
     }
@@ -24,6 +29,7 @@ public class UIInGame : MonoBehaviour
     void Update()
     {
         this.scoreText.text = PlayerStats.instance.score.ToString("D9");
+        this.bombText.text = "x " + bomb2.bombLimit.ToString();
         SetHealth(player.currentHealth);
         SetBoost(moveset.boostAmount);
     }

@@ -22,5 +22,7 @@ public class PlayerStats : MonoBehaviour
     public void AddScore(int points)
     {
         score += points;
+        PlayerPrefs.SetInt("Score", score); // Armazena a pontuação com a chave "Score"
+        PlayerPrefs.Save(); // Salva as alterações
     }
 }

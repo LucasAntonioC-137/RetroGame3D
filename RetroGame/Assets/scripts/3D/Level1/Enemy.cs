@@ -6,7 +6,7 @@ using UnityEngine.Splines;
 namespace RailShooter {
     public class Enemy : ValidatedMonoBehaviour {
         [SerializeField, Self] SplineAnimate splineAnimate;
-        //[SerializeField] GameObject explosionPrefab;
+        [SerializeField] GameObject explosionPrefab;
         [SerializeField] 
         SplineContainer flightPath;
         
@@ -22,12 +22,11 @@ namespace RailShooter {
         }
 
         void OnTriggerEnter(Collider other) {
-            //var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             if (other.CompareTag("PlayerBullets"))
             {
                 Destroy(gameObject);
-                //var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity
-                //Destroy(explosion, 5f);
+                GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+                Destroy(explosion, 2f);
             }
         }
 

@@ -52,12 +52,16 @@ public class PlayerMovement2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
+        if (playerModel != null)
+        {
+            float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontal, invert * vertical, 0);
         LocalMove(horizontal, vertical, xySpeed);
         RotationLookPath(horizontal, vertical, lookSpeed);
-        HorizontalLean(playerModel, horizontal, 50, .1f);
+        
+            HorizontalLean(playerModel, horizontal, 50, .1f);
+        
         // Recarregar o boost
         if (boostAmount < 100f)
         {
@@ -118,6 +122,7 @@ public class PlayerMovement2 : MonoBehaviour
         }
         currentRotation = Mathf.Clamp(currentRotation, -maxRotation, maxRotation);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, currentRotation);
+        }
 
     }
 

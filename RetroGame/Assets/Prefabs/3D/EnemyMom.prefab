@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineAnimate: {fileID: 5561823246357597965}
+  explosionPrefab: {fileID: 7379701025875363962, guid: 28a213dc41df11442a9ce6852d00ecde, type: 3}
 --- !u!114 &8705046313259414195
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineAnimate: {fileID: 4526882856840531255}
+  explosionPrefab: {fileID: 7379701025875363962, guid: 28a213dc41df11442a9ce6852d00ecde, type: 3}
   flightPath: {fileID: 0}
 --- !u!114 &4526882856840531255
 MonoBehaviour:

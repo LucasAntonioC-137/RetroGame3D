@@ -19,6 +19,12 @@ public class EnemyHealthN13D : MonoBehaviour
             destroyedByPlayer = true;
             PlayerStats.instance.AddScore(score);
             Destroy(gameObject);
+            if (gameObject.GetComponent<DestroyVFX>() != null)
+            {
+                GameObject prefabVfx = gameObject.GetComponent<DestroyVFX>().prefabVfx;
+                GameObject vfx = Instantiate(prefabVfx, transform.position, Quaternion.identity);
+                Destroy(vfx, 2f);
+            }
         }
     }
 }

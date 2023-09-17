@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3380610754418865895}
   - component: {fileID: 8529464578557440320}
   - component: {fileID: 3188751691788842170}
-  - component: {fileID: -1037238904792701862}
   m_Layer: 0
   m_Name: Asteroid 1
   m_TagString: Enemy
@@ -74,21 +73,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a249211504e4e6848bc897a11191803b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1037238904792701862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3530203688089687553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a31436ebe37c3428ec61f922b5368e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 10
-  destroyedByPlayer: 0
-  score: 5
 --- !u!1001 &6493995326377081191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,6 +129,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 25286d9ac799ac041901c0fc94beae72, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -155,6 +143,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 25286d9ac799ac041901c0fc94beae72, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2259025303914055530}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 25286d9ac799ac041901c0fc94beae72, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7986842911456795744}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 25286d9ac799ac041901c0fc94beae72, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 197267001243027929}
   m_SourcePrefab: {fileID: 100100000, guid: 25286d9ac799ac041901c0fc94beae72, type: 3}
 --- !u!1 &6259483990144418870 stripped
 GameObject:
@@ -197,6 +191,46 @@ MonoBehaviour:
   health: 20
   destroyedByPlayer: 0
   score: 50
+--- !u!54 &7986842911456795744
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259483990144418870}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &197267001243027929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259483990144418870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc6d900f0269d54982d9034d3df3e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabVfx: {fileID: 971751400950286191, guid: b3fe96781953d7a4aab8e272167cc468, type: 3}
 --- !u!4 &6743567780164787852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 25286d9ac799ac041901c0fc94beae72, type: 3}
