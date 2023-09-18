@@ -1,6 +1,7 @@
 using Cinemachine;
 using DG.Tweening;
 using System;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -106,6 +107,12 @@ public class PlayerMovement2 : MonoBehaviour
                     Boost(isBoosting);
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
+            {
+                int dir = Input.GetKeyDown(KeyCode.Q) ? -1 : 1;
+                QuickSpin(dir);
+            }
         }
         if (Time.time - lastInputTime > inputDelay)
         {
@@ -126,7 +133,13 @@ public class PlayerMovement2 : MonoBehaviour
 
     }
 
-
+    public void QuickSpin(int dir)
+    {
+        if (!DOTween.IsTweening(playerModel))
+        {
+            playerModel.DOLocalRotate(new Vector3(playerModel.localEulerAngles.x, playerModel.localEulerAngles.y, 360 * -dir), .4f, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine);
+        }
+    }
     void LocalMove(float x, float y, float speed)
     {
         transform.localPosition += new Vector3(x, invert * y, 0) * speed * Time.deltaTime;
