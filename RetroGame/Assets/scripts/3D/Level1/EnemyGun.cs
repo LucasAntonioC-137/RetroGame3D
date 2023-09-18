@@ -10,6 +10,7 @@ public class EnemyGun : MonoBehaviour
     float laserInterval = 3f;
     private float laserTimer = 0f;
     private bool first;
+    public AudioSource laserSfx;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,5 +56,6 @@ public class EnemyGun : MonoBehaviour
     {
         GameObject laser = Instantiate(laserPrefab, transform.position, transform.rotation) as GameObject;
         laser.GetComponent<Rigidbody>().velocity = transform.forward * laserSpeed;
+        AudioSource.PlayClipAtPoint(laserSfx.clip, transform.position);
     }
 }

@@ -123,6 +123,7 @@ MonoBehaviour:
   health: 20
   destroyedByPlayer: 0
   score: 10
+  explosionSfx: {fileID: 7907533473921550286, guid: 3f67f36ab7ebaa645ac4c4603b7e1500, type: 3}
 --- !u!1001 &1224714568444639390
 PrefabInstance:
   m_ObjectHideFlags: 0

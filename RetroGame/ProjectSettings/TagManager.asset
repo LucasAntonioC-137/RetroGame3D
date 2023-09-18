@@ -17,11 +17,11 @@ TagManager:
   - Ground
   - Limiters
   - Game Over
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Enemybullet
+  - NotVision
+  - Player
+  - PlayerBullet
   - 
   - 
   - 

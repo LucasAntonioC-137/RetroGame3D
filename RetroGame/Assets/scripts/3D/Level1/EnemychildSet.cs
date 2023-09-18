@@ -23,11 +23,14 @@ namespace RailShooter
 
         void Update()
         {
-            // move em direção à posição alvo
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            if (targetPosition != null)
+            {
+                // move em direção à posição alvo
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-            // atualiza a posição alvo com uma pequena variação aleatória para criar instabilidade no movimento
-            targetPosition = playerTransform.position + Random.insideUnitSphere * instabilityFactor;
+                // atualiza a posição alvo com uma pequena variação aleatória para criar instabilidade no movimento
+                targetPosition = playerTransform.position + Random.insideUnitSphere * instabilityFactor;
+            }
         }
         void OnDisable()
         {

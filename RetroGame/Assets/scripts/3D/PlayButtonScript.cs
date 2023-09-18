@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
@@ -41,6 +42,8 @@ public class PlayButtonScript : MonoBehaviour
 
     void OnPlayButtonPressed()
     {
+        PlayerPrefs.SetInt("Score", 0); // Armazena a pontuação com a chave "Score"
+        PlayerPrefs.Save(); // Salva as alterações
         DesativateScreen(menuUI);
         // Retoma o jogo quando o botão PLAY é pressionado
         ActivateScreen(ingameUI);

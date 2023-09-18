@@ -116,7 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 5858883460643650846, guid: b66cec2151cf07e40ac86d0c72d7bef3, type: 3}
-  laserSpeed: 40
+  laserSpeed: 80
+  laserSfx: {fileID: 7666945272519990211, guid: 1aa65cbd119871e4f925942d017bce45, type: 3}
   damage: 20
 --- !u!65 &23125636879620634
 BoxCollider:
@@ -154,6 +155,7 @@ MonoBehaviour:
   health: 20
   destroyedByPlayer: 0
   score: 15
+  explosionSfx: {fileID: 7907533473921550286, guid: 3f67f36ab7ebaa645ac4c4603b7e1500, type: 3}
 --- !u!1001 &6093066184869904325
 PrefabInstance:
   m_ObjectHideFlags: 0

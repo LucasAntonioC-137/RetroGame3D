@@ -9,6 +9,7 @@ public class ShootForward : MonoBehaviour
     public GameObject laserPrefab;
     public Transform firePoint; // ponto de referência para os tiros
 
+    public AudioSource laserSfx;
     private float nextFire = 0.0f;
 
     void Update()
@@ -24,5 +25,6 @@ public class ShootForward : MonoBehaviour
     {
         GameObject laser = Instantiate(laserPrefab, firePoint.position, firePoint.rotation) as GameObject;
         laser.GetComponent<Rigidbody>().velocity = firePoint.forward * laserSpeed;
+        laserSfx.Play();
     }
 }

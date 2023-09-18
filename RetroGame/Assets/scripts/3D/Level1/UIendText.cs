@@ -24,6 +24,7 @@ public class UIendText : MonoBehaviour
     private float progress = 0;
 
     public Button restartButton;
+    public AudioSource scoreSound;
 
     void Start()
     {
@@ -33,6 +34,8 @@ public class UIendText : MonoBehaviour
         fullText = textComponent.text; // Armazena o texto completo
         textComponent.text = ""; // Começa com o texto vazio
         restartButton.onClick.AddListener(OnResetButtonPressed);
+        restartButton.gameObject.SetActive(false);
+        restartButton.interactable = false;
         StartCoroutine(TypeText());
     }
     void Update()
@@ -47,6 +50,7 @@ public class UIendText : MonoBehaviour
                 textToDisplay.color = new Color(textToDisplay.color.r, textToDisplay.color.g, textToDisplay.color.b, 1);
                 int score = PlayerPrefs.GetInt("Score"); // Recupera a pontuação
                 StartCoroutine(AnimateScore(score));
+                shouldMove= false;
             }
         }
     }
@@ -66,10 +70,18 @@ public class UIendText : MonoBehaviour
     }
     IEnumerator AnimateScore(int targetScore)
     {
+        if (targetScore == 0)
+        {
+            scoreText.text = "0";
+            restartButton.gameObject.SetActive(true); // Mostra o botão
+            restartButton.interactable = true; // Ativa a interação
+            yield break;
+        }
         float elapsed = 0;
         int startScore = 0;
+        bool isCounting = true;
 
-        while (elapsed < duration)
+        while (elapsed < duration && isCounting==true)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
@@ -77,11 +89,29 @@ public class UIendText : MonoBehaviour
             int score = Mathf.RoundToInt(Mathf.Lerp(startScore, targetScore, t));
             scoreText.text = score.ToString();
 
+            // Toca o som de pontuação se não estiver tocando
+            if (!scoreSound.isPlaying)
+            {
+                scoreSound.Play();
+            }
+
+            if (scoreText.text.Equals(targetScore.ToString()))
+            {
+                isCounting= false;
+            }
+
             yield return null;
+        }
+        // Para o som de pontuação quando a contagem terminar
+        if (scoreSound.isPlaying)
+        {
+            scoreSound.Stop();
         }
 
         // Garante que a pontuação final seja exatamente a pontuação alvo
         scoreText.text = targetScore.ToString();
+        restartButton.gameObject.SetActive(true); // Mostra o botão
+        restartButton.interactable = true; // Ativa a interação
     }
     void OnResetButtonPressed()
     {

@@ -7,6 +7,7 @@ public class AsteroidGenerator : MonoBehaviour
     public float spawnAreaSize = 50f; // Tamanho da área de spawn
     public float minSize = 0.5f; // Tamanho mínimo do asteróide
     public float maxSize = 50f; // Tamanho máximo do asteróide
+    public float pushForce = 10f; // Força de empurrão
     public float rotationSpeed = 1f; // Velocidade de rotação
 
     void Start()
@@ -40,7 +41,13 @@ public class AsteroidGenerator : MonoBehaviour
             ) * rotationSpeed; // Aplica a velocidade de rotação
 
             // Aplica a rotação ao asteróide
-            asteroid.GetComponent<Rigidbody>().AddTorque(rotation);
+            Rigidbody asteroidRigidbody = asteroid.GetComponent<Rigidbody>();
+            asteroidRigidbody.AddTorque(rotation);
+
+            // Empurra o asteróide na direção -Z com uma força fixa
+            Vector3 pushDirection = new Vector3(0, 0, -1);
+            asteroidRigidbody.AddForce(pushDirection * pushForce);
+
 
             yield return new WaitForSeconds(1f); // Espera antes de gerar o próximo asteróide
         }

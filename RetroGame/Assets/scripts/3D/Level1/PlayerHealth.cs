@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject explosionPrefab; // Referência para o prefab da explosão
     private CameraShake cameraShake;
     private PlayButtonScript menus;
+    public AudioSource explosionSfx;
 
     void Start()
     {
@@ -38,11 +39,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void Die()
+    private void Die()
     {
         // Instancie a explosão na posição do jogador
         GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-
+        AudioSource.PlayClipAtPoint(explosionSfx.clip, transform.position);
         // Destrua o objeto do jogador
         Destroy(gameObject);
 

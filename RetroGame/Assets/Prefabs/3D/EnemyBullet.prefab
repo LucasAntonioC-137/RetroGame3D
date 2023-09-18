@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3570525360065424962}
   - component: {fileID: -1058800300463302416}
   - component: {fileID: 5428334143337815483}
-  - component: {fileID: -5791150582046101062}
   m_Layer: 10
   m_Name: EnemyBullet
   m_TagString: Enemy
@@ -254,16 +253,3 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &-5791150582046101062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5858883460643650846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 271afec1af4c3894f87a85f8030a99ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 20

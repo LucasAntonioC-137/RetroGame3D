@@ -10,13 +10,16 @@ public class EnemyHealthN13D : MonoBehaviour
     public int health = 100;
     public bool destroyedByPlayer = false;
     public int score = 50;
-
+    public AudioSource explosionSfx;
     public void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
         {
+            AudioSource.PlayClipAtPoint(explosionSfx.clip, transform.position);
+            //explosionSfx.Play();
             destroyedByPlayer = true;
+            
             PlayerStats.instance.AddScore(score);
             Destroy(gameObject);
             if (gameObject.GetComponent<DestroyVFX>() != null)
