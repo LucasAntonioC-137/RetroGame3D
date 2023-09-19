@@ -24,6 +24,7 @@ public class Coin : MonoBehaviour
             sr.enabled = false;
             circle.enabled = false;
             collected.SetActive(true);
+            AudioController.current.PlayMusic(AudioController.current.Coin);
 
             EnvironmentController.instance.playerScore +=  Score;
             EnvironmentController.instance.UpdateScoreText();

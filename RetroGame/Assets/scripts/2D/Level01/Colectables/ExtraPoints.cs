@@ -24,6 +24,7 @@ public class ExtraPoints : MonoBehaviour
             sr.enabled = false;
             circle.enabled = false;
             ExtraCollected.SetActive(true);
+            AudioController.current.PlayMusic(AudioController.current.ExtraPoints);
 
             EnvironmentController.instance.playerScore +=  Score;
             EnvironmentController.instance.UpdateScoreText();

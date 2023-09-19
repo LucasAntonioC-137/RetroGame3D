@@ -11,12 +11,16 @@ public class PatrolingMisery : MonoBehaviour
     public int Score;
     public float speed;
     private Rigidbody2D rig;
+    private BoxCollider2D boxCol;
+    private CircleCollider2D cirCol;
     private Animator anim;
     private Transform currentPoint;
-    // Start is called before the first frame update
+    
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        boxCol = GetComponent<BoxCollider2D>();
+        cirCol = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
         
@@ -57,13 +61,17 @@ public class PatrolingMisery : MonoBehaviour
             {
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
                 anim.SetTrigger("death");
+                AudioController.current.PlayMusic(AudioController.current.jumpInEnemySFX);
                 speed = 0;
+                boxCol.enabled = false;
+                cirCol.enabled = false;
                 Destroy(transform.parent.gameObject, 1.35f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
             }else
             {
                 playerDestroyed = true;
+                AudioController.current.PlayMusic(AudioController.current.deathSFX);
                 EnvironmentController.instance.ShowGameOver();
                 Destroy(collision.gameObject);
             }

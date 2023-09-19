@@ -9,6 +9,7 @@ public class NextLevelPoint : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
+            AudioController.current.PlayMusic(AudioController.current.bgm);
             SceneManager.LoadScene(sceneName);
         }
     }

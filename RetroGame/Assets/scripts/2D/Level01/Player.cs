@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag == "GameOver")
         {
+            AudioController.current.PlayMusic(AudioController.current.deathSFX);
             EnvironmentController.instance.ShowGameOver();
             Destroy(gameObject);
         }

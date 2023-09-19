@@ -7,6 +7,8 @@ public class Sympathy : MonoBehaviour
 {
 
     private Rigidbody2D rig;
+    private BoxCollider2D boxCol;
+    private CircleCollider2D cirCol;
     private Animator anim;
     public int Score;
     public float speed, JumpForce, timeLeft;
@@ -22,6 +24,8 @@ public class Sympathy : MonoBehaviour
     {
         timerOn = true;
         rig = GetComponent<Rigidbody2D>();
+        boxCol = GetComponent<BoxCollider2D>();
+        cirCol = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
     }
 
@@ -76,13 +80,17 @@ public class Sympathy : MonoBehaviour
             {
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 7, ForceMode2D.Impulse);
                 anim.SetTrigger("death");
+                AudioController.current.PlayMusic(AudioController.current.jumpInEnemySFX);
                 speed = 0;
+                boxCol.enabled = false;
+                cirCol.enabled = false;
                 Destroy(gameObject, 1.4f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
             }else
             {
                 playerDestroyed = true;
+                AudioController.current.PlayMusic(AudioController.current.deathSFX);
                 EnvironmentController.instance.ShowGameOver();
                 Destroy(collision.gameObject);
             }
