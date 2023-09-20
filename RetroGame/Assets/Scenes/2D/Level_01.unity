@@ -2288,11 +2288,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cdaa35962577584b8ec6171970417a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jump: {fileID: 8300000, guid: c7548edca2db05d45bb0a465eb3691dc, type: 3}
   jumpInEnemySFX: {fileID: 8300000, guid: d03c751e08a59d345823dd5fe9b400d6, type: 3}
+  Trampoline: {fileID: 8300000, guid: f90fc4bad48afdf44b4695ba1c2a1263, type: 3}
   Coin: {fileID: 8300000, guid: f2219434f7c4a884189fcdea20e897c4, type: 3}
   ExtraPoints: {fileID: 8300000, guid: d3a05f507335a7e4d8d114ca97288931, type: 3}
-  FireTraps: {fileID: 8300000, guid: a4474422898e8b04087fdd2bbcb92e44, type: 3}
-  SawTraps: {fileID: 8300000, guid: 163f627dd98bed946b59aaa96fcec86b, type: 3}
+  FireTraps: {fileID: 0}
+  SawTraps: {fileID: 0}
   deathSFX: {fileID: 8300000, guid: 3dd7afec0815c2e4dac91977985f1fa5, type: 3}
   bgm: {fileID: 8300000, guid: 8a0c4f6372c5c78408d43a04d920719e, type: 3}
 --- !u!1 &522234042
@@ -3112,7 +3114,7 @@ Transform:
   m_GameObject: {fileID: 680564113}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 154.36, y: -1.12, z: 0}
+  m_LocalPosition: {x: -4.96, y: -1.34, z: 0}
   m_LocalScale: {x: 3.742105, y: 3.742105, z: 3.742105}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
-    public AudioClip jumpInEnemySFX;
-    public AudioClip Coin;
-    public AudioClip ExtraPoints;
-    public AudioClip FireTraps;
-    public AudioClip SawTraps;
-    public AudioClip deathSFX;
-    public AudioClip bgm;
+    public AudioClip jump,jumpInEnemySFX, Trampoline, Coin, ExtraPoints, FireTraps, SawTraps, deathSFX, bgm;
     public static AudioController current;
 
     private AudioSource audioSource;

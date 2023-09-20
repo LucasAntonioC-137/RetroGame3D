@@ -84,6 +84,8 @@ public class Sympathy : MonoBehaviour
                 speed = 0;
                 boxCol.enabled = false;
                 cirCol.enabled = false;
+                //rig.isKinematic = true;
+                rig.Sleep();
                 Destroy(gameObject, 1.4f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();

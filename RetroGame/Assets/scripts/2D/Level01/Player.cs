@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         if(Input.GetButtonDown("Jump")  && !isJumping)
         {
             rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
+            AudioController.current.PlayMusic(AudioController.current.jump);
             anim.SetBool("jump", true);
         }
     }
@@ -70,6 +71,11 @@ public class Player : MonoBehaviour
             AudioController.current.PlayMusic(AudioController.current.deathSFX);
             EnvironmentController.instance.ShowGameOver();
             Destroy(gameObject);
+        }
+
+        if(collision.gameObject.tag == "Trampoline")
+        {
+            AudioController.current.PlayMusic(AudioController.current.Trampoline);
         }
     }
 
