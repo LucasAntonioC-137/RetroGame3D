@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "com.eflatun.scenereference": "file:D:/Downloads/Eflatun.SceneReference-main/Eflatun.SceneReference/Packages/com.eflatun.scenereference",
-    "com.kylewbanks.scenerefattribute": "file:D:/Downloads/scene-ref-attribute-main",
+    "com.eflatun.scenereference": "git+https://github.com/starikcetin/Eflatun.SceneReference.git#3.1.1",
+    "com.kylewbanks.scenerefattribute": "https://github.com/KyleBanks/scene-ref-attribute.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ads": "4.4.2",
@@ -17,6 +17,7 @@
     "com.unity.postprocessing": "3.2.2",
     "com.unity.probuilder": "5.1.1",
     "com.unity.purchasing": "4.9.3",
+    "com.unity.render-pipelines.universal": "14.0.8",
     "com.unity.splines": "2.3.0",
     "com.unity.test-framework": "1.1.33",
     "com.unity.textmeshpro": "3.0.6",
