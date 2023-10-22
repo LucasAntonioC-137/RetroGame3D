@@ -8,69 +8,57 @@ namespace level2
     public class Enemy1 : EnemyStats
     {
         public GameObject bulletPrefab;
-        public Transform firePoint;
-        public float fireRate = 2;
-        private float fireTimer;
-        public Animator anim;
+        public Transform firePoint1;
+        public Transform firePoint2;
         private bool isAttacking = false;
-        private float timeSinceLastSeenPlayer = 0f;
+
 
         void Start()
         {
             life = 100f; // Defina a vida inicial aqui
         }
 
-        private void Update()
-        {
-            // Aumente o fireTimer a cada quadro
-            fireTimer += Time.deltaTime;
 
-            // Se o fireTimer for maior que o fireRate, chame Fire() e redefina o fireTimer
-            if (fireTimer > fireRate)
+        public override void MoveTowardsPlayer(Transform target)
+        {
+            base.MoveTowardsPlayer(target);
+
+            if (!playerIsInRange)
             {
-                Attack();
-                fireTimer = 0;
-            }
-            fieldOfView();
-            if (!playerIsInView)
-            {
-                timeSinceLastSeenPlayer += Time.deltaTime;
+                if (!isWalking)
+                {
+                    anim.SetBool("walk", true);
+                    isWalking = true;
+                }
             }
             else
             {
-                timeSinceLastSeenPlayer = 0f;
+                if (isWalking)
+                {
+                    anim.SetBool("walk", false);
+                    isWalking = false;
+                }
             }
-        }
-
-
-        public void Walk()
-        {
-            // Código para o inimigo andar
         }
 
         public override void Attack()
         {
-            // Verifique se o jogador está dentro do campo de visão antes de atirar
-            if (playerIsInView)
+
+            if (!isAttacking && playerIsInRange)
             {
-                if (!isAttacking)
-                {
-                    anim.SetBool("attack", true);
-                    Debug.Log("Atirando");
-                    // Instancie a bala na posição do ponto de disparo
-                    //Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-                    isAttacking = true;
-                }
+                anim.SetBool("attack", true);
+                Debug.Log("Atirando");
+                Instantiate(bulletPrefab, firePoint1.position, firePoint1.rotation);
+                // Instancie a bala na posição do segundo ponto de disparo
+                Instantiate(bulletPrefab, firePoint2.position, firePoint2.rotation);
+                isAttacking = true;
+                fireTimer = 0; // Reinicie o temporizador de ataque
             }
-            else
+            else if (isAttacking && fireTimer >= fireRate)
             {
-                if (isAttacking && timeSinceLastSeenPlayer>=2) 
-                {
-                    anim.SetBool("attack", false);
-                    isAttacking = false;
-                }
+                anim.SetBool("attack", false);
+                isAttacking = false;
             }
         }
-
     }
 }
