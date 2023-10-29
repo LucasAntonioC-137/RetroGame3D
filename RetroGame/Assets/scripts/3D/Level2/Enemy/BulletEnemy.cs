@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace level2
+namespace Level2
 {
     public class BulletEnemy : MonoBehaviour
     {
@@ -28,8 +28,13 @@ namespace level2
                 PlayerBase player = other.gameObject.GetComponent<PlayerBase>();
                 if (player != null)
                 {
-                    player.GetDamage(damage);
+                    player.GetDamage(damage, true);
+                    GameObject.Destroy(gameObject);
                 }
+            }
+            else if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                GameObject.Destroy(gameObject);
             }
         }
     }

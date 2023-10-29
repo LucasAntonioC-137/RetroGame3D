@@ -2,36 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace Level2
 {
-    public float speed = 5.0f;
-    public float rotationSpeed = 200.0f;
-
-    private CharacterController characterController;
-    private void Start()
+    public class CameraController : MonoBehaviour
     {
-        characterController = GetComponent<CharacterController>();
-    }
+        public float speed = 5.0f;
+        public float rotationSpeed = 200.0f;
 
-    private void Update()
-    {
-        HandleMovement();
-    }
+        private CharacterController characterController;
+        private void Start()
+        {
+            characterController = GetComponent<CharacterController>();
+        }
 
-    private void HandleMovement()
-    {
-        float translation = Input.GetAxis("Vertical") * speed;
-        float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
+        private void Update()
+        {
+            HandleMovement();
+        }
 
-        // Movimentação para frente e para trás
-        translation *= Time.deltaTime;
+        private void HandleMovement()
+        {
+            float translation = Input.GetAxis("Vertical") * speed;
+            float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
 
-        // Rotação esquerda e direita
-        rotation *= Time.deltaTime;
+            // Movimentação para frente e para trás
+            translation *= Time.deltaTime;
 
-        Vector3 forwardMovement = transform.forward * translation;
-        characterController.SimpleMove(forwardMovement);
+            // Rotação esquerda e direita
+            rotation *= Time.deltaTime;
 
-        transform.Rotate(0, rotation, 0);
+            Vector3 forwardMovement = transform.forward * translation;
+            characterController.SimpleMove(forwardMovement);
+
+            transform.Rotate(0, rotation, 0);
+        }
     }
 }

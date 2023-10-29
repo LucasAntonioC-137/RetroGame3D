@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-namespace level2
+namespace Level2
 {
     public class Enemy1 : EnemyStats
     {
@@ -47,7 +47,6 @@ namespace level2
             if (!isAttacking && playerIsInRange)
             {
                 anim.SetBool("attack", true);
-                Debug.Log("Atirando");
                 Instantiate(bulletPrefab, firePoint1.position, firePoint1.rotation);
                 // Instancie a bala na posição do segundo ponto de disparo
                 Instantiate(bulletPrefab, firePoint2.position, firePoint2.rotation);

@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7206462133086633045}
-  - component: {fileID: 7159586278370663160}
   m_Layer: 12
   m_Name: FirePoint
   m_TagString: Untagged
@@ -32,27 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2030982579749361962}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &7159586278370663160
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 279570390725121463}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1021849784516403899
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,13 +58,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021849784516403899}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9999878, z: -0, w: 0.004953866}
+  m_LocalRotation: {x: 0, y: 0.9999877, z: 0, w: 0.004956768}
   m_LocalPosition: {x: -7.37, y: 1.935, z: 8.667}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8489007580537644365}
   - {fileID: 7206462133086633045}
+  - {fileID: 3977925553834954761}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 179.432, z: 0}
 --- !u!114 &3896431085023864366
@@ -115,8 +94,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba14a225cc974e147ada3afee2e44b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnPoint: {x: 0, y: 2, z: 0}
   animator: {fileID: 2402717820708677323}
+  muzzleFlashPrefab: {fileID: 825083785369405547, guid: 44e09852f29a4d043b57d0dab88a89e4, type: 3}
+  bulletPrefab: {fileID: 3089067616978190744, guid: d99463a23367deb4187f368bfeb4364c, type: 3}
+  firePoint: {fileID: 7206462133086633045}
+  gunPoint: {fileID: 3977925553834954761}
+  bulletSpeed: 50
+  life: 100
+  armor: 0
   ammoCount: 10
+  Bull: 1
+  pistol: 0
+  key: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!143 &5392182115542842418
 CharacterController:
   m_ObjectHideFlags: 0
@@ -138,8 +131,8 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2.5
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 2
+  m_SlopeLimit: 2
+  m_StepOffset: 1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -236,6 +229,37 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296796106205609236}
   m_Enabled: 1
+--- !u!1 &4780999357099064116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3977925553834954761}
+  m_Layer: 12
+  m_Name: GunPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3977925553834954761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4780999357099064116}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0011940686, y: 0.000000008847564, z: 0.12051431, w: 0.9927109}
+  m_LocalPosition: {x: 0.06300168, y: 0.7450001, z: 0.4490132}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030982579749361962}
+  m_LocalEulerAnglesHint: {x: 0.136, y: 0.016, z: 13.844}
 --- !u!1 &7411682946032591587
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +334,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fb66546752622a84ab6a68ab2bce1aba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9475c13e0693fe848bc940f96f28e663, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

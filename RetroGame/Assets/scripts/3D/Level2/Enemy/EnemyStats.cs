@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace level2
+namespace Level2
 {
     public class EnemyStats : MonoBehaviour
     {
@@ -70,7 +70,6 @@ namespace level2
                         playerIsInView = true;
                         if (Vector3.Distance(transform.position, target.position) > (GetComponent<SphereCollider>().radius / 2 - 5))
                         {
-                            Debug.Log("Dentro do colisor");
                             playerIsInRange = false;
                             // O jogador está fora do alcance, então mova o inimigo em direção ao jogador
                             MoveTowardsPlayer(target);

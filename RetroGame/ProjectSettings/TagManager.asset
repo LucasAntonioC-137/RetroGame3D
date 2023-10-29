@@ -8,6 +8,11 @@ TagManager:
   - PlayerBullets
   - GameOver
   - Trampoline
+  - Gun
+  - Key
+  - Life
+  - Shield
+  - Ammo
   layers:
   - Default
   - TransparentFX
