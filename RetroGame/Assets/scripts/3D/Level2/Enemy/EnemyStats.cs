@@ -20,6 +20,9 @@ namespace Level2
         protected bool isWalking = false;
         public Animator anim;
         public CharacterController characterController;
+        public AudioSource soundOfView;
+        private float soundTimer = 0f;
+        private float soundCooldown = 10f;
 
         private void LateUpdate()
         {
@@ -57,6 +60,7 @@ namespace Level2
             playerIsInView = false;
             playerIsInRange = false;
             Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewDistance, targetMask);
+            soundTimer += Time.deltaTime;
 
             for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
@@ -68,6 +72,11 @@ namespace Level2
                     if (!((obstacleMask.value & 1 << hit.transform.gameObject.layer) == 1 << hit.transform.gameObject.layer)) {
                     // Verifique se o jogador está dentro do alcance do SphereCollider
                         playerIsInView = true;
+                        if (!soundOfView.isPlaying && soundTimer > soundCooldown)
+                        {
+                            soundOfView.Play();
+                            soundTimer = 0f; // Redefine o temporizador
+                        }
                         if (Vector3.Distance(transform.position, target.position) > (GetComponent<SphereCollider>().radius / 2 - 5))
                         {
                             playerIsInRange = false;
