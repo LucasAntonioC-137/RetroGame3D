@@ -1120,8 +1120,8 @@ GameObject:
   - component: {fileID: 343519811}
   - component: {fileID: 343519810}
   - component: {fileID: 343519809}
-  - component: {fileID: 343519808}
   - component: {fileID: 343519807}
+  - component: {fileID: 343519808}
   m_Layer: 0
   m_Name: Sympathy
   m_TagString: Enemy
@@ -1166,8 +1166,10 @@ MonoBehaviour:
   minimumDistance: 0.3
   rig: {fileID: 343519809}
   spriteRen: {fileID: 343519811}
-  target: {fileID: 1058008831}
-  visionRadius: 1.58
+  visionRadius: 1.86
+  LayerVisionArea:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!50 &343519809
 Rigidbody2D:
   serializedVersion: 4
@@ -1183,7 +1185,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1227,9 +1229,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.06}
+  m_Offset: {x: 0, y: -0.08}
   serializedVersion: 2
-  m_Radius: 0.07281857
+  m_Radius: 0.11101116
 --- !u!212 &343519811
 SpriteRenderer:
   m_ObjectHideFlags: 0

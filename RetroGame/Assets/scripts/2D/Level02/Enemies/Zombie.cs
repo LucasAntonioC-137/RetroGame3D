@@ -21,11 +21,14 @@ public class Zombie : MonoBehaviour
     //private Animator anim;
 
     #endregion Movimentação do jogador
-    [SerializeField]
+
     private Transform target;
     
     [SerializeField]
     private float visionRadius;
+
+    [SerializeField]
+    private LayerMask LayerVisionArea;
 
     private void Update() {
         SearchPlayer();
@@ -36,14 +39,16 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmosSelected() {
         Gizmos.DrawWireSphere(transform.position, visionRadius);   
     }
 
     private void SearchPlayer(){
-        Collider2D colisor = Physics2D.OverlapCircle(transform.position, visionRadius);
-        if (colisor != null && gameObject.tag == "player"){
+        Collider2D colisor = Physics2D.OverlapCircle(transform.position, visionRadius, LayerVisionArea);
+        if (colisor != null && colisor.transform.CompareTag("Player")){
             target = colisor.transform;
+        } else {
+            target = null;
         }
     }
 
