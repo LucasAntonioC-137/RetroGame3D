@@ -15,7 +15,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "802467125ccd3880aa00a86dfc8014dee15f355f"
+      "hash": "b83c1fbbff020f4d29a937eb7ab13af60aabfb11"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -31,6 +31,18 @@
         "com.unity.modules.tilemap": "1.0.0",
         "com.unity.modules.uielements": "1.0.0"
       }
+    },
+    "com.unity.2d.tilemap.extras": {
+      "version": "https://github.com/Unity-Technologies/2d-extras.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.modules.tilemap": "1.0.0",
+        "com.unity.2d.tilemap": "1.0.0",
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "hash": "8de698ac55b7ed01ec95a43e714c6358505b8110"
     },
     "com.unity.ads": {
       "version": "4.4.2",

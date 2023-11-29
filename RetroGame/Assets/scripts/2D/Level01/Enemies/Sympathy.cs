@@ -16,7 +16,7 @@ public class Sympathy : MonoBehaviour
 
     public Transform rightCol, leftCol, headPoint;
 
-    private bool colliding; //, Jump;
+    private bool colliding; // Jump
 
     public LayerMask layer;
 
@@ -52,7 +52,6 @@ public class Sympathy : MonoBehaviour
             {   //pulo
                 rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                 anim.SetBool("Jump", true);
-                Debug.Log("Contador chegou ao fim");
                 timeLeft = 3.5f;
             }
         }
@@ -84,7 +83,6 @@ public class Sympathy : MonoBehaviour
                 speed = 0;
                 boxCol.enabled = false;
                 cirCol.enabled = false;
-                //rig.isKinematic = true;
                 rig.Sleep();
                 Destroy(gameObject, 1.4f);
                 EnvironmentController.instance.playerScore +=  Score;

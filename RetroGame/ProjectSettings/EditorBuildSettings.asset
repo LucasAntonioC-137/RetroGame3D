@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/3D/Nivel 1 - 3D.unity
+    path: Assets/Scenes/3D/Nivel 1 - 3D/Nivel 1 - 3D.unity
     guid: a1eb7a313a2889042986e7e8ed48084d
   - enabled: 0
     path: Assets/Scenes/3D/EndUINivel1-3D.unity
@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/2D/Cutscene_02.unity
     guid: a5d8c7d421eb59d43b383adf3f3c1997
+  - enabled: 1
+    path: Assets/Scenes/2D/Level_02.unity
+    guid: 4f39ea020e9d5434fad7958503e710ae
+  - enabled: 1
+    path: Assets/Scenes/2D/Level_02A.unity
+    guid: 1a87e855098ca8549967459f0e6ccead
   m_configObjects: {}

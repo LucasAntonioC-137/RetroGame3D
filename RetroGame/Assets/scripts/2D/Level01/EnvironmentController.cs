@@ -9,7 +9,6 @@ public class EnvironmentController : MonoBehaviour
     //game controller    
     public int playerScore;
     public Text scoreText;
-
     public GameObject gameOver;
 
     public static EnvironmentController instance;
