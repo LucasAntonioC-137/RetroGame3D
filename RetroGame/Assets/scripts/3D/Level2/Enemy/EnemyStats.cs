@@ -7,13 +7,14 @@ namespace Level2
     public class EnemyStats : MonoBehaviour
     {
         public float life;
-        public float viewDistance;
+        public float viewDistance; 
         public Transform player;
         public LayerMask targetMask;
         public LayerMask obstacleMask;
         protected bool playerIsInView;
         protected bool playerIsInRange;
         public float speed = 2f; // Velocidade de movimento do inimigo
+        public float knockbackForce = 2f; // A força de repulsão quando o inimigo recebe dano
         protected float timeSinceLastSeenPlayer = 0f;
         public float fireRate = 2;
         protected float fireTimer;
@@ -23,11 +24,15 @@ namespace Level2
         public AudioSource soundOfView;
         private float soundTimer = 0f;
         private float soundCooldown = 10f;
+        private bool isDying = false;
 
         private void LateUpdate()
         {
             // Aumente o fireTimer a cada quadro
             fireTimer += Time.deltaTime;
+
+            // Atualiza a posição do jogador
+            player = GameObject.FindWithTag("Player").transform;
 
             if (!playerIsInView)
             {
@@ -44,14 +49,28 @@ namespace Level2
         public void GetDamage(float damage)
         {
             life -= damage;
-            if (life <= 0)
+            if (life <= 0 && !isDying) // Modifique esta linha
             {
-                Die();
+                isDying = true; // Adicione esta linha
+                anim.Play("E1L23Ddeath");
+                characterController.enabled = false;
+                StartCoroutine(Die());
+            }
+            else
+            {
+                // Calcula a direção do jogador para o inimigo
+                Vector3 knockbackDirection = transform.position - player.position;
+                // Normaliza a direção do knockback
+                knockbackDirection = knockbackDirection.normalized;
+                // Adiciona um impulso na direção oposta ao jogador
+                characterController.Move(knockbackDirection * knockbackForce);
             }
         }
 
-        public virtual void Die()
+        public virtual IEnumerator Die()
         {
+            // Aguarda o tempo da animação de morte
+            yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
             GameObject.Destroy(gameObject);
         }
 
@@ -67,7 +86,7 @@ namespace Level2
                 Transform target = targetsInViewRadius[i].transform;
                 Vector3 dirToTarget = (target.position - transform.position).normalized;
                 // Verifique se há obstáculos entre o inimigo e o jogador
-                if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance))
+                if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance) && !isDying)
                 {
                     if (!((obstacleMask.value & 1 << hit.transform.gameObject.layer) == 1 << hit.transform.gameObject.layer)) {
                     // Verifique se o jogador está dentro do alcance do SphereCollider

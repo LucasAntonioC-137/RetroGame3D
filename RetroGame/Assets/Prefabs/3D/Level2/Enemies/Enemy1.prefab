@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 100
   viewDistance: 20
-  player: {fileID: 0}
+  player: {fileID: 2030982579749361962, guid: bd19ccf53dbc9674ebc77f0590e46f66, type: 3}
   targetMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -262,6 +262,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   speed: 5
+  knockbackForce: 2
   fireRate: 2
   anim: {fileID: 692680548245385802}
   characterController: {fileID: 540813101654030037}
@@ -292,7 +293,7 @@ CharacterController:
   m_Radius: 2
   m_SlopeLimit: 45
   m_StepOffset: 2
-  m_SkinWidth: 0.08
+  m_SkinWidth: 10
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &4570456679626693422

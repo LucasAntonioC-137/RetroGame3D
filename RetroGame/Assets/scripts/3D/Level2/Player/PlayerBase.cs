@@ -22,12 +22,16 @@ namespace Level2
         public int Bull = 1;
         public bool pistol;
         public bool key = false;
+        public bool getDamage = false;
         public LayerMask groundLayer; // Adicione uma variável para a LayerMask
+        public AudioSource tiro;
+        private UILevel2 menu;
 
 
         private void Start()
         {
             pistol=false;
+            menu = GameObject.FindObjectOfType<UILevel2>();
         }
         // Update is called once per frame
         void Update()
@@ -57,7 +61,9 @@ namespace Level2
         {
             if (!enemy)
             {
+                getDamage= true;
                 life -= damage;
+                life = Mathf.Round(life * 100f) / 100f;  // Arredonda a vida para ter no máximo 2 dígitos após o ponto decimal
                 if (life <= 0)
                 {
                     IsDead();
@@ -65,18 +71,22 @@ namespace Level2
             }
             else
             {
+                getDamage= true;
                 if (shield > 0)
                 {
                     shield -= damage;
+                    shield = Mathf.Round(shield * 100f) / 100f;  // Arredonda o escudo para ter no máximo 2 dígitos após o ponto decimal
                     if (shield < 0)
                     {
                         life += shield; // Adiciona o valor negativo do escudo à vida
+                        life = Mathf.Round(life * 100f) / 100f;  // Arredonda a vida para ter no máximo 2 dígitos após o ponto decimal
                         shield = 0; // Redefine o escudo para 0
                     }
                 }
                 else
                 {
                     life -= damage;
+                    life = Mathf.Round(life * 100f) / 100f;  // Arredonda a vida para ter no máximo 2 dígitos após o ponto decimal
                     if (life <= 0)
                     {
                         IsDead();
@@ -110,7 +120,7 @@ namespace Level2
 
         void IsDead()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            menu.PlayerDied();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -142,6 +152,7 @@ namespace Level2
                 Rigidbody rb = bullet.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
+                    tiro.Play();
                     rb.AddForce(firePoint.forward * bulletSpeed, ForceMode.Impulse);
                 }
                 ammoCount--;
