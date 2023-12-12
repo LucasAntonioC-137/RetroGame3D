@@ -63,7 +63,7 @@ public class Zombie : MonoBehaviour
             Vector2 direction = targetPosition - actualPosition;
             direction = direction.normalized;
 
-            rig.velocity = (velocity * direction);
+            rig.velocity = velocity * direction;
 
             if(rig.velocity.x > 0) { //direita
                 spriteRen.flipX = false;

@@ -11,6 +11,8 @@ public class IsometricCharacterRenderer : MonoBehaviour
 
     public static readonly string[] staticDirections = { "Static_N", "Static_NW", "Static_W", "Static_SW", "Static_S", "Static_SE", "Static_E", "Static_NE" };
     public static readonly string[] runDirections = {"Run_N", "Run_NW", "Run_W", "Run_SW", "Run_S", "Run_SE", "Run_E", "Run_NE"};
+    public static readonly string[] shootingDirections = {"shootin_N", "shootin_NW", "shootin_W", "shootin_SW", "shootin_S", "shootin_SE", "shootin_E", "shootin_NE"};
+
     Animator animator;
     int lastDirection;
 

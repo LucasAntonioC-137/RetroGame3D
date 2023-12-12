@@ -9,6 +9,7 @@ public class IsometricPlayerMovementController : MonoBehaviour
     public int life = 10;
     public float movementSpeed = 1f;
     IsometricCharacterRenderer isoRenderer;
+    Animator animator;
 
     Rigidbody2D rbody;
 
@@ -23,8 +24,21 @@ public class IsometricPlayerMovementController : MonoBehaviour
     void FixedUpdate()
     {  
         Move();
-        //Shoot();
+        //Shooting
+        // if(Input.GetButtonDown("attack")){
+        //     StartCoroutine(AttackCo());
+        // }
     }
+
+    // private IEnumerator AttackCo()
+    // {
+    //     animator.SetBool("attacking", true);
+    //     //state machine ficaria aqui
+    //     yield return null;
+    //     animator.SetBool("attacking", false);
+    //     yield return new WaitForSeconds(.33f);
+    //     //state machine de andar
+    // }
 
     void Move(){
 

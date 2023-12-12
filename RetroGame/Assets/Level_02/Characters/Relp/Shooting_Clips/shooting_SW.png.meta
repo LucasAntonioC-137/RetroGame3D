@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6e6f66094c0159142b72607b2fc42b00
+guid: a842fe024fce48e4ea0d546414e14fd0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 230
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,117 +110,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pillar_03_0
+      name: shooting_SW_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 10
-        width: 65
-        height: 229
-      alignment: 9
-      pivot: {x: 0.5000005, y: 0.3843258}
+        x: 21
+        y: 7
+        width: 18
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape:
-      - - {x: 31.5, y: -27.5}
-        - {x: 22.5, y: 2.5}
-        - {x: -26.5, y: 2.5}
-        - {x: -31.5, y: -28.5}
-        - {x: -29.924644, y: -104.45301}
-        - {x: -13.028368, y: -113.76419}
-        - {x: 13.245567, y: -113.76419}
-        - {x: 29.660461, y: -103.867905}
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67161f6d824707843906410ea7876e27
-      internalID: -1765036781
+      spriteID: 535cc151b5a9fa04f945a1c68a557277
+      internalID: -387029775
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pillar_03_1
+      name: shooting_SW_1
       rect:
         serializedVersion: 2
-        x: 101
-        y: 10
-        width: 65
-        height: 229
-      alignment: 9
-      pivot: {x: 0.5000005, y: 0.3843258}
+        x: 85
+        y: 7
+        width: 18
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape:
-      - - {x: 31.5, y: -27.5}
-        - {x: 22.5, y: 2.5}
-        - {x: -26.5, y: 2.5}
-        - {x: -31.5, y: -28.5}
-        - {x: -29.924644, y: -104.45301}
-        - {x: -13.028368, y: -113.76419}
-        - {x: 13.245567, y: -113.76419}
-        - {x: 29.660461, y: -103.867905}
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4e0103e65fbef243b2c55d77a8aa021
-      internalID: -609983782
+      spriteID: 301944663848e1c488ddca205fd4a2e9
+      internalID: 913834585
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pillar_03_2
+      name: shooting_SW_2
       rect:
         serializedVersion: 2
-        x: 190
-        y: 10
-        width: 65
-        height: 229
-      alignment: 9
-      pivot: {x: 0.5000005, y: 0.3843258}
+        x: 149
+        y: 7
+        width: 18
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape:
-      - - {x: 31.5, y: -27.5}
-        - {x: 22.5, y: 2.5}
-        - {x: -26.5, y: 2.5}
-        - {x: -31.5, y: -28.5}
-        - {x: -29.924644, y: -104.45301}
-        - {x: -13.028368, y: -113.76419}
-        - {x: 13.245567, y: -113.76419}
-        - {x: 29.660461, y: -103.867905}
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f8ae51d37c87b2429ebab5123c235e4
-      internalID: -1024267922
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Pillar_03_3
-      rect:
-        serializedVersion: 2
-        x: 279
-        y: 10
-        width: 65
-        height: 229
-      alignment: 9
-      pivot: {x: 0.5000005, y: 0.38432577}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape:
-      - - {x: 31.5, y: -27.5}
-        - {x: 22.5, y: 2.5}
-        - {x: -26.5, y: 2.5}
-        - {x: -31.5, y: -28.5}
-        - {x: -29.924644, y: -104.45301}
-        - {x: -13.028368, y: -113.76419}
-        - {x: 13.245567, y: -113.76419}
-        - {x: 29.660461, y: -103.867905}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 63d5c310a2095774589eb0b3e1e2922a
-      internalID: -298420333
+      spriteID: 9e61e90e0f0b0f04eb7ff769a93b7771
+      internalID: -1660018743
       vertices: []
       indices: 
       edges: []
@@ -236,10 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Pillar_03_0: -1765036781
-      Pillar_03_1: -609983782
-      Pillar_03_2: -1024267922
-      Pillar_03_3: -298420333
+      shooting_SW_0: -387029775
+      shooting_SW_1: 913834585
+      shooting_SW_2: -1660018743
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
