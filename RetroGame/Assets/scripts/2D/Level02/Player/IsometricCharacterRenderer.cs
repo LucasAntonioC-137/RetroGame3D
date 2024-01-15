@@ -1,20 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class IsometricCharacterRenderer : MonoBehaviour
 {
 
-   // public static readonly string[] staticDirections = { "Static N", "Static NW", "Static W", "Static SW", "Static S", "Static SE", "Static E", "Static NE" };
-   // public static readonly string[] runDirections = {"Run N", "Run NW", "Run W", "Run SW", "Run S", "Run SE", "Run E", "Run NE"};
-
     public static readonly string[] staticDirections = { "Static_N", "Static_NW", "Static_W", "Static_SW", "Static_S", "Static_SE", "Static_E", "Static_NE" };
     public static readonly string[] runDirections = {"Run_N", "Run_NW", "Run_W", "Run_SW", "Run_S", "Run_SE", "Run_E", "Run_NE"};
-    public static readonly string[] shootingDirections = {"shootin_N", "shootin_NW", "shootin_W", "shootin_SW", "shootin_S", "shootin_SE", "shootin_E", "shootin_NE"};
+    public static readonly string[] shootingDirections = {"shooting_N", "shooting_NW", "shooting_W", "shooting_SW", "shooting_S", "shooting_SE", "shooting_E", "shooting_NE"};
 
     Animator animator;
     int lastDirection;
+    private float attackDelay;
+    public bool attacking;
 
     private void Awake()
     {
@@ -29,25 +29,38 @@ public class IsometricCharacterRenderer : MonoBehaviour
         string[] directionArray = null;
 
         //measure the magnitude of the input.
-        if (direction.magnitude < .01f)
+        if (direction.magnitude < .01f)// && !attacking)
         {
             //if we are basically standing still, we'll use the Static states
             //we won't be able to calculate a direction if the user isn't pressing one, anyway!
             directionArray = staticDirections;
         }
-        else
+        else // && !attacking)
         {
             //we can calculate which direction we are going in
             //use DirectionToIndex to get the index of the slice from the direction vector
             //save the answer to lastDirection
             directionArray = runDirections;
             lastDirection = DirectionToIndex(direction, 8);
+            
+           
         }
 
-        //tell the animator to play the requested state
-        animator.Play(directionArray[lastDirection]);
+            //tell the animator to play the requested state
+            animator.Play(directionArray[lastDirection]);
+            //animator.SetBool("attacking", false);
     }
 
+    public void AttackingAnim(Vector2 direction){
+
+        string[] directionArray = null;
+        animator.SetBool("attacking", true);
+        directionArray = shootingDirections;
+        lastDirection = DirectionToIndex(direction, 8);
+        
+        animator.Play(directionArray[lastDirection]);
+        animator.SetBool("attacking", false);
+    }
     //helper functions
 
     //this function converts a Vector2 direction to an index to a slice around a circle
@@ -76,11 +89,6 @@ public class IsometricCharacterRenderer : MonoBehaviour
     }
 
 
-
-
-
-
-
     //this function converts a string array to a int (animator hash) array.
     public static int[] AnimatorStringArrayToHashArray(string[] animationArray)
     {
@@ -92,8 +100,8 @@ public class IsometricCharacterRenderer : MonoBehaviour
             //do the hash and save it to our hash array
             hashArray[i] = Animator.StringToHash(animationArray[i]);
         }
-        //we're done!
+        
         return hashArray;
     }
-
+    
 }

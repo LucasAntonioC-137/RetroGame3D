@@ -28,7 +28,7 @@ TagManager:
   - NotVision
   - Player
   - PlayerBullet
-  - 
+  - HelpSigns
   - 
   - 
   - 
@@ -55,4 +55,10 @@ TagManager:
     locked: 0
   - name: Under-Ground
     uniqueID: 2479346215
+    locked: 0
+  - name: Signs
+    uniqueID: 2122100813
+    locked: 0
+  - name: Player
+    uniqueID: 2877222273
     locked: 0

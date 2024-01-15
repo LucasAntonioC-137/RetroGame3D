@@ -10,7 +10,8 @@ public class IsometricPlayerMovementController : MonoBehaviour
     public float movementSpeed = 1f;
     IsometricCharacterRenderer isoRenderer;
     Animator animator;
-
+    public bool attacking;
+    
     Rigidbody2D rbody;
 
     private void Awake()
@@ -23,22 +24,19 @@ public class IsometricPlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {  
-        Move();
-        //Shooting
-        // if(Input.GetButtonDown("attack")){
-        //     StartCoroutine(AttackCo());
-        // }
-    }
+        if(Input.GetKeyDown(KeyCode.Space)){
 
-    // private IEnumerator AttackCo()
-    // {
-    //     animator.SetBool("attacking", true);
-    //     //state machine ficaria aqui
-    //     yield return null;
-    //     animator.SetBool("attacking", false);
-    //     yield return new WaitForSeconds(.33f);
-    //     //state machine de andar
-    // }
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            Vector2 inputVector = new Vector2(horizontalInput, verticalInput);
+            inputVector = Vector2.ClampMagnitude(inputVector, 1);
+            Vector2 direction = inputVector * movementSpeed;
+            isoRenderer.AttackingAnim(direction);
+        }
+        else{
+        Move();
+        }
+    }
 
     void Move(){
 
@@ -52,13 +50,6 @@ public class IsometricPlayerMovementController : MonoBehaviour
         isoRenderer.SetDirection(movement);
         rbody.MovePosition(newPos);
     }
-    
-    // void Shoot(){
-    //     if(Input.GetKeyDown(KeyCode.Space)){
-            
-    //         Debug.Log("atirou");
-    //         }
-    //     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -81,6 +72,7 @@ public class IsometricPlayerMovementController : MonoBehaviour
             EnvironmentController.instance.ShowGameOver();
             //vamos ver se ponho destroy depois;
        }
+
     }
 
 }
