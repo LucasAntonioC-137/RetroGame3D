@@ -5,30 +5,41 @@ using UnityEngine;
 
 public class StoneBlock : MonoBehaviour
 {
-    private Rigidbody2D rig;
+  public float moveSpeed = 5f;
+  public Transform movePoint;
 
-    [SerializeField]
-    private Vector2 boxSize;
+  public LayerMask whatStopsMovement;
 
-    [SerializeField]
-    private Collision2D playerCollider;
+  void Start() 
+  {
+    movePoint.parent = null;  
+  }
 
+  void Update() 
+  {
+    transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
 
-    // Update is called once per frame
-    void Update()
+    if(Vector3.Distance(transform.position, movePoint.position) <= .05f)
     {
-      //OnCollisionEnter2D(playerCollider);
-      
+
+      if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
+      {
+        if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, whatStopsMovement))
+        {
+          movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+        }
+      }
+
+      else if(Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
+      {
+        if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), .2f, whatStopsMovement))
+        {
+          movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
+        }
+      }
     }
+
+  }
+
+  //rig.velocity = Vector2.zero; //(0, 0)
 }
-
-    //lembrar de re-ver namespace pra não repetir o código
-
-  
-//     private void IsPushing(){
-//         //Collider2D colisor = Physics2D.OverlapBox(transform.position, boxSize);
-//         if(colisor.gameObject.CompareTag("Player") == false){
-//             rig.velocity = Vector2.zero; //(0, 0)
-//         }
-//     }
-// }
