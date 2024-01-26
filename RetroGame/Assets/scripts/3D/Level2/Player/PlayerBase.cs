@@ -19,7 +19,6 @@ namespace Level2
         public float life = 100f;
         public float shield = 0;
         public float ammoCount = 10f;
-        public int Bull = 1;
         public bool pistol;
         public bool key = false;
         public bool getDamage = false;
@@ -156,13 +155,6 @@ namespace Level2
                     rb.AddForce(firePoint.forward * bulletSpeed, ForceMode.Impulse);
                 }
                 ammoCount--;
-            }
-            else
-            {
-                if(Bull > 0)
-                {
-                    ammoCount = 10;
-                }
             }
             fireTimer= 0f;
         }

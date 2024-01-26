@@ -6,51 +6,67 @@ using UnityEngine;
 public class Barrel : MonoBehaviour
 {
     public GameObject explosionAnimation; // arraste o prefab da animação de explosão para este campo no inspetor
-    public float explosionRadius = 2.5f; // Raio da explosão
-    public int explosionDamage = 100; // Dano da explosão
+    public float explosionRadius = 6f; // Raio da explosão
+    public float explosionDamage = 100f; // Dano da explosão
+    public GameObject audioSourcePrefab;
 
     public virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "PlayerBullets")
         {
+            GameObject audioObject = Instantiate(audioSourcePrefab, transform.position, Quaternion.identity);
+            AudioSource audioSource = audioObject.GetComponent<AudioSource>();
+            audioSource.Play();
+
+            // Destrua o objeto de áudio depois que o som terminar
+            Destroy(audioObject, audioSource.clip.length);
             Destroy(gameObject);
         }
     }
 
     private void OnDestroy()
     {
-        // Instancie a animação de explosão na posição do barril
+        // Instancie a animação de explosão na posição do 
         Explode();
         GameObject explosion = Instantiate(explosionAnimation, transform.position, Quaternion.identity);
         Destroy(explosion, 2f);
     }
 
+
     void Explode()
     {
-        // Cria uma esfera ao redor do barril
         // Cria uma esfera ao redor do barril
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
         foreach (Collider hit in colliders)
         {
-            // Verifica se o objeto atingido tem um componente EnemyStats
-            Level2.EnemyStats enemy = hit.GetComponent<Level2.EnemyStats>();
+            // Verifica se o objeto atingido tem um componente CharacterController
+            CharacterController characterController = hit.GetComponent<CharacterController>();
 
-            if (enemy != null)
+            if (characterController != null)
             {
-                // Se tiver, causa dano
-                enemy.GetDamage(explosionDamage);
-            }
-            Level2.PlayerBase player = hit.GetComponent<Level2.PlayerBase>();
+                // Verifica se o objeto atingido tem um componente EnemyStats
+                Level2.EnemyStats enemy = hit.GetComponent<Level2.EnemyStats>();
 
-            if (player != null)
-            {
-                player.GetDamage(explosionDamage);
+                if (enemy != null)
+                {
+                    // Se tiver, causa dano
+                    enemy.GetDamage(explosionDamage);
+                }
+                Level2.PlayerBase player = hit.GetComponent<Level2.PlayerBase>();
+
+                if (player != null)
+                {
+                    player.GetDamage(explosionDamage);
+                }
             }
         }
 
         // Aqui você pode adicionar o código para criar o efeito visual da explosão
     }
+
+
+
 
     void OnDrawGizmosSelected()
     {

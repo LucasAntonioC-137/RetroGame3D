@@ -7,6 +7,7 @@ namespace Level2
     public class DoorController : MonoBehaviour
     {
         private Animator animator; // Variável para o componente Animator
+        public AudioSource doorSound;
 
         void Start()
         {
@@ -15,6 +16,7 @@ namespace Level2
 
         public void Open()
         {
+            doorSound.Play();
             animator.Play("OpenDoor"); // Reproduza a animação "Open"
         }
     }

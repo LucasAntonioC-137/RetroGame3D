@@ -14,15 +14,20 @@ namespace Level2
         {
             Destroy(gameObject, lifetime);
         }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
-                EnemyStats enemyStats = other.gameObject.GetComponent<EnemyStats>();
-                if (enemyStats != null)
+                CharacterController enemyCharacterController = other.gameObject.GetComponent<CharacterController>();
+                if (enemyCharacterController != null && other == enemyCharacterController)
                 {
-                    enemyStats.GetDamage(damage);
-                    Destroy(gameObject);
+                    EnemyStats enemyStats = other.gameObject.GetComponent<EnemyStats>();
+                    if (enemyStats != null)
+                    {
+                        enemyStats.GetDamage(damage);
+                        Destroy(gameObject);
+                    }
                 }
             }
             else

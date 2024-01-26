@@ -22,9 +22,10 @@ namespace Level2
         public Animator anim;
         public CharacterController characterController;
         public AudioSource soundOfView;
-        private float soundTimer = 0f;
-        private float soundCooldown = 10f;
+        public float soundTimer = 10f;
+        public float soundCooldown = 10f;
         private bool isDying = false;
+        public float attackRange = 10f;
 
         private void LateUpdate()
         {
@@ -74,7 +75,7 @@ namespace Level2
             GameObject.Destroy(gameObject);
         }
 
-        public virtual void fieldOfView()
+        /*public virtual void fieldOfView()
         {
             playerIsInView = false;
             playerIsInRange = false;
@@ -126,6 +127,62 @@ namespace Level2
                     }
                 }
             }
+        }*/
+        public virtual void fieldOfView()
+        {
+            playerIsInView = false;
+            playerIsInRange = false;
+            Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewDistance, targetMask);
+            soundTimer += Time.deltaTime;
+
+            for (int i = 0; i < targetsInViewRadius.Length; i++)
+            {
+                Transform target = targetsInViewRadius[i].transform;
+                Vector3 dirToTarget = (target.position - transform.position).normalized;
+                // Verifique se há obstáculos entre o inimigo e o jogador
+                if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance) && !isDying)
+                {
+                    if (!((obstacleMask.value & 1 << hit.transform.gameObject.layer) == 1 << hit.transform.gameObject.layer))
+                    {
+                        // Verifique se o jogador está dentro do alcance do SphereCollider
+                        playerIsInView = true;
+                        if (!soundOfView.isPlaying && soundTimer > soundCooldown)
+                        {
+                            soundOfView.Play();
+                            soundTimer = 0f; // Redefine o temporizador
+                        }
+
+
+                        if (Vector3.Distance(transform.position, target.position) <= attackRange)
+                        {
+                            playerIsInRange = true;
+                            // O jogador está dentro do alcance, então ataque
+                            if (fireTimer > fireRate)
+                            {
+                                Attack();
+                                fireTimer = 0;
+                            }
+                            if (isWalking)
+                            {
+                                anim.SetBool("walk", false);
+                                isWalking = false;
+                            }
+
+                        }
+                        else
+                        {
+                            playerIsInRange = false;
+                            // O jogador está fora do alcance, então mova o inimigo em direção ao jogador
+                            MoveTowardsPlayer(target);
+                            if (!isWalking)
+                            {
+                                anim.SetBool("walk", true);
+                                isWalking = true;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -149,5 +206,6 @@ namespace Level2
             // Mova o inimigo em direção ao jogador
             characterController.SimpleMove(dirToTarget * speed);
         }
+
     }
 }
