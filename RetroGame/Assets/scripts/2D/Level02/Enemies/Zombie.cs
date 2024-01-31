@@ -79,4 +79,13 @@ public class Zombie : MonoBehaviour
     private void StopMoving(){
         rig.velocity = Vector2.zero; //(0, 0)
     }
+
+    private void OnTriggerEnter2D(Collider2D collision) 
+    {
+        if (collision.gameObject.CompareTag("PlayerBullets"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+        }
+    }
 }

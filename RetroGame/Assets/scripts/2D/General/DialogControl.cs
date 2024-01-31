@@ -19,7 +19,7 @@ public class DialogControl : MonoBehaviour
 
     public void Speech(string[] txt, string actorName)//, sprite profile){
     {
-        Debug.Log("apertei pra abrir");
+        //Debug.Log("apertei pra abrir");
         dialogObj.SetActive(true);
         //profile.sprite = p;
         sentences = txt;
@@ -48,7 +48,7 @@ public class DialogControl : MonoBehaviour
             }
             else //lido quando acaba os textos
             {
-                Debug.Log("acabei");
+                //Debug.Log("acabei");
                 speechText.text  = "";
                 index = 0;
                 dialogObj.SetActive(false);

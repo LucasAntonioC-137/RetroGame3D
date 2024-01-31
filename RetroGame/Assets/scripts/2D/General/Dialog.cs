@@ -41,7 +41,7 @@ public class Dialog : MonoBehaviour
 
         if(hit != null)// && Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("na área");
+            //Debug.Log("na área");
             onRadious = true;
         }
         else

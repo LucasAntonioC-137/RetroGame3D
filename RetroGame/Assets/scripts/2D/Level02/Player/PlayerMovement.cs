@@ -12,8 +12,8 @@ public enum PlayerState{
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private int life;
+    // [SerializeField]
+    // private int life;
 
     public PlayerState currentState;
 
@@ -93,30 +93,28 @@ public class PlayerMovement : MonoBehaviour
         //
         
     }
+//
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if(collision.gameObject.tag == "GameOver"){
+    //         // AudioController.current.PlayMusic(AudioController.current.deathSFX);
+    //         EnvironmentController.instance.ShowGameOver();
+    //         Destroy(gameObject);
+    //     }
 
-     void OnCollisionEnter2D(Collision2D collision)
-    {
-       if(collision.gameObject.tag == "GameOver"){
-        
-           // AudioController.current.PlayMusic(AudioController.current.deathSFX);
-            EnvironmentController.instance.ShowGameOver();
-            Destroy(gameObject);
-       }
+    //     if(collision.gameObject.tag == "Enemy"){
+    //         life -= 1;
+    //         Debug.Log(life);
+    //     }
 
-       if(collision.gameObject.tag == "Enemy"){
-            life -= 2;
-            Debug.Log(life);
-       }
-
-       if(life <= 0){
-            // animaçao
-            // AudioController.current.PlayMusic(AudioController.current.deathSFX);
-            gameObject.SetActive(false);
-            EnvironmentController.instance.ShowGameOver();
-            //vamos ver se ponho destroy depois;
-       }
-    }
-
+    //     if(life <=0 ){
+    //         // animaçao
+    //         // AudioController.current.PlayMusic(AudioController.current.deathSFX);
+    //         gameObject.SetActive(false);
+    //         EnvironmentController.instance.ShowGameOver();
+    //     }
+    // }
+//
     void objectPick()
     {
         Vector2 currentPos = rbody.position;
@@ -128,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
 
         RaycastHit2D hit = Physics2D.Raycast (transform.position, newPos, grabbingDistance);
-        if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKeyDown(KeyCode.I))
+        if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKey(KeyCode.I))
         {
             Block = hit.collider.gameObject;
 

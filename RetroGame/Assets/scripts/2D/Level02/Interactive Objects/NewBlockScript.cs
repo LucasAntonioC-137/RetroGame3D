@@ -4,23 +4,34 @@ using UnityEngine;
 
 public class NewBlockScript : MonoBehaviour
 {
-    // public float moveSpeed = 5f;
-    // public Transform movePoint;
-    public float distance = 1f;
-    public LayerMask boxMask;
-    // public LayerMask whatStopsMovement;
-    public Transform player;
+  public float moveSpeed = 5f;
+  public Transform movePoint;
 
-    void Start()
-    {
-        //movePoint.parent = null;
-    }
+  public LayerMask whatStopsMovement;
 
-    // Update is called once per frame
-    void Update()
+  void Start() 
+  {
+    movePoint.parent = null;  
+  }
+
+  void Update() 
+  {
+    transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
+  }
+
+  void OnCollisionEnter2D(Collision2D collision)
+  {
+    // Check if the collision is with the player
+    if(collision.gameObject.CompareTag("Player"))
     {
-        //transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
-        Physics2D.queriesStartInColliders = false;
-        RaycastHit2D hit = Physics2D.Raycast (transform.position, Vector2.left * transform.localScale.x, distance);
+      // Get the direction of the push
+      Vector3 direction = transform.position - collision.transform.position;
+
+      // Move the object along the push direction
+      if(!Physics2D.OverlapCircle(movePoint.position + direction, .2f, whatStopsMovement))
+      {
+        movePoint.position += direction;
+      }
     }
+  }
 }
