@@ -460,7 +460,7 @@ MonoBehaviour:
   gravityValue: -9.81
   rotationSpeed: 50
   jumpForce: 3
-  action: 0
+  isJumping: 0
   verticalSpeed: 0
   magnitud: 0
 --- !u!4 &886646804 stripped
@@ -608,7 +608,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 677717975}
-  - {fileID: 943395660}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &943395659
@@ -635,12 +634,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943395659}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: 2.99, z: -0.17}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.04, y: 0.4699999, z: -0.085}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 924750920}
+  m_Father: {fileID: 677717975}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &951557980 stripped
 Transform:
@@ -944,6 +943,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0c9479ddaa965943840cd1068c69ca5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1116227180}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0c9479ddaa965943840cd1068c69ca5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 943395660}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a0c9479ddaa965943840cd1068c69ca5, type: 3}
       insertIndex: -1

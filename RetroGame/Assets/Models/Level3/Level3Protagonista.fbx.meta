@@ -584,8 +584,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ProtaArmature|Jumping_Prota
-      takeName: ProtaArmature|Jumping_Prota
+      name: ProtaArmature|Armature.001|Armature|Jumping_Prota (1)
+      takeName: ProtaArmature|Armature.001|Armature|Jumping_Prota
       internalID: -2225135760363536913
       firstFrame: 0
       lastFrame: 50

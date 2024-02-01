@@ -12,15 +12,20 @@ namespace Level3
         private float rot;
         private Vector3 moveDirection;
         private Rigidbody rigidbod;
+        private Vector3 velocity;
+
 
         public float speed = 2f;
         public float jumpHeight = 2.0f;
         public float gravityValue = -9.81f;
         public float rotationSpeed;
-        public float jumpForce = 3.0f;
-        public bool action;
+        public bool isJumping;
         public float verticalSpeed;
         public float magnitud;
+        public float maxJumpTime = 0.5f; // O tempo máximo que o personagem pode passar no ar
+        public float maxJumpForce = 10f; // A força máxima do salto
+        public AnimationCurve jumpCurve; // Uma curva de animação que determina a força do salto em função do tempo
+
 
         // Start is called before the first frame 
 
@@ -34,6 +39,7 @@ namespace Level3
         // Update is called once per frame
         void Update()
         {
+            characterController.transform.position = characterController.transform.position;
             Move();
         }
 
@@ -41,6 +47,20 @@ namespace Level3
         {
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
+
+            // Aplica a gravidade
+            if (!characterController.isGrounded)
+            {
+                velocity.y += gravityValue * Time.deltaTime;
+            }
+            else if (velocity.y < 0)
+            {
+                // Se o personagem está no chão, garante que a velocidade vertical não seja negativa
+                velocity.y = 0;
+            }
+
+            // Adiciona a velocidade ao movimento do personagem
+            characterController.Move(velocity * Time.deltaTime);
 
             if (horizontalInput != 0 || verticalInput != 0)
             {
@@ -67,49 +87,46 @@ namespace Level3
                     Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
                     transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
                 }
-
-                anim.SetInteger("transition", 1);
-            }
-            else
-            {
-                anim.SetInteger("transition", 0);
-            }
-
-            /*verticalSpeed += gravityValue * Time.deltaTime;
-            if (characterController.isGrounded)
-            {
-                action = false;
-                verticalSpeed = -0.5f;
-                if (Input.GetKey(KeyCode.W))
+                if (!isJumping)
                 {
-                    action = true;
-                    moveDirection = Vector3.forward * speed;
                     anim.SetInteger("transition", 1);
                 }
-                if (Input.GetKeyUp(KeyCode.W))
-                {
-                    anim.SetInteger("transition", 0);
-                    moveDirection = Vector3.zero;
-                }
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    action = true;
-                    verticalSpeed = jumpForce;
-                    anim.SetInteger("transition", 2);
-                }
             }
-
-            if (characterController.isGrounded && !action)
+            else if(!isJumping)
             {
                 anim.SetInteger("transition", 0);
             }
 
-            rot += Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
-            transform.eulerAngles= new Vector3(0, rot, 0);
-            moveDirection.y = verticalSpeed;
-            moveDirection = transform.TransformDirection(moveDirection);
-            characterController.Move(moveDirection * Time.deltaTime);
-           */
+            // Check for jump input
+            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+            {
+                velocity.y = maxJumpForce; // Aplica a força do pulo
+                isJumping = true;
+                anim.SetInteger("transition", 2); // Assuming '2' is your jump animation
+            }
+
+            // Check if the character has landed
+            if (characterController.isGrounded)
+            {
+                isJumping = false;
+            }
+            // Aplica a gravidade
+            velocity.y += gravityValue * Time.deltaTime;
+
+            // Move o personagem
+            //characterController.Move(velocity * Time.deltaTime);
         }
+        IEnumerator Jump()
+        {
+            float timeInAir = 0.0f;
+            while (Input.GetKey(KeyCode.Space) && timeInAir < maxJumpTime)
+            {
+                float jumpForce = jumpCurve.Evaluate(timeInAir / maxJumpTime) * maxJumpForce;
+                characterController.Move(new Vector3(0, jumpForce, 0) * Time.deltaTime);
+                timeInAir += Time.deltaTime;
+                yield return null;
+            }
+        }
+
     }
 }
