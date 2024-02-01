@@ -1,7 +1,7 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 Shader "CustomRenderTexture/Shader2DFog"
-{
+
     {
         Properties
         {
