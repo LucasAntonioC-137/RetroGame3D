@@ -22,7 +22,7 @@ public class NewBlockScript : MonoBehaviour
   void OnCollisionEnter2D(Collision2D collision)
   {
     // Check if the collision is with the player
-    if(collision.gameObject.CompareTag("Player"))
+    if(collision.gameObject.CompareTag("Player") && this.gameObject.CompareTag("Pushable"))
     {
       // Get the direction of the push
       Vector3 direction = transform.position - collision.transform.position;
