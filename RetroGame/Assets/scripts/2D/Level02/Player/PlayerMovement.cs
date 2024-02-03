@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 {
     // [SerializeField]
     // private int life;
+    [SerializeField]
+    private int mechanismCount;
 
     public PlayerState currentState;
 
@@ -92,6 +94,11 @@ public class PlayerMovement : MonoBehaviour
         rbody.MovePosition(newPos);
         //
         
+    }
+
+    public void MechanismActivation(){
+        mechanismCount += 1;
+        Debug.Log(mechanismCount);
     }
 //
     // void OnCollisionEnter2D(Collision2D collision)

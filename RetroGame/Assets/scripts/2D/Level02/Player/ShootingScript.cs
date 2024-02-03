@@ -50,17 +50,13 @@ public class ShootingScript : MonoBehaviour
 
         return n;
     }
-    // anim.Play("BoltHit");
-    // Destroy(this);
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-         if(collision.gameObject.layer == 15){
-            //Debug.Log("colidi");
-            //Instantiate(BoltHit, this.transform.position, Quaternion.identity);
-            Destroy(gameObject, 0.2f);
-        }
-    }
-    
-       
-    
+
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //      if(collision.gameObject.layer == 15){
+    //         //Debug.Log("colidi");
+    //         //Instantiate(BoltHit, this.transform.position, Quaternion.identity);
+    //         Destroy(gameObject, 0.2f);
+    //     }
+    // }    
 }
