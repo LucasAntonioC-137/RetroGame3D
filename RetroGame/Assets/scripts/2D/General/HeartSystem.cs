@@ -8,13 +8,15 @@ public class HeartSystem : MonoBehaviour
     public int life;
     public int maxLife;
 
+    public GameObject extraLife;
+    // public GameObject collected;
     public Image[] heart;
     public Sprite full;
     public Sprite hollow;
 
     void Start()
     {
-
+        extraLife = GameObject.Find("Extra Life");
     }
 
     void Update()
@@ -70,6 +72,15 @@ public class HeartSystem : MonoBehaviour
             // AudioController.current.PlayMusic(AudioController.current.deathSFX);
             gameObject.SetActive(false);
             EnvironmentController.instance.ShowGameOver();
+        }
+
+        if(collision.gameObject.tag == "Life" && life < maxLife)
+        {
+            Destroy(collision.gameObject);
+            // collected = Instantiate(collected, gameObject.transform.position, Quaternion.identity);
+            // Destroy(collected, 0.1f);
+            life += 1;
+            Debug.Log(life);
         }
     }
 

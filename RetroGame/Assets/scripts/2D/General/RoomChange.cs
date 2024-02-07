@@ -14,6 +14,9 @@ public class RoomChange : MonoBehaviour
     public GameObject text;
     public Text placeText;
 
+    //Fade Effect
+    public Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +31,7 @@ public class RoomChange : MonoBehaviour
             {
                 StartCoroutine(placeNameCo());
             }
+            StartCoroutine(FadeInAndOutCO());
         }
     }
     
@@ -35,12 +39,19 @@ public class RoomChange : MonoBehaviour
     {
         text.SetActive(true);
         placeText.text = placeName;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         text.SetActive(false);
     }
 
     private void OnDrawGizmosSelected() {
         Gizmos.DrawWireCube(playerChange, playerChange);
-        
     }
+
+    private IEnumerator FadeInAndOutCO()
+    {
+        anim.SetBool("Touch", true);
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("Touch", false);
+    }
+   
 }

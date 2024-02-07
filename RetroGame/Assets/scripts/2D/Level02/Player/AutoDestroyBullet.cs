@@ -20,9 +20,7 @@ public class AutoDestroyBullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
          if(collision.gameObject.layer == 15 || collision.gameObject.CompareTag("Enemy")){
-            Debug.Log(gameObject.transform.position);
-            BoltHit = Instantiate(BoltHit, gameObject.transform.position, Quaternion.identity);//this.transform.position, Quaternion.identity);
-            Debug.Log(BoltHit.transform.position);
+            BoltHit = Instantiate(BoltHit, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject, 0.05f);
             Destroy(BoltHit, 0.3f);
         }

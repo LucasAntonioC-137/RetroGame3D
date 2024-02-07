@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 1930646539980361975}
   - component: {fileID: 1394968375954474606}
   - component: {fileID: 8882092377022734076}
+  - component: {fileID: -8646496434141882144}
   m_Layer: 0
   m_Name: pfBullet
   m_TagString: PlayerBullets
@@ -216,3 +217,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BoltHit: {fileID: 53975512548447615, guid: 489ca4d0d81538a43a6e680ec7036728, type: 3}
+--- !u!114 &-8646496434141882144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7478448797668081063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 302c2d7a33ad8a84d92f685d13100c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 4
+  knockbackTime: 0.4
