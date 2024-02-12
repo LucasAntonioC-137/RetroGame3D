@@ -15,6 +15,7 @@ TagManager:
   - Ammo
   - Pushable
   - Activated
+  - Catchable
   layers:
   - Default
   - TransparentFX

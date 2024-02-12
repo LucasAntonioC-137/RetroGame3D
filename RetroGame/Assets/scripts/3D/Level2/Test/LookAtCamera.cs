@@ -9,6 +9,7 @@ namespace Level2
         void Update()
         {
             transform.LookAt(Camera.main.transform);
+            transform.rotation = new Quaternion(0, transform.rotation.y, transform.rotation.z, transform.rotation.w);
         }
     }
 }
