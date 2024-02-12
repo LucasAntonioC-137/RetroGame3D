@@ -85,7 +85,7 @@ public class Zombie : MonoBehaviour
         if (collision.gameObject.CompareTag("PlayerBullets"))
         {
             Destroy(collision.gameObject);
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 0.05f);
         }
     }
 }
