@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class ShootingScript : MonoBehaviour
 {
-    //public GameObject Projectile;
     public GameObject Bullet;
     public GameObject bulletSpawn;
-    // public GameObject BoltHit;
-
     public float bulletSpeed;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

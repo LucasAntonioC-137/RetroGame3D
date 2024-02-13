@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombie : MonoBehaviour
+public class Zombie : Enemy
 {
     #region Movimentação do jogador
      [SerializeField]
@@ -30,7 +30,7 @@ public class Zombie : MonoBehaviour
     [SerializeField]
     private LayerMask LayerVisionArea;
 
-    private void Update() {
+    protected override void Update() {
         SearchPlayer();
         if(target != null){
             Move();
@@ -84,8 +84,16 @@ public class Zombie : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerBullets"))
         {
-            Destroy(collision.gameObject);
-            Destroy(this.gameObject, 0.05f);
+            //damage
+            life -= 1;
+        
+            if(life <= 0)
+            {
+                Destroy(collision.gameObject);
+                Destroy(this.gameObject, 0.05f);
+            }
+            
         }
     }
+
 }

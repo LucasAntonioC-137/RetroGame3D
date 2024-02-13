@@ -23,14 +23,14 @@ public class MechanismActivation : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Pushable")){
-            Debug.Log("ativou mechanismo");
+            
             collision.gameObject.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
             collision.gameObject.GetComponent<BoxCollider2D> ().enabled = false;
-            //mechanismCount += 1;
+            
             playerMovement.MechanismActivation();
             collision.gameObject.tag = "Activated";
             collision.gameObject.GetComponent<BoxCollider2D> ().enabled = true;
         }
-        Debug.Log(mechanismCount);
+        //Debug.Log(mechanismCount);
     }
 }

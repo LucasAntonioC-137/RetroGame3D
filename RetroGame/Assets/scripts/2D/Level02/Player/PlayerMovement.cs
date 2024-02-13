@@ -12,8 +12,7 @@ public enum PlayerState{
 
 public class PlayerMovement : MonoBehaviour
 {
-    // [SerializeField]
-    // private int life;
+
     [SerializeField]
     private int mechanismCount;
 
@@ -40,9 +39,8 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(AttackCo());
         }
 
-        //objectPick();
     }
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         change = Vector3.zero;
@@ -92,36 +90,13 @@ public class PlayerMovement : MonoBehaviour
         Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
         //isoRenderer.SetDirection(movement);
         rbody.MovePosition(newPos);
-        //
-        
     }
 
     public void MechanismActivation(){
         mechanismCount += 1;
-        Debug.Log(mechanismCount);
+        Debug.Log("Mechanism count: "+ mechanismCount);
     }
-//
-    // void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     if(collision.gameObject.tag == "GameOver"){
-    //         // AudioController.current.PlayMusic(AudioController.current.deathSFX);
-    //         EnvironmentController.instance.ShowGameOver();
-    //         Destroy(gameObject);
-    //     }
 
-    //     if(collision.gameObject.tag == "Enemy"){
-    //         life -= 1;
-    //         Debug.Log(life);
-    //     }
-
-    //     if(life <=0 ){
-    //         // animaçao
-    //         // AudioController.current.PlayMusic(AudioController.current.deathSFX);
-    //         gameObject.SetActive(false);
-    //         EnvironmentController.instance.ShowGameOver();
-    //     }
-    // }
-//
     // void objectPick()
     // {
     //     Vector2 currentPos = rbody.position;

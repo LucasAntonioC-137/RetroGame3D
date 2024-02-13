@@ -15,6 +15,8 @@ public class PattrolingEnemy : Enemy
     public int targetPoint;
     private Transform currentPoint;
     private Rigidbody2D rig;
+    
+    public ShootingScript bullet;
 
     void Update()
     {
@@ -26,8 +28,15 @@ public class PattrolingEnemy : Enemy
     {
         if (collision.gameObject.CompareTag("PlayerBullets"))
         {
-            Destroy(collision.gameObject);
-            Destroy(this.gameObject, 0.05f);
+            //damage
+            life -= 1;
+
+            if(life <= 0)
+            {
+                Destroy(collision.gameObject);
+                Destroy(this.gameObject, 0.05f);
+            }
+            
         }
     }
 
