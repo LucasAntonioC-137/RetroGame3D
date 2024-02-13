@@ -1,45 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEditor;
+// using UnityEngine;
 
-public class StoneBlock : MonoBehaviour
-{
-  public float moveSpeed = 5f;
-  public Transform movePoint;
+// public class StoneBlock : MonoBehaviour
+// {
 
-  public LayerMask whatStopsMovement;
+//   [SerializeField] private bool _isBeingPushed;
+//   [SerializeField] private float _speed = 3f;
+//   [SerializeField] private LayerMask _blockMask = 0;
+//   [SerializeField] private int _detectionRadius = 1;
+  
+//   private Vector3 _destination;
+//   public float _speedMultiplier;
+  
 
-  void Start() 
-  {
-    movePoint.parent = null;  
-  }
+//   void Update() {
+//     if (Vector3.Distance(transform.position, _destination) < Mathf.Epsilon)
+//     {
+//       CheckDirection();
+//     }
+//     else
+//     {
+//       transform.position = Vector3.MoveTowards(
+//         transform.position,
+//         _destination, _speed	* Time.deltaTime);
+//     }
+//   }
 
-  void Update() 
-  {
-    transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
+//   public void Push(Vector3 direction, float speed)
+//   {
+//     if(!_isBeingPushed)
+//     {
+//       if (CheckDirection(direction))
+//       {
+//         _destination = transform.position + direction;
+//         _speed = speed * _speedMultiplier;
+//         _isBeingPushed = true;
+//       }
+//     }
+//   }
 
-    if(Vector3.Distance(transform.position, movePoint.position) <= .05f)
-    {
+//   private bool CheckDirection(Vector3 direction)
+//   {
+//     if (Physics2D.Raycast(transform.position, direction, out RaycastHit hit, _detectionRadius, _blockMask))
+//     {
 
-      if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
-      {
-        if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, whatStopsMovement))
-        {
-          movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
-        }
-      }
-
-      else if(Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
-      {
-        if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), .2f, whatStopsMovement))
-        {
-          movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
-        }
-      }
-    }
-
-  }
-
-  //rig.velocity = Vector2.zero; //(0, 0)
-}
+//     }
+//   }
+// }

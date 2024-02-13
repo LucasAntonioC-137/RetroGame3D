@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class HeartSystem : MonoBehaviour
     public Image[] heart;
     public Sprite full;
     public Sprite hollow;
+    [SerializeField] private float seconds;
 
     void Start()
     {
@@ -80,8 +82,21 @@ public class HeartSystem : MonoBehaviour
             // collected = Instantiate(collected, gameObject.transform.position, Quaternion.identity);
             // Destroy(collected, 0.1f);
             life += 1;
-            Debug.Log(life);
+            
+        }
+
+        if(collision.gameObject.tag == "Key")// && buffCollected != null)
+        {
+            //fazer player regenerar 1 coração a cada 5 segundos
+            Destroy(collision.gameObject);
+            InvokeRepeating("LifeRegen", 20f, 5f);
+        }
+        
+    }  
+    void LifeRegen(){
+        if(life < maxLife)
+        {
+            life += 1;
         }
     }
-
 }
