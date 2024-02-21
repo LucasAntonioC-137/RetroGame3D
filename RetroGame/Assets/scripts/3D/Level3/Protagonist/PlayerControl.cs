@@ -50,10 +50,12 @@ namespace Level3
             }
             else
             {
+                characterController.enabled= false;
                 return;
             }
 
         }
+
 
         public void GetDamage(float damage)
         {

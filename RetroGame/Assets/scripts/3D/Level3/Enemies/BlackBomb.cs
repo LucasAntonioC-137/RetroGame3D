@@ -1,34 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 namespace Level3
 {
     public class BlackBomb : MonoBehaviour
     {
-        public List<Transform> points;
-        public float speed = 2.0f;
-        public float chaseSpeed = 4.0f;
+        [Header("Status")]
+        public float damage = 40;
+        public float speed = 4.0f;
+        public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;
-        public GameObject player;
-        private int destPoint = 0;
+
+        [Header("Agro")]
+        public GameObject target;
+        public float lookDistance = 2f;
+
+        [Header("Path")]
+        public List<Transform> pathPoints = new List<Transform>();
+        public int currentPathIndex = 0;
+
         private bool chasingPlayer = false;
         private Animator anim;
+        private Vector3 moveDirection;
+        private float chaseTime = 0f;
+        private bool startCountdown = false;
+        private NavMeshAgent agent;
+        private bool playerIsDead;
 
         void Start()
         {
+            agent = GetComponent<NavMeshAgent>();
             anim = GetComponent<Animator>();
-            GotoNextPoint();
+            playerIsDead = target.GetComponent<PlayerControl>().isDead;
         }
 
-        void GotoNextPoint()
+        void moveToNextPoint()
         {
-            if (points.Count == 0)
-                return;
+            if(pathPoints.Count > 0)
+            {
+                float distance = Vector3.Distance(pathPoints[currentPathIndex].position, transform.position);
+                agent.destination = pathPoints[currentPathIndex].position;
 
-            chasingPlayer = false;
-            destPoint = (destPoint + 1) % points.Count;
+                if(distance <= 4f)
+                {
+                    currentPathIndex++;
+                    currentPathIndex %= pathPoints.Count;
+                }
+            }
         }
 
         void Update()
@@ -36,50 +57,104 @@ namespace Level3
             Walk();
         }
 
+        void LookTarget()
+        {
+            Vector3 direction = target.transform.position - transform.position;
+            if (direction != Vector3.zero)
+            {
+                Quaternion toRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            }
+        }
+
         void Walk()
         {
-            float step = speed * Time.deltaTime;
-            Vector3 targetDir = Vector3.zero;
-
+            playerIsDead = target.GetComponent<PlayerControl>().isDead;
+            // Verifica se o jogador está dentro do alcance usando um raycast
             RaycastHit hit;
             Vector3 rayDirection = transform.forward;
-
-            if (Physics.Raycast(transform.position, rayDirection, out hit))
+            moveDirection.y -= 9.81f * Time.deltaTime; // Aplica a gravidade
+            if (!playerIsDead)
             {
-                if (hit.transform == player.transform && Vector3.Distance(player.transform.position, transform.position) < 2)
+                if (Physics.Raycast(transform.position, rayDirection, out hit))
                 {
-                    chasingPlayer = true;
-                    targetDir = player.transform.position - transform.position;
-                    step = chaseSpeed * Time.deltaTime;
+                    if (hit.transform == target.transform && Vector3.Distance(target.transform.position, transform.position) < 2)
+                    {
+                        print(playerIsDead);
+                        if (!chasingPlayer)
+                        {
+                            chasingPlayer = true;
+                            startCountdown = true;
+                        }
+
+                    }
                 }
+
             }
-            else if (!chasingPlayer && Vector3.Distance(transform.position, points[destPoint].position) < 0.5f)
+            else
             {
-                GotoNextPoint();
+                chasingPlayer = false;
             }
 
-            if (!chasingPlayer)
-            {
-                targetDir = points[destPoint].position - transform.position;
-            }
 
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0.0f);
-            transform.rotation = Quaternion.LookRotation(newDir);
-            transform.position = Vector3.MoveTowards(transform.position, chasingPlayer ? player.transform.position : points[destPoint].position, step);
-            
-            //Setting walk or run animations
             if (chasingPlayer)
+            { 
+                agent.acceleration = chaseSpeed;
+                agent.SetDestination(target.transform.position);
+                anim.SetInteger("transition", 2);
+                LookTarget();
+            }
+            else if (!chasingPlayer)
             {
+                agent.acceleration = speed;
+                moveToNextPoint();
                 anim.SetInteger("transition", 1);
             }
             else
             {
-                anim.SetInteger("transition", 2);
+                anim.SetInteger("transition", 0);
             }
-                
 
-            // Desenhar o raio continuamente
+            if (startCountdown)
+            {
+                chaseTime += Time.deltaTime;
+                if (chaseTime >= 5f)
+                {
+                    // Causa dano em uma área esférica ao redor do inimigo
+                    Explode();
+
+                    // Destroi o inimigo
+                    Destroy(gameObject);
+                }
+                else if(playerIsDead)
+                {
+                    startCountdown= false;
+                }
+            }
+
+
             Debug.DrawRay(transform.position, rayDirection * 2, Color.red);
+        }
+
+        void Explode()
+        {
+            // Define o raio da explosão
+            float radius = 5f;
+
+            // Obtém todos os objetos dentro do raio da explosão
+            Collider[] objectsInRange = Physics.OverlapSphere(transform.position, radius);
+
+            foreach (Collider col in objectsInRange)
+            {
+                // Verifica se o objeto é o jogador
+                PlayerControl player = col.gameObject.GetComponent<PlayerControl>();
+                
+                if (player != null)
+                {
+                    // Causa dano ao jogador
+                    player.GetDamage(damage);
+                }
+            }
         }
     }
 }
