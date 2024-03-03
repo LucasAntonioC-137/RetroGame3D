@@ -13,6 +13,7 @@ namespace Level3
         public float speed = 4.0f;
         public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;
+        public bool isDead = false;
 
         [Header("Agro")]
         public GameObject target;
@@ -29,12 +30,28 @@ namespace Level3
         private bool startCountdown = false;
         private NavMeshAgent agent;
         private bool playerIsDead;
+        //Specifics
+        private bool captured = false;
+        private bool thrown = false;
+        private bool readyToThrow;
 
         void Start()
         {
             agent = GetComponent<NavMeshAgent>();
             anim = GetComponent<Animator>();
             playerIsDead = target.GetComponent<PlayerControl>().isDead;
+        }
+
+        public bool Captured
+        {
+            get { return captured; }
+            set { captured = value; }
+        }
+        
+        public bool Thrown
+        {
+            get { return thrown; }
+            set { thrown = value; }
         }
 
         void moveToNextPoint()
@@ -55,6 +72,7 @@ namespace Level3
         void Update()
         {
             Walk();
+            CapturedByPlayer();
         }
 
         void LookTarget()
@@ -73,46 +91,49 @@ namespace Level3
             // Verifica se o jogador está dentro do alcance usando um raycast
             RaycastHit hit;
             Vector3 rayDirection = transform.forward;
-            moveDirection.y -= 9.81f * Time.deltaTime; // Aplica a gravidade
-            if (!playerIsDead)
+            if (agent.enabled)
             {
-                if (Physics.Raycast(transform.position, rayDirection, out hit))
-                {
-                    if (hit.transform == target.transform && Vector3.Distance(target.transform.position, transform.position) < 2)
-                    {
-                        print(playerIsDead);
-                        if (!chasingPlayer)
-                        {
-                            chasingPlayer = true;
-                            startCountdown = true;
-                        }
 
+                moveDirection.y -= 9.81f * Time.deltaTime; // Aplica a gravidade
+                if (!playerIsDead)
+                {
+                    if (Physics.Raycast(transform.position, rayDirection, out hit))
+                    {
+                        if (hit.transform == target.transform && Vector3.Distance(target.transform.position, transform.position) < 2)
+                        {
+                            if (!chasingPlayer)
+                            {
+                                chasingPlayer = true;
+                                startCountdown = true;
+                            }
+
+                        }
                     }
+
+                }
+                else
+                {
+                    chasingPlayer = false;
                 }
 
-            }
-            else
-            {
-                chasingPlayer = false;
-            }
 
-
-            if (chasingPlayer)
-            { 
-                agent.acceleration = chaseSpeed;
-                agent.SetDestination(target.transform.position);
-                anim.SetInteger("transition", 2);
-                LookTarget();
-            }
-            else if (!chasingPlayer)
-            {
-                agent.acceleration = speed;
-                moveToNextPoint();
-                anim.SetInteger("transition", 1);
-            }
-            else
-            {
-                anim.SetInteger("transition", 0);
+                if (chasingPlayer)
+                {
+                    agent.acceleration = chaseSpeed;
+                    agent.SetDestination(target.transform.position);
+                    anim.SetInteger("transition", 2);
+                    LookTarget();
+                }
+                else if (!chasingPlayer)
+                {
+                    agent.acceleration = speed;
+                    moveToNextPoint();
+                    anim.SetInteger("transition", 1);
+                }
+                else
+                {
+                    anim.SetInteger("transition", 0);
+                } 
             }
 
             if (startCountdown)
@@ -136,6 +157,24 @@ namespace Level3
             Debug.DrawRay(transform.position, rayDirection * 2, Color.red);
         }
 
+        void CapturedByPlayer()
+        {
+            if (captured && !readyToThrow)
+            {
+                chaseTime = 0;
+                readyToThrow= true;
+                agent.isStopped= true;
+                startCountdown = true;
+                anim.SetInteger("transition", 0);
+                print("PEGARO");
+            }else if (thrown && captured)
+            {
+                captured= false;
+                chaseTime = 4;
+                print("JOGARO");
+            }
+        }
+
         void Explode()
         {
             // Define o raio da explosão
@@ -152,7 +191,9 @@ namespace Level3
                 if (player != null)
                 {
                     // Causa dano ao jogador
-                    player.GetDamage(damage);
+                    Vector3 damageDirection = player.transform.position - transform.position;
+                    player.GetDamage(damage, damageDirection);
+                    isDead = true;
                 }
             }
         }

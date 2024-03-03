@@ -31,6 +31,7 @@ namespace Level3
         private bool playerIsDead;
         //Specifics
         private bool die = false;
+        private float cowndown = 0f;
 
         void Start()
         {
@@ -63,6 +64,10 @@ namespace Level3
             else
             {
                 anim.SetInteger("transition", 0);
+            }
+            if(cowndown> 0f)
+            {
+                cowndown -= Time.deltaTime;
             }
         }
 
@@ -161,9 +166,11 @@ namespace Level3
 
                         Die();
                     }
-                    else
+                    else if(cowndown <= 0)
                     {
-                        player.GetDamage(damage);
+                        cowndown= 1.5f;
+                        Vector3 damageDirection = player.transform.position - transform.position;
+                        player.GetDamage(damage, damageDirection);
                         print("Dano no player");
                     }
                 }

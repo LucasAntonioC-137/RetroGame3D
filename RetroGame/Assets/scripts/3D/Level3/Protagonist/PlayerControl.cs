@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Level3
 {
@@ -27,7 +28,8 @@ namespace Level3
         public float jumpForce = 10f; // A força máxima do salto
         public float maxTimeBetweenJumps = 2;
         public float doubleJumpForce = 15;
-
+        public float knockbackStrength;
+        private BlackBomb bomb;
 
         // Start is called before the first frame 
 
@@ -53,17 +55,44 @@ namespace Level3
                 characterController.enabled= false;
                 return;
             }
+            if(bomb != null)
+            {
+                if (bomb.isDead)
+                {
+                    withObject = false;
+                }
+            }
 
         }
 
 
-        public void GetDamage(float damage)
+        public void GetDamage(float damage, Vector3 damageDirection)
         {
             playerHealth -= damage;
             if(playerHealth <= 0)
             {
                 PlayerDie();
             }
+            Vector3 knockbackDirection = new Vector3(damageDirection.x, 0, damageDirection.z).normalized;
+            Vector3 oppositeDirection = -knockbackDirection;
+            // Calcula a direção final com 45 graus de inclinação no eixo Y
+            Vector3 finalKnockbackDirection = Quaternion.Euler(0, 90, 0) * oppositeDirection;
+            // Aplica a força do knockback
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                characterController.enabled= false;
+                rb.AddForce(finalKnockbackDirection * knockbackStrength, ForceMode.Impulse);
+                print("KockBack");
+                StartCoroutine(SetRigidbodyKinematicAfterDelay(rb, 0.2f)); // 1.0f é o atraso em segundos
+            }
+        }
+        IEnumerator SetRigidbodyKinematicAfterDelay(Rigidbody rb, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            characterController.enabled= true;
+            rb.isKinematic = true;
         }
 
         void PlayerDie()
@@ -165,8 +194,12 @@ namespace Level3
 
                 // Move the character in the new direction
                 float speedModifier = withObject ? 0.5f : 1f; // Reduce speed by 50% if withObject is true
-                characterController.Move(movementDirection * Time.deltaTime * speed * speedModifier);
 
+                if (characterController.enabled)
+                {
+                    characterController.Move(movementDirection * Time.deltaTime * speed * speedModifier);
+
+                }
                 // If there is any movement, rotate the character to face the movement direction
                 if (movementDirection != Vector3.zero)
                 {
@@ -186,15 +219,15 @@ namespace Level3
 
         void Take_Object()
         {
+            float heightOffset = 0.5f; // Change this value as needed
             // Define the range within which the character can take an object
             float range = 2.0f;
             if (Input.GetKeyDown(KeyCode.J))
             {
                 if (!withObject)
                 {
-                    // Define the ray
-                    Ray ray = new Ray(transform.position, transform.forward);
-
+                    Ray ray = new Ray(transform.position + new Vector3(0, heightOffset, 0), transform.forward);
+                    
                     // Define the hit information
                     RaycastHit hit;
 
@@ -207,7 +240,18 @@ namespace Level3
                             withObject = true;
                             // Take the object (you can define what this means for your game)
                             Debug.Log("Object taken: " + hit.collider.gameObject.name);
+                            Rigidbody rb = hit.collider.gameObject.GetComponent<Rigidbody>();
+                            if (hit.collider.gameObject.GetComponent<BlackBomb>())
+                            {
+                                bomb = hit.collider.gameObject.GetComponent<BlackBomb>();
+                                bomb.Captured = true;
 
+                            }
+                            NavMeshAgent agent = hit.collider.gameObject.GetComponent<NavMeshAgent>();
+                            if (agent != null)
+                            {
+                                agent.enabled= false;
+                            }
                             // Make the object a child of the character's hand
                             hit.collider.gameObject.transform.SetParent(playerHand);
                             anim.SetInteger("transition", 4);
@@ -217,14 +261,14 @@ namespace Level3
                             // Adjust the position of the object so that its bottom is at the transform location
                             float objectHeight = hit.collider.bounds.size.y;
                             hit.collider.gameObject.transform.position += new Vector3(0, objectHeight / 2, 0);
-
-                            float forwardOffset = 0.6f; // You can adjust this value as needed
-                            hit.collider.gameObject.transform.position += playerHand.forward * forwardOffset;
-
+                            if (!hit.collider.gameObject.GetComponent<BlackBomb>())
+                            {
+                                float forwardOffset = 0.6f; // You can adjust this value as needed
+                                hit.collider.gameObject.transform.position += playerHand.forward * forwardOffset;
+                            }
                             // Reset the rotation of the object
                             hit.collider.gameObject.transform.localRotation = Quaternion.identity;
 
-                            Rigidbody rb = hit.collider.gameObject.GetComponent<Rigidbody>();
                             if (rb != null)
                             {
                                 rb.isKinematic = true;
@@ -241,6 +285,11 @@ namespace Level3
                         // Get the object that the character is holding
                         Transform objectInHand = playerHand.GetChild(0);
 
+                        if (objectInHand.gameObject.GetComponent<BlackBomb>())
+                        {
+                            bomb = objectInHand.gameObject.GetComponent<BlackBomb>(); 
+                            bomb.Thrown = true;
+    }
                         // Unparent the object
                         objectInHand.SetParent(null);
 
@@ -261,7 +310,8 @@ namespace Level3
                     }
                 }
             }
-            Debug.DrawRay(transform.position, transform.forward * range, Color.red);
+            Debug.DrawRay(transform.position + new Vector3(0, heightOffset, 0), transform.forward * range, Color.red);
         }
+
     }
 }

@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace Level3
 {
     public class ThirdPersonCameraController : MonoBehaviour
     {
+        public Transform[] prePositions;
+        private int currentPositionIndex = 0;
         public Transform target;
         public float distance = 5.0f;
         public float height = 2.0f;
@@ -13,17 +17,42 @@ namespace Level3
         public bool smoothRotation = true;
         public float rotationDamping = 10.0f;
         public float deadZone = 0.3f; // Adicione um valor para a "zona morta"
-        public float minDistance = 1.0f; // Adicione uma distância mínima
+        public float minDistance = 3.0f; // Adicione uma distância mínima
         public float maxDistance = 10.0f; // Adicione uma distância máxima
-
+        private Vector3 lastPlayerPosition;
+        private float timeSinceLastMove;
+        private float lastArrowKeyDownTime;
         private Vector3 lastTargetPosition;
         private float timeToMove;
 
+        private Vector3 wantedPosition;
+        private Coroutine moveCoroutine;
+        private Vector3 currentPosition;
+
+
         void Update()
         {
-            Vector3 wantedPosition = target.TransformPoint(0, height, -distance);
-            Vector3 currentPosition = transform.position;
+            wantedPosition = target.TransformPoint(0, height, -distance);
+            currentPosition = transform.position;
 
+            if (target.position != lastPlayerPosition)
+            {
+                lastPlayerPosition = target.position;
+                timeSinceLastMove = 0;
+            }
+            else
+            {
+                timeSinceLastMove += Time.deltaTime;
+            }
+            ManualControl();
+            if (Time.time > lastArrowKeyDownTime + 1.0f)
+            {
+                AutoControl();
+            }
+        }
+
+        private void AutoControl()
+        {
             // Verifique se o personagem se moveu para fora da "zona morta"
             if (Vector3.Distance(lastTargetPosition, target.position) > deadZone)
             {
@@ -34,28 +63,95 @@ namespace Level3
 
             if (Time.time > timeToMove)
             {
-                Vector3 targetPosition = Vector3.Lerp(currentPosition, target.position, Time.deltaTime * damping);
+                Vector3 targetPosition = Vector3.Lerp(currentPosition, target.position + new Vector3(0, height, 0), Time.deltaTime * damping);
                 // Verifique se a câmera não está muito perto do personagem
                 if (Vector3.Distance(targetPosition, target.position) > minDistance)
                 {
                     currentPosition = targetPosition;
+                }
+                else
+                {
+                    Vector3 behindTarget = target.position - target.forward * minDistance + new Vector3(0, height, 0);
+                    currentPosition = Vector3.Lerp(currentPosition, behindTarget, Time.deltaTime * damping);
                 }
             }
 
             // Verifique se o personagem está muito longe da câmera
             if (Vector3.Distance(currentPosition, target.position) > maxDistance)
             {
-                currentPosition = Vector3.Lerp(currentPosition, target.position, Time.deltaTime * damping);
+                currentPosition = Vector3.Lerp(currentPosition, target.position + new Vector3(0, height, 0), Time.deltaTime * damping);
             }
 
             transform.position = Vector3.Lerp(transform.position, currentPosition, Time.deltaTime * damping);
 
-            if (smoothRotation)
+            // Verifique se o jogador está abaixo da câmera
+            if (target.position.y < transform.position.y)
             {
-                Quaternion wantedRotation = Quaternion.LookRotation(target.position - transform.position, target.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime * rotationDamping);
+                if (smoothRotation)
+                {
+                    Quaternion wantedRotation = Quaternion.LookRotation(target.position - transform.position, target.up);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime * rotationDamping);
+                }
+                else transform.LookAt(target, target.up);
             }
-            else transform.LookAt(target, target.up);
+        }
+
+        void ManualControl()
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                print("Pra esquerda");
+                currentPositionIndex--;
+                if (currentPositionIndex < 0)
+                {
+                    currentPositionIndex = prePositions.Length - 1;
+                }
+                StartMoveToPosition(prePositions[currentPositionIndex].position, prePositions[currentPositionIndex].rotation);
+                lastArrowKeyDownTime = Time.time;
+            }
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                print("Pra direita");
+                currentPositionIndex++;
+                if (currentPositionIndex >= prePositions.Length)
+                {
+                    currentPositionIndex = 0;
+                }
+                StartMoveToPosition(prePositions[currentPositionIndex].position, prePositions[currentPositionIndex].rotation);
+                lastArrowKeyDownTime = Time.time;
+            }
+        }
+
+        void StartMoveToPosition(Vector3 targetPosition, Quaternion targetRotation)
+        {
+            // If a move coroutine is already running, stop it
+            if (moveCoroutine != null)
+            {
+                StopCoroutine(moveCoroutine);
+            }
+
+            // Start a new move coroutine
+            moveCoroutine = StartCoroutine(MoveToPosition(targetPosition, targetRotation));
+        }
+
+        IEnumerator MoveToPosition(Vector3 targetPosition, Quaternion targetRotation)
+        {
+            float timeSinceStarted = 0f;
+            while (true)
+            {
+                timeSinceStarted += Time.deltaTime;
+                transform.position = Vector3.Lerp(transform.position, targetPosition, timeSinceStarted);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, timeSinceStarted);
+
+                // If the object has arrived, stop the coroutine
+                if (transform.position == targetPosition && transform.rotation == targetRotation)
+                {
+                    yield break;
+                }
+
+                // Otherwise, continue next frame
+                yield return null;
+            }
         }
     }
 }
