@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ShootingScript : MonoBehaviour
 {
     public GameObject Bullet;
     public GameObject bulletSpawn;
     public float bulletSpeed;
+
+    //private float timeUntilNextShot = 0f;
+    //[SerializeField] float cooldownTime;
     
 
     // Update is called once per frame
@@ -16,9 +20,8 @@ public class ShootingScript : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         Vector2 inputVector = new Vector2(horizontalInput, verticalInput);
 
-        if(Input.GetKeyDown(KeyCode.Space)) //&& inputVector.x != 0f & inputVector.y != 0f)
+        if(Input.GetKeyDown(KeyCode.Space))// && Time.time >= timeUntilNextShot) //&& inputVector.x != 0f & inputVector.y != 0f)
         {
-
             //GameObject projectile = Instantiate(Projectile);
             GameObject projectile = Instantiate(Bullet);
             projectile.transform.position = bulletSpawn.transform.position;
@@ -26,6 +29,8 @@ public class ShootingScript : MonoBehaviour
 
             //projectile.GetComponent<Rigidbody2D> ().AddForce(transform.forward * bulletSpeed, ForceMode2D.Impulse);
             projectile.GetComponent<Rigidbody2D> ().AddForce(inputVector * bulletSpeed, ForceMode2D.Impulse);
+
+            //timeUntilNextShot = Time.time + cooldownTime;
 
             Destroy(projectile.gameObject, 2f);
 

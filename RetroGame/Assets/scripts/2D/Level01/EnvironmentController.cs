@@ -10,15 +10,27 @@ public class EnvironmentController : MonoBehaviour
     public int playerScore;
     public Text scoreText;
     public GameObject gameOver;
+    public GameObject winingScreen;
+
+    public bool isPaused;
 
     public static EnvironmentController instance;
 
     void Start()
     {
         instance = this;
+        Time.timeScale = 1f;
     }
 
-     public void UpdateScoreText()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+    }
+
+    public void UpdateScoreText()
     {
         scoreText.text = playerScore.ToString();
     }
@@ -31,5 +43,25 @@ public class EnvironmentController : MonoBehaviour
     public void RestartGame(string lvlName)
     {
         SceneManager.LoadScene(lvlName);
+    }
+
+    public void ShowWinningScreen()
+    {
+        winingScreen.SetActive(true);
+    }
+
+    private void Pause()
+    {
+        if(isPaused == false)
+        {
+            Time.timeScale = 0f;
+            isPaused = true;
+        } 
+        else
+        {
+            Time.timeScale = 1f;
+            isPaused = false;
+        }
+
     }
 }

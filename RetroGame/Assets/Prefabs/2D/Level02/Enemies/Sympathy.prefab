@@ -184,14 +184,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: 
-  life: 2
+  life: 1
   baseAttack: 1
   moveSpeed: 0
   velocity: 1
   minimumDistance: 0.3
   rig: {fileID: 4178782965531842735}
   spriteRen: {fileID: 883980171368881116}
-  visionRadius: 1.86
+  visionRadius: 2.5
   LayerVisionArea:
     serializedVersion: 2
     m_Bits: 4096
