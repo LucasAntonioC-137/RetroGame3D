@@ -30,11 +30,21 @@ namespace Level3
         private NavMeshAgent agent;
         private bool playerIsDead;
         //Specifics
-        private bool die = false;
+        public bool die = false;
         private float cowndown = 0f;
 
         void Start()
         {
+            // Find the player object with the "Player" tag
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                target = player;
+            }
+            else
+            {
+                Debug.LogError("Player object with tag 'Player' not found!");
+            }
             agent = GetComponent<NavMeshAgent>();
             anim = GetComponent<Animator>();
             playerIsDead = target.GetComponent<PlayerControl>().isDead;
@@ -145,10 +155,8 @@ namespace Level3
 
         private void OnTriggerEnter(Collider collision)
         {
-            print("PRIMEIRO");
             if (collision.gameObject.tag == "Player")
             {
-                print("AQUI");
                 PlayerControl player = collision.gameObject.GetComponent<PlayerControl>();
 
                 if (player != null)
@@ -158,7 +166,6 @@ namespace Level3
                     {
                         // Player jumped on the enemy's head
                         anim.SetInteger("transition", 0);
-                        print("MATOU");
 
                         Vector3 currentScale = gameObject.transform.localScale;
                         currentScale.y = 0.01f;
@@ -171,7 +178,6 @@ namespace Level3
                         cowndown= 1.5f;
                         Vector3 damageDirection = player.transform.position - transform.position;
                         player.GetDamage(damage, damageDirection);
-                        print("Dano no player");
                     }
                 }
             }

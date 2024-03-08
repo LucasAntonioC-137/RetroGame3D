@@ -7,44 +7,16 @@ namespace Level3
 {
     public class CamRigLevel3 : MonoBehaviour
     {
-        [SerializeField] int viewIndex = 0;
-        [SerializeField] Transform[] viewPoints;
+        public Transform player; // Reference to the player object (set in Inspector)
+        public Vector3 localOffset; // Offset from player in local space (set in Inspector)
 
-        private void Start()
-        {
-            Look();
-        }
-        // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (player != null) // Check if player reference is assigned
             {
-                viewIndex--;
-                if (viewIndex < 0)
-                    viewIndex = viewPoints.Length - 1 ;
+                // Apply offset in world space considering player's position and rotation
+                transform.position = player.transform.position + player.transform.rotation * localOffset;
             }
-            if (Input.GetKeyDown(KeyCode.RightArrow)) 
-            {
-                viewIndex++;
-                if (viewIndex > viewPoints.Length - 1)
-                    viewIndex = 0;
-            }
-            Look();
         }
-
-        /*void Look()
-        {
-            transform.position = Vector3.Lerp(transform.position, viewPoints[viewIndex].position, 0.05f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, viewPoints[viewIndex].rotation, 0.05f);
-        }*/
-        
-        void Look()
-        {
-            transform.position = viewPoints[viewIndex].position;
-            //print(transform.position);
-            transform.rotation = viewPoints[viewIndex].rotation;
-            //print(transform.rotation);
-        }
-
     }
 }
