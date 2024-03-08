@@ -959,7 +959,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1043562113987470177, guid: be62d0a4098d24e48b2c840866045748, type: 3}
         m_TargetAssemblyTypeName: EnvironmentController, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 5

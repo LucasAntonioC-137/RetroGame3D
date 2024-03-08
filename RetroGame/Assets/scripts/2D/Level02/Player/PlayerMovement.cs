@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public enum PlayerState{
+public enum PlayerState
+{
     walk,
     attack,
     interact
@@ -13,28 +14,28 @@ public enum PlayerState{
 public class PlayerMovement : MonoBehaviour
 {
 
-    [SerializeField]
-    private int mechanismCount;
+    [SerializeField] private int mechanismCount;
+    [SerializeField] private GameObject bossPath;//abertura da passagem pra sala do chefe
 
     public PlayerState currentState;
 
     public float speed;
-    public float grabbingDistance;
-    GameObject Block;
     public Rigidbody2D rbody;
     private Vector3 change;
     private Animator animator;
 
-    void Start() {
+    void Start()
+    {
         Application.targetFrameRate = 60;
         currentState = PlayerState.walk;
         animator = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update(){
+    void Update()
+    {
 
-        if(Input.GetButtonDown("attack") && currentState != PlayerState.attack)
+        if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
         {
             StartCoroutine(AttackCo());
         }
@@ -46,8 +47,8 @@ public class PlayerMovement : MonoBehaviour
         change = Vector3.zero;
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
-      
-        if(currentState == PlayerState.walk)
+
+        if (currentState == PlayerState.walk)
         {
             UpddateAnimationAndMove();
         }
@@ -62,25 +63,28 @@ public class PlayerMovement : MonoBehaviour
         rbody.velocity = Vector2.zero;
         yield return new WaitForSeconds(.33f);
         currentState = PlayerState.walk;
+
     }
 
-    void UpddateAnimationAndMove(){
-        if(change != Vector3.zero)
+    void UpddateAnimationAndMove()
+    {
+        if (change != Vector3.zero)
         {
             MoveCharacter();
             animator.SetFloat("Horizontal", change.x);
             animator.SetFloat("Vertical", change.y);
             animator.SetBool("moving", true);
-        }else{
+        }
+        else
+        {
             animator.SetBool("moving", false);
         }
     }
-    
 
-    void MoveCharacter(){
-        // rbody.MovePosition(
-        //     transform.position + change * speed * Time.deltaTime
-        // );
+
+    void MoveCharacter()
+    {
+
         Vector2 currentPos = rbody.position;
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -92,33 +96,17 @@ public class PlayerMovement : MonoBehaviour
         rbody.MovePosition(newPos);
     }
 
-    public void MechanismActivation(){
+    public void MechanismActivation()
+    {
         mechanismCount += 1;
-        Debug.Log("Mechanism count: "+ mechanismCount);
+        Debug.Log("Mechanism count: " + mechanismCount);
+
+        if(mechanismCount >= 6)
+        {
+            bossPath.SetActive(false);
+            //dar play na cutscene aqui de alguma forma
+        }
     }
-
-    // void objectPick()
-    // {
-    //     Vector2 currentPos = rbody.position;
-    //     float horizontalInput = Input.GetAxis("Horizontal");
-    //     float verticalInput = Input.GetAxis("Vertical");
-    //     Vector2 inputVector = new Vector2(horizontalInput, verticalInput);
-    //     inputVector = Vector2.ClampMagnitude(inputVector, 1);
-    //     Vector2 movement = inputVector * speed;
-    //     Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
-
-    //     RaycastHit2D hit = Physics2D.Raycast (transform.position, newPos, grabbingDistance);
-    //     if (hit.collider != null && hit.collider.gameObject.tag == "Pushable" && Input.GetKey(KeyCode.I))
-    //     {
-    //         Block = hit.collider.gameObject;
-
-    //         Block.GetComponent<FixedJoint2D>().enabled = true;
-    //         Block.GetComponent<FixedJoint2D>().connectedBody=this.GetComponent<Rigidbody2D> ();
-    //     } else if (Input.GetKeyUp(KeyCode.I)) {
-    //         Block.GetComponent<FixedJoint2D>().enabled = false;
-    //     }
-
-    // }
 
     // void OnDrawGizmos() 
     // {

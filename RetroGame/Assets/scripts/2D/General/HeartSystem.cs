@@ -9,16 +9,25 @@ public class HeartSystem : MonoBehaviour
     public int life;
     public int maxLife;
 
+    [SerializeField] private BoxCollider2D bodyCol;
+    [SerializeField] private CircleCollider2D lowBodyCol;
+    [SerializeField] private SpriteRenderer playerSprite;
+    [SerializeField] private Rigidbody2D rbody;
+
     public GameObject extraLife;
     // public GameObject collected;
     public Image[] heart;
     public Sprite full;
     public Sprite hollow;
+    public bool haveKey = false;
+
     [SerializeField] private float seconds;
 
     void Start()
     {
         extraLife = GameObject.Find("Extra Life");
+
+        playerSprite = GetComponentInParent<SpriteRenderer>();
     }
 
     void Update()
@@ -67,13 +76,18 @@ public class HeartSystem : MonoBehaviour
         if(collision.gameObject.tag == "Enemy"){
             life -= 1;
             Debug.Log(life);
+            bodyCol.enabled = false;//DESATIVEI A COLISÃO DO PLAYER AQUI
+            lowBodyCol.enabled = false;//DESATIVEI A COLISÃO DO PLAYER AQUI
+
+            StartCoroutine(DamagePlayer());
         }
 
         if(life <=0 ){
             // animaçao
             // AudioController.current.PlayMusic(AudioController.current.deathSFX);
             gameObject.SetActive(false);
-            EnvironmentController.instance.ShowGameOver();
+            EnvironmentController.instance.ShowGameOver(); //ainda não temos environmentController nessa cena!
+            //EnvironmentController.instance.RestartGame("Level_02_BossFight");
         }
 
         if(collision.gameObject.tag == "Life" && life < maxLife)
@@ -85,18 +99,39 @@ public class HeartSystem : MonoBehaviour
             
         }
 
-        if(collision.gameObject.tag == "Key")// && buffCollected != null)
+        if(collision.gameObject.tag == "Key" || MainManager.Instance.keyFound == true)// && buffCollected != null)
         {
+            MainManager.Instance.keyFound = true;
+            //haveKey = true;
             //fazer player regenerar 1 coração a cada 5 segundos
-            Destroy(collision.gameObject);
-            InvokeRepeating("LifeRegen", 20f, 5f);
+            if(collision.gameObject.tag == "Key") { Destroy(collision.gameObject); }
+            
+            InvokeRepeating("LifeRegen", 10f, 7f);
         }
         
     }  
     void LifeRegen(){
-        if(life < maxLife)
+        if(life < maxLife && MainManager.Instance.keyFound)//&& haveKey)
         {
             life += 1;
         }
+    }
+
+    public IEnumerator DamagePlayer()
+    {
+        playerSprite.color = new Color(1f, 0, 0, 1f);
+        yield return new WaitForSeconds(0.2f);
+        playerSprite.color = new Color(1f, 1f, 1f, 1f);
+
+        for (int i = 0; i < 7; i++) 
+        {
+            playerSprite.enabled = false;
+            yield return new WaitForSeconds(0.15f);
+            playerSprite.enabled = true;
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        bodyCol.enabled = true;
+        lowBodyCol.enabled = true;
     }
 }
