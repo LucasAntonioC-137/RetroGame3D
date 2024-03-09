@@ -28,25 +28,30 @@ namespace Level3
         private Vector3 wantedPosition;
         private Coroutine moveCoroutine;
         private Vector3 currentPosition;
-
+        private bool isPlayerStopped;
 
         void Update()
         {
             wantedPosition = target.TransformPoint(0, height, -distance);
             currentPosition = transform.position;
+            
 
             if (target.position != lastPlayerPosition)
             {
                 lastPlayerPosition = target.position;
                 timeSinceLastMove = 0;
+                isPlayerStopped = false;
             }
             else
             {
                 timeSinceLastMove += Time.deltaTime;
+                if(timeSinceLastMove > 2.0f)
+                    isPlayerStopped= true;
             }
             ManualControl();
-            if (Time.time > lastArrowKeyDownTime + 1.0f)
+            if (Time.time > lastArrowKeyDownTime + 1.0f && !isPlayerStopped)
             {
+                StopAllCoroutines();
                 AutoControl();
             }
         }
@@ -58,7 +63,7 @@ namespace Level3
             {
                 currentPosition = Vector3.Lerp(currentPosition, wantedPosition, Time.deltaTime * damping);
                 lastTargetPosition = target.position;
-                timeToMove = Time.time + 0.5f; // Adicione um atraso para a câmera começar a se mover
+                timeToMove = Time.time + 0.1f; // Adicione um atraso para a câmera começar a se mover
             }
 
             if (Time.time > timeToMove)
@@ -94,6 +99,32 @@ namespace Level3
                 }
                 else transform.LookAt(target, target.up);
             }
+            if (target.position.y >= transform.position.y)
+            {
+                // Keep the current horizontal position, but update the vertical position to be higher than the character
+                // Use a different damping value for faster vertical movement
+                float verticalDamping = damping * 3; // Adjust this value as needed
+                float newY = Mathf.Lerp(currentPosition.y, target.position.y + height, Time.deltaTime * verticalDamping);
+                currentPosition = new Vector3(currentPosition.x, newY, currentPosition.z);
+                // Look at the target again
+                if (smoothRotation)
+                {
+                    Quaternion wantedRotation = Quaternion.LookRotation(target.position - transform.position, target.up);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime * rotationDamping);
+                }
+                else transform.LookAt(target, target.up);
+            }
+                CheckCameraCollision();
+        }
+
+        private void CheckCameraCollision()
+        {
+            RaycastHit hit;
+            if (Physics.Linecast(target.position, transform.position, out hit))
+            {
+                // If the linecast hits something, set the camera's position to the hit point
+                transform.position = hit.point;
+            }
         }
 
         void ManualControl()
@@ -108,6 +139,7 @@ namespace Level3
                 }
                 StartMoveToPosition(prePositions[currentPositionIndex].position, prePositions[currentPositionIndex].rotation);
                 lastArrowKeyDownTime = Time.time;
+                CheckCameraCollision();
             }
             else if (Input.GetKeyDown(KeyCode.P))
             {
@@ -119,6 +151,7 @@ namespace Level3
                 }
                 StartMoveToPosition(prePositions[currentPositionIndex].position, prePositions[currentPositionIndex].rotation);
                 lastArrowKeyDownTime = Time.time;
+                CheckCameraCollision();
             }
         }
 

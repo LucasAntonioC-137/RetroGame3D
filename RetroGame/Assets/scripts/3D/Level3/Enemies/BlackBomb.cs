@@ -37,6 +37,16 @@ namespace Level3
 
         void Start()
         {
+            // Find the player object with the "Player" tag
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                target = player;
+            }
+            else
+            {
+                Debug.LogError("Player object with tag 'Player' not found!");
+            }
             agent = GetComponent<NavMeshAgent>();
             anim = GetComponent<Animator>();
             playerIsDead = target.GetComponent<PlayerControl>().isDead;
@@ -65,7 +75,13 @@ namespace Level3
                 {
                     currentPathIndex++;
                     currentPathIndex %= pathPoints.Count;
+                    // Check if it's the last path point AND the enemy is within a tolerance (optional)
+                    if (currentPathIndex == 0 && distance <= 4f && pathPoints.Count > 8) // Adjust tolerance as needed
+                    {
+                        Explode();
+                    }
                 }
+
             }
         }
 
@@ -143,9 +159,6 @@ namespace Level3
                 {
                     // Causa dano em uma área esférica ao redor do inimigo
                     Explode();
-
-                    // Destroi o inimigo
-                    Destroy(gameObject);
                 }
                 else if(playerIsDead)
                 {
@@ -193,8 +206,9 @@ namespace Level3
                     // Causa dano ao jogador
                     Vector3 damageDirection = player.transform.position - transform.position;
                     player.GetDamage(damage, damageDirection);
-                    isDead = true;
                 }
+                isDead = true;
+                Destroy(gameObject);
             }
         }
     }
