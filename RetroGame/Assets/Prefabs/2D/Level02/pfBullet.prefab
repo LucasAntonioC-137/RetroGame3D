@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1635244014398221479}
   - component: {fileID: 8245179551591098342}
   - component: {fileID: 1379109408050163044}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 1394968375954474606}
   - component: {fileID: 8882092377022734076}
   - component: {fileID: -8646496434141882144}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pfBullet
   m_TagString: PlayerBullets
   m_Icon: {fileID: 0}
