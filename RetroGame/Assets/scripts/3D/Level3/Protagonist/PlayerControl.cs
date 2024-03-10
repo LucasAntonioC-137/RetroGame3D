@@ -78,7 +78,7 @@ namespace Level3
             // Calcula a direção final com 45 graus de inclinação no eixo Y
             Vector3 finalKnockbackDirection = Quaternion.Euler(0, 90, 0) * oppositeDirection;
             // Aplica a força do knockback
-            Rigidbody rb = GetComponent<Rigidbody>();
+            /*Rigidbody rb = GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.isKinematic = false;
@@ -86,7 +86,7 @@ namespace Level3
                 rb.AddForce(finalKnockbackDirection * knockbackStrength, ForceMode.Impulse);
                 print("KockBack");
                 StartCoroutine(SetRigidbodyKinematicAfterDelay(rb, 0.2f)); // 1.0f é o atraso em segundos
-            }
+            }*/
         }
         IEnumerator SetRigidbodyKinematicAfterDelay(Rigidbody rb, float delay)
         {

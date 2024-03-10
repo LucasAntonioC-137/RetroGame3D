@@ -51,9 +51,8 @@ namespace Level3
         {
             // Wait for the respawn delay with a slight buffer
             yield return new WaitForSeconds(respawnDelay - 0.1f);
-            Debug.Log("Respawn2");
             // Ensure the enemy is still dead before spawning
-            if (spawnedEnemy == null || spawnedEnemy.GetComponent<Goomba>().die)
+            if (spawnedEnemy == null || spawnedEnemy.GetComponent<BlackBomb>().isDead)
             {
                 SpawnEnemy();
             }
@@ -61,7 +60,6 @@ namespace Level3
 
         public void SpawnEnemy()  // Function to spawn an enemy
         {
-            Debug.Log("Second spawn");
             GameObject enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
             BlackBomb enemyScript = enemy.GetComponent<BlackBomb>();  // Get Goomba script
 

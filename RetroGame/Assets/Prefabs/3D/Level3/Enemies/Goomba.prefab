@@ -129,6 +129,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   currentPathIndex: 0
+  die: 0
 --- !u!95 &7007079824600006263
 Animator:
   serializedVersion: 5
@@ -170,8 +171,8 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 17
   m_BaseOffset: 8
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_WalkableMask: 7
+  m_ObstacleAvoidanceType: 0
 --- !u!54 &4964582555002406442
 Rigidbody:
   m_ObjectHideFlags: 0

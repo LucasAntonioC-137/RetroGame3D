@@ -10,6 +10,9 @@ namespace Level3
     public class Boo : MonoBehaviour
     {
         [Header("Status")]
+        public float life = 6;
+
+        [Header("Status")]
         public float speed = 4.0f;
         public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;
@@ -27,9 +30,21 @@ namespace Level3
         private NavMeshAgent agent;
         private bool playerIsDead;
 
+        [Header("Floating")]
+        public float floatingSpeed = 1f; // Adjust speed as needed
+        public float floatingAmplitude = 0.5f; // Adjust floating height variation
+        public float floatingFrequency = 2f; // Adjust floating movement frequency
+
+        private float timeOffset = 0f;
+
         // Start is called before the first frame update
         void Start()
         {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                target = player;
+            }
             agent = GetComponent<NavMeshAgent>();
             playerIsDead = target.GetComponent<PlayerControl>().isDead;
             canSeePlayer = gameObject.GetComponent<FieldOfView>().canSeePlayer;
@@ -53,6 +68,21 @@ namespace Level3
         void Update()
         {
             Walk();
+            //Floating();
+        }
+
+        void Floating()
+        {
+            // Calculate floating position offset
+            float floatOffset = Mathf.Sin(Time.time * floatingFrequency + timeOffset) * floatingAmplitude;
+
+            // Apply floating offset to transform position
+            transform.position = new Vector3(transform.position.x, transform.position.y + floatOffset, transform.position.z);
+        }
+
+        public void GetHit()
+        {
+
         }
 
         void LookTarget()

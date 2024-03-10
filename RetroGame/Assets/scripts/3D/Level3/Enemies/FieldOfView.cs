@@ -17,12 +17,14 @@ namespace Level3
         public LayerMask obstructionMask;
 
         public bool canSeePlayer;
+        public bool start;
 
         // Start is called before the first frame update
         void Start()
         {
             playerRef = GameObject.FindGameObjectWithTag("Player");
             StartCoroutine(FOVRoutine());
+            Debug.Log("Começo");
         }
 
         private IEnumerator FOVRoutine()
@@ -32,6 +34,7 @@ namespace Level3
 
             while (true)
             {
+                Debug.Log("Corroutine");
                 yield return wait;
                 FieldOfViewCheck();
             }
@@ -40,18 +43,21 @@ namespace Level3
         private void FieldOfViewCheck()
         {
             Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
+            Debug.Log("VIEW");
             if (rangeChecks.Length != 0)
             {
                 Transform target = rangeChecks[0].transform;
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
-
+                Debug.Log("Checks");
                 if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
                 {
                     float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
+                    Debug.Log("Angle");
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                    {
                         canSeePlayer = true;
+                        Debug.Log("Vi player");
+                    }
                     else
                         canSeePlayer = false;
 
@@ -66,7 +72,8 @@ namespace Level3
         // Update is called once per frame
         void Update()
         {
-
+            if(!start)
+                StartCoroutine(FOVRoutine()); start = true;
         }
     } 
 }

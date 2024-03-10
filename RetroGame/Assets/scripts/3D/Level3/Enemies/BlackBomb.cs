@@ -182,8 +182,8 @@ namespace Level3
                 print("PEGARO");
             }else if (thrown && captured)
             {
-                captured= false;
-                chaseTime = 4;
+                //captured= false;
+                chaseTime = 1;
                 print("JOGARO");
             }
         }
@@ -200,12 +200,17 @@ namespace Level3
             {
                 // Verifica se o objeto é o jogador
                 PlayerControl player = col.gameObject.GetComponent<PlayerControl>();
-                
+                Boo bossBoo = col.gameObject.gameObject.GetComponent<Boo>();
                 if (player != null)
                 {
                     // Causa dano ao jogador
                     Vector3 damageDirection = player.transform.position - transform.position;
                     player.GetDamage(damage, damageDirection);
+                }
+                else if(bossBoo != null)
+                {
+                    bossBoo.GetHit();
+                
                 }
                 isDead = true;
                 Destroy(gameObject);
