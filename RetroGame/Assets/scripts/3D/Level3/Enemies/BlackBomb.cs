@@ -182,8 +182,8 @@ namespace Level3
                 print("PEGARO");
             }else if (thrown && captured)
             {
-                //captured= false;
-                chaseTime = 1;
+                captured= false;
+                chaseTime = 4f;
                 print("JOGARO");
             }
         }
@@ -210,7 +210,6 @@ namespace Level3
                 else if(bossBoo != null)
                 {
                     bossBoo.GetHit();
-                
                 }
                 isDead = true;
                 Destroy(gameObject);

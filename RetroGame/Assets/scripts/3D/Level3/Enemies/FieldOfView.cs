@@ -34,7 +34,6 @@ namespace Level3
 
             while (true)
             {
-                Debug.Log("Corroutine");
                 yield return wait;
                 FieldOfViewCheck();
             }
@@ -43,20 +42,19 @@ namespace Level3
         private void FieldOfViewCheck()
         {
             Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-            Debug.Log("VIEW");
             if (rangeChecks.Length != 0)
             {
                 Transform target = rangeChecks[0].transform;
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
-                Debug.Log("Checks");
+                //Debug.Log("Checks");
                 if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
                 {
                     float distanceToTarget = Vector3.Distance(transform.position, target.position);
-                    Debug.Log("Angle");
+                    //Debug.Log("Angle");
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
                         canSeePlayer = true;
-                        Debug.Log("Vi player");
+                        //print("Vi player");
                     }
                     else
                         canSeePlayer = false;
