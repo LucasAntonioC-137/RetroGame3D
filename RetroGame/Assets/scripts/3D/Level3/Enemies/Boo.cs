@@ -41,8 +41,8 @@ namespace Level3
         public float tempoParadoAtual = 0.0f; // Tempo que o inimigo está parado (em segundos)
         private Vector3 posicaoAnterior; // Posição anterior do inimigo
         private bool isDead = false;
-
-        public bool kill = false;
+        public float knockbackForce = 3f;
+        public float knockbackDuration = 0.5f;
         // Start is called before the first frame update
         void Start()
         {
@@ -78,9 +78,6 @@ namespace Level3
                 Walk();
                 Floating();
             }
-            if (kill)
-                GetHit(); kill = false;
-            
         }
 
         void Stoped()
@@ -114,19 +111,33 @@ namespace Level3
             transform.position = new Vector3(transform.position.x, transform.position.y + floatOffset, transform.position.z);
         }
 
-        public void GetHit()
+        public void GetHit(Vector3 hitDirection)
         {
             life--;
             print("DANO");
-            if(life <= 0)
+
+            // Apply knockback force (adjust force and duration as needed)
+            GetComponent<Rigidbody>().AddForce(hitDirection * knockbackForce, ForceMode.Impulse);
+            StartCoroutine(KnockbackDuration(hitDirection)); // Start a coroutine to disable knockback after a short time
+            if (life <= 0)
             {
-                StartCoroutine(AlphaDie());
                 isDead = true;
+                agent.isStopped = true;
+                StartCoroutine(AlphaDie());
             }
         }
         void Die()
         {
             Destroy(gameObject);
+        }
+        IEnumerator KnockbackDuration(Vector3 hitDirection)
+        {
+            GetComponent<Rigidbody>().isKinematic = false; // Disable kinematic for knockback
+                                                           // Apply knockback force here (assuming damageDirection is calculated correctly)
+            GetComponent<Rigidbody>().AddForce(hitDirection * knockbackForce, ForceMode.Impulse);
+            yield return new WaitForSeconds(knockbackDuration);
+
+            GetComponent<Rigidbody>().isKinematic = true; // Re-enable kinematic
         }
 
         IEnumerator AlphaDie()
@@ -188,6 +199,7 @@ namespace Level3
                             color.a = 0.5f;  // Altere este valor para ajustar a transparência
                             material.color = color;
                         }
+                        GetComponent<CapsuleCollider>().enabled= false;
                     }
                     else
                     {
@@ -202,6 +214,7 @@ namespace Level3
                             color.a = 1f;
                             material.color = color;
                         }
+                        GetComponent<CapsuleCollider>().enabled = true;
                     }
                 }
                 else

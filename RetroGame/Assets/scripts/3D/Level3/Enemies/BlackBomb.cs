@@ -9,7 +9,7 @@ namespace Level3
     public class BlackBomb : MonoBehaviour
     {
         [Header("Status")]
-        public float damage = 40;
+        public float damage = 2;
         public float speed = 4.0f;
         public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;
@@ -176,7 +176,7 @@ namespace Level3
             {
                 chaseTime = 0;
                 readyToThrow= true;
-                agent.isStopped= true;
+                //agent.isStopped= true;
                 startCountdown = true;
                 anim.SetInteger("transition", 0);
                 print("PEGARO");
@@ -198,6 +198,11 @@ namespace Level3
 
             foreach (Collider col in objectsInRange)
             {
+                // Check for enemies more efficiently
+                if (col.CompareTag("Enemy"))
+                {
+                    Destroy(col.gameObject);
+                }
                 // Verifica se o objeto é o jogador
                 PlayerControl player = col.gameObject.GetComponent<PlayerControl>();
                 Boo bossBoo = col.gameObject.gameObject.GetComponent<Boo>();
@@ -209,11 +214,12 @@ namespace Level3
                 }
                 else if(bossBoo != null)
                 {
-                    bossBoo.GetHit();
+                    Vector3 damageDirection = col.transform.position - transform.position;
+                    bossBoo.GetHit(damageDirection);
                 }
-                isDead = true;
-                Destroy(gameObject);
             }
+            isDead = true;
+            Destroy(gameObject);
         }
     }
 }

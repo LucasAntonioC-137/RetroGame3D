@@ -16,6 +16,7 @@ TagManager:
   - Pushable
   - Activated
   - Catchable
+  - Boss
   layers:
   - Default
   - TransparentFX
