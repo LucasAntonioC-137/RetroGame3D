@@ -46,6 +46,13 @@ namespace Level3
         public float slopeLimit = 45f; // Ângulo máximo de inclinação que o personagem pode subir
         public float slideSpeed = 10f; // Velocidade de deslizamento
         private Vector3 normal;
+
+        private float fallDistance = 0f;
+        public float fallLimit = 0f;
+        public bool isFall = false;
+        private float previousYPosition;
+        private float currentYPosition;
+        
         // Start is called before the first frame 
 
 
@@ -62,10 +69,12 @@ namespace Level3
         // Update is called once per frame
         void Update()
         {
+
             if (!isDead && !knockBack)
             {
                 characterController.transform.position = characterController.transform.position;
                 ApplyGravity();
+                FallDamage();
                 Jump();
                 Move();
                 Take_Object();
@@ -131,8 +140,10 @@ namespace Level3
                 PlayerDie();
             }
             knockBack = true;
-            if (!isDead)
+            if (!isDead && !isFall)
                 StartCoroutine(Knockback(0.5f, damageDirection));
+            else if(isFall)
+                anim.SetTrigger("Fall"); isFall = false; fallDistance = 0f;
         }
         public IEnumerator Knockback(float duration, Vector3 hitDirection)
         {
@@ -146,6 +157,31 @@ namespace Level3
             knockBack = false;
         }
 
+        void FallDamage()
+        {
+            if (characterController.isGrounded)
+            {
+                previousYPosition = currentYPosition;
+            }
+            if (fallDistance > fallLimit && characterController.isGrounded)
+            {
+                //float damage = Mathf.Clamp(fallDistance - fallLimit, 0f, Mathf.Infinity);
+                isFall = true;
+                print("QUEDA");
+                GetDamage(2, Vector3.up); // Apply damage based on fall distance
+                knockBack = false;
+            }
+            if (!characterController.isGrounded && Vector3.Angle(normal, Vector3.up) < slopeLimit)
+            {
+                currentYPosition = transform.position.y;
+                fallDistance = previousYPosition - currentYPosition;
+                print(fallDistance);
+            }
+            else
+            {
+                fallDistance = 0f;  // Reset fall distance on ground
+            }
+        }
 
         void PlayerDie()
         {
