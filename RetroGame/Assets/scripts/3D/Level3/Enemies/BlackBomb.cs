@@ -218,13 +218,12 @@ namespace Level3
                     Vector3 damageDirection = col.transform.position - transform.position;
                     bossBoo.GetHit(damageDirection);
                 }
-                if (thrown)
-                {
-                    player.playerScore += score;
-                }
             }
             isDead = true;
-
+            if (thrown)
+            {
+                target.GetComponent<PlayerControl>().playerScore += score;
+            }
             Destroy(gameObject);
         }
     }

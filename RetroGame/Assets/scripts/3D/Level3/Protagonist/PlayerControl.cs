@@ -64,6 +64,8 @@ namespace Level3
             jumpCount= 0;
             originalSpeed = speed;
             originalRotation = rotationSpeed;
+            playerScore= 0;
+            withObject= false;
         }   
 
         // Update is called once per frame

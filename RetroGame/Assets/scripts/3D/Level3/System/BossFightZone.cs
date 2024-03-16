@@ -13,7 +13,7 @@ namespace Level3
         [SerializeField] private float triggerRadius = 5f; // Radius of the trigger collider
         private Collider[] enemyColliders;
         public Transform[] pathPoints;  // Array of path points for enemy to follow
-        private bool isPlayerInside = false; // Flag to track player presence
+        public bool isPlayerInside = false; // Flag to track player presence
         private bool needRestart = false;
         private void Start()
         {

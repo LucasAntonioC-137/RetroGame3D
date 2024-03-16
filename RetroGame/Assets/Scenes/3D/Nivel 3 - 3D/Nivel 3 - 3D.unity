@@ -1154,7 +1154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7685c5bb2c490c4a979e6ea6c961743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1456703200}
   healthSprites:
   - {fileID: 21300000, guid: f923f83d244de30499d09c9d1693e08c, type: 3}
   - {fileID: 21300000, guid: 379c250f343b8ad4a90108d5d6ab76c8, type: 3}
@@ -1174,7 +1173,7 @@ MonoBehaviour:
   - {fileID: -130851842, guid: 3150751a279e6a24c972404505d126c1, type: 3}
   bossUI: {fileID: 1555535973}
   bossVision: {fileID: 1469118004}
-  bombOn: {fileID: 0}
+  bombOn: {fileID: 114563795}
   cameraStatsSprites:
   - {fileID: 21300000, guid: 43c8f25cbabef944596bf30e6c0ec412, type: 3}
   - {fileID: 21300000, guid: c0c1e27a969979d4b925755e322f7ac1, type: 3}
@@ -1691,7 +1690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5436228624328814160, guid: c40c8710b8b2dcb4ea4d6e83718b9c15, type: 3}
       propertyPath: life
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5436228624328814160, guid: c40c8710b8b2dcb4ea4d6e83718b9c15, type: 3}
       propertyPath: knockbackForce
@@ -2398,6 +2397,7 @@ MonoBehaviour:
   - {fileID: 6273686140016477881}
   - {fileID: 5182404440824914829}
   - {fileID: 7957738301600056321}
+  isPlayerInside: 0
 --- !u!4 &960220499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1133345893279919515, guid: 12bb705b5d877d64686a6e275d7d4444, type: 3}
@@ -3912,7 +3912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1555535972
 RectTransform:
   m_ObjectHideFlags: 0

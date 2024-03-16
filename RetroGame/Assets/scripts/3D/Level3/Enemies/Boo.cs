@@ -12,8 +12,6 @@ namespace Level3
         [Header("Status")]
         public float life = 6;
         public float score = 300;
-
-        [Header("Status")]
         public float speed = 4.0f;
         public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;

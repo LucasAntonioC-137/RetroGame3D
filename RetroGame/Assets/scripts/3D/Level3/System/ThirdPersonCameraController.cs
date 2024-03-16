@@ -8,6 +8,7 @@ namespace Level3
 {
     public class ThirdPersonCameraController : MonoBehaviour
     {
+        public bool camMode = true;
         public Transform[] prePositions;
         private int currentPositionIndex = 0;
         public Transform target;
@@ -58,6 +59,7 @@ namespace Level3
 
         private void AutoControl()
         {
+            camMode = true;
             // Verifique se o personagem se moveu para fora da "zona morta"
             if (Vector3.Distance(lastTargetPosition, target.position) > deadZone)
             {
@@ -131,7 +133,7 @@ namespace Level3
         {
             if (Input.GetKeyDown(KeyCode.I))
             {
-                print("Pra esquerda");
+                camMode = false;
                 currentPositionIndex--;
                 if (currentPositionIndex < 0)
                 {
@@ -143,7 +145,7 @@ namespace Level3
             }
             else if (Input.GetKeyDown(KeyCode.P))
             {
-                print("Pra direita");
+                camMode = false;
                 currentPositionIndex++;
                 if (currentPositionIndex >= prePositions.Length)
                 {
@@ -152,6 +154,13 @@ namespace Level3
                 StartMoveToPosition(prePositions[currentPositionIndex].position, prePositions[currentPositionIndex].rotation);
                 lastArrowKeyDownTime = Time.time;
                 CheckCameraCollision();
+            }
+            // Verifique se o personagem se moveu para fora da "zona morta"
+            if (Vector3.Distance(lastTargetPosition, target.position) > deadZone)
+            {
+                currentPosition = Vector3.Lerp(currentPosition, wantedPosition, Time.deltaTime * damping);
+                lastTargetPosition = target.position;
+                timeToMove = Time.time + 0.1f; // Adicione um atraso para a câmera começar a se mover
             }
         }
 
