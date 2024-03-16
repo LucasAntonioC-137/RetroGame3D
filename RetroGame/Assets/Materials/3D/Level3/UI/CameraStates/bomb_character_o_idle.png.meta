@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4b004300be7e56d448c9be9f1a0f5d8d
+guid: ec62d8f7ff2ce8c43bf9186707c627a3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: bomb_character_o_idle_0
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 13
+        width: 22
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 041f7e6c40e26554a9e2188f882dcb10
+      internalID: -1721647970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb_character_o_idle_1
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 13
+        width: 22
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 401b2f6981320dd418808256f1b41dd9
+      internalID: -731518458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +161,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bomb_character_o_idle_0: -1721647970
+      bomb_character_o_idle_1: -731518458
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

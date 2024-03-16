@@ -17,7 +17,7 @@ namespace Level3
         private float timeSinceJump;
 
         public Transform playerHand;
-
+        public float playerScore;
         public bool isDead = false;
         public float playerHealth = 100;
         public float speed = 2f;

@@ -11,6 +11,7 @@ namespace Level3
     {
         [Header("Status")]
         public float life = 6;
+        public float score = 300;
 
         [Header("Status")]
         public float speed = 4.0f;
@@ -128,6 +129,7 @@ namespace Level3
         }
         void Die()
         {
+            target.GetComponent<PlayerControl>().playerScore += score;
             Destroy(gameObject);
         }
         IEnumerator KnockbackDuration(Vector3 hitDirection)

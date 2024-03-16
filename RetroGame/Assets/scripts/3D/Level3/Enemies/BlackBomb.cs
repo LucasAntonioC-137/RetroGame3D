@@ -14,6 +14,7 @@ namespace Level3
         public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;
         public bool isDead = false;
+        public float score = 20;
 
         [Header("Agro")]
         public GameObject target;
@@ -217,8 +218,13 @@ namespace Level3
                     Vector3 damageDirection = col.transform.position - transform.position;
                     bossBoo.GetHit(damageDirection);
                 }
+                if (thrown)
+                {
+                    player.playerScore += score;
+                }
             }
             isDead = true;
+
             Destroy(gameObject);
         }
     }

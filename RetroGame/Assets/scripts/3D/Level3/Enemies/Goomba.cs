@@ -13,6 +13,7 @@ namespace Level3
         public float speed = 4.0f;
         public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;
+        public float score = 10;
 
         [Header("Agro")]
         public GameObject target;
@@ -171,7 +172,7 @@ namespace Level3
                         currentScale.y = 0.01f;
                         gameObject.transform.localScale = currentScale;
                         player.GetComponent<PlayerControl>().AddHealth();
-
+                        player.playerScore += score;
                         Die();
                     }
                     else if(cowndown <= 0)
