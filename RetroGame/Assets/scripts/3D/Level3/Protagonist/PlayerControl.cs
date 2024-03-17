@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.XR;
 
 namespace Level3
 {
@@ -13,14 +17,17 @@ namespace Level3
         private float timeSinceJump;
 
         public Transform playerHand;
-
+        public float playerScore;
         public bool isDead = false;
         public float playerHealth = 100;
         public float speed = 2f;
         public float gravityValue = -9.81f;
+        private float _velocity;
+        private Vector3 _direction;
         public float rotationSpeed;
         private int jumpCount = 0;
         public bool isJumping;
+        public bool isWalking = true;
         public bool withObject;
         public float verticalSpeed;
         public float magnitud;
@@ -28,10 +35,26 @@ namespace Level3
         public float jumpForce = 10f; // A força máxima do salto
         public float maxTimeBetweenJumps = 2;
         public float doubleJumpForce = 15;
-        public float knockbackStrength;
+        public float knockbackStrength = 10;
+        public bool knockBack = false;
         private BlackBomb bomb;
+        private float originalSpeed;
+        private float originalRotation;
 
+
+        private Vector3 slideDirection;
+        public float slopeLimit = 45f; // Ângulo máximo de inclinação que o personagem pode subir
+        public float slideSpeed = 10f; // Velocidade de deslizamento
+        private Vector3 normal;
+
+        private float fallDistance = 0f;
+        public float fallLimit = 0f;
+        public bool isFall = false;
+        private float previousYPosition;
+        private float currentYPosition;
+        
         // Start is called before the first frame 
+
 
         void Start()
         {
@@ -39,18 +62,44 @@ namespace Level3
             anim = GetComponent<Animator>();
             anim.SetInteger("transition", 0);
             jumpCount= 0;
-        }
+            originalSpeed = speed;
+            originalRotation = rotationSpeed;
+            playerScore= 0;
+            withObject= false;
+        }   
 
         // Update is called once per frame
         void Update()
         {
-            if (!isDead)
+
+            if (!isDead && !knockBack)
             {
                 characterController.transform.position = characterController.transform.position;
+                ApplyGravity();
+                FallDamage();
+                Jump();
                 Move();
                 Take_Object();
             }
-            else
+            if (characterController.isGrounded)
+            {
+                // Calcula a inclinação do terreno
+
+                float angle = Vector3.Angle(normal, Vector3.up);
+
+                // Se a inclinação for maior que o limite, aplica o deslizamento
+                if (angle > slopeLimit)
+                {
+                    slideDirection = Vector3.ProjectOnPlane(normal, -Vector3.up);
+                    slideDirection *= slideSpeed;
+
+                    // Aplica a gravidade ao deslizamento
+                    slideDirection.y += gravityValue * Time.deltaTime;
+
+                    characterController.Move(slideDirection * Time.deltaTime);
+                }
+            }
+            else if(isDead)
             {
                 characterController.enabled= false;
                 return;
@@ -62,9 +111,28 @@ namespace Level3
                     withObject = false;
                 }
             }
-
+            else
+            {
+                withObject= false;
+            }
+            
         }
 
+        public void AddHealth()
+        {
+            if(playerHealth < 6)
+            {
+                playerHealth++;
+            }
+        }
+
+        void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (hit.normal != Vector3.up) // Check if not colliding with top surface
+            {
+                normal = hit.normal; // Access the normal from the collision
+            }
+        }
 
         public void GetDamage(float damage, Vector3 damageDirection)
         {
@@ -73,26 +141,48 @@ namespace Level3
             {
                 PlayerDie();
             }
-            Vector3 knockbackDirection = new Vector3(damageDirection.x, 0, damageDirection.z).normalized;
-            Vector3 oppositeDirection = -knockbackDirection;
-            // Calcula a direção final com 45 graus de inclinação no eixo Y
-            Vector3 finalKnockbackDirection = Quaternion.Euler(0, 90, 0) * oppositeDirection;
-            // Aplica a força do knockback
-            Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                characterController.enabled= false;
-                rb.AddForce(finalKnockbackDirection * knockbackStrength, ForceMode.Impulse);
-                print("KockBack");
-                StartCoroutine(SetRigidbodyKinematicAfterDelay(rb, 0.2f)); // 1.0f é o atraso em segundos
-            }
+            knockBack = true;
+            if (!isDead && !isFall)
+                StartCoroutine(Knockback(0.5f, damageDirection));
+            else if(isFall)
+                anim.SetTrigger("Fall"); isFall = false; fallDistance = 0f;
         }
-        IEnumerator SetRigidbodyKinematicAfterDelay(Rigidbody rb, float delay)
+        public IEnumerator Knockback(float duration, Vector3 hitDirection)
         {
-            yield return new WaitForSeconds(delay);
-            characterController.enabled= true;
-            rb.isKinematic = true;
+            float elapsedTime = 0f;
+            while (elapsedTime < duration)
+            {
+                characterController.Move(hitDirection * knockbackStrength * Time.deltaTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            knockBack = false;
+        }
+
+        void FallDamage()
+        {
+            if (characterController.isGrounded)
+            {
+                previousYPosition = currentYPosition;
+            }
+            if (fallDistance > fallLimit && characterController.isGrounded)
+            {
+                //float damage = Mathf.Clamp(fallDistance - fallLimit, 0f, Mathf.Infinity);
+                isFall = true;
+                print("QUEDA");
+                GetDamage(2, Vector3.up); // Apply damage based on fall distance
+                knockBack = false;
+            }
+            if (!characterController.isGrounded && Vector3.Angle(normal, Vector3.up) < slopeLimit)
+            {
+                currentYPosition = transform.position.y;
+                fallDistance = previousYPosition - currentYPosition;
+                print(fallDistance);
+            }
+            else
+            {
+                fallDistance = 0f;  // Reset fall distance on ground
+            }
         }
 
         void PlayerDie()
@@ -105,64 +195,6 @@ namespace Level3
         {
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
-
-            // Aplica a gravidade
-            if (!characterController.isGrounded)
-            {
-                velocity.y += gravityValue * Time.deltaTime;
-            }
-            else if (velocity.y < 0)
-            {
-                // Se o personagem está no chão, garante que a velocidade vertical não seja negativa
-                velocity.y = 0;
-            }
-
-            // Check for jump input
-            if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !withObject)
-            {
-                if (jumpCount == 0)
-                {
-                    // Aplica a força do pulo
-                    velocity.y = jumpForce;
-                    isJumping = true;
-                    anim.SetInteger("transition", 2);
-                    jumpCount++;
-                    timeSinceJump = 0; // Reseta o tempo desde o último pulo
-                }
-                else if (jumpCount == 1 && timeSinceJump < maxTimeBetweenJumps)
-                {
-                    velocity.y = doubleJumpForce;
-                    isJumping = true;
-                    anim.SetInteger("transition", 3);
-                    jumpCount++;
-                }
-            }
-
-            if (timeSinceJump > maxTimeBetweenJumps && characterController.isGrounded)
-            {
-                jumpCount= 0;
-                timeSinceJump = 0;
-            }
-            if(jumpCount == 1)
-            {
-                timeSinceJump += Time.deltaTime;
-            }
-
-            // Check if the character has landed
-            if (characterController.isGrounded && isJumping)
-            {
-                anim.SetInteger("transition", 1);
-                isJumping = false;
-                if(jumpCount == 2)
-                {
-                    jumpCount = 0;
-                }
-            }
-            // Aplica a gravidade
-            velocity.y += gravityValue * Time.deltaTime;
-
-            // Adiciona a velocidade ao movimento do personagem
-            characterController.Move(velocity * Time.deltaTime);
 
             if (horizontalInput != 0 || verticalInput != 0)
             { 
@@ -177,10 +209,10 @@ namespace Level3
                 rightDirection.Normalize();
 
                 // Calculate the movement direction based on the input
-                Vector3 movementDirection = forwardDirection * verticalInput + rightDirection * horizontalInput;
+                Vector3 movementDirection = (forwardDirection * verticalInput) + (rightDirection * horizontalInput);
                 movementDirection.Normalize();
-
-                if (!isJumping)
+                isWalking = true;
+                if (!isJumping || IsGrounded())
                 {
                     if (!withObject)
                     {
@@ -208,12 +240,81 @@ namespace Level3
                 }
 
             }
-            else if (!isJumping)
+            else if (!isJumping && isWalking)
             {
                 if (!withObject)
                     anim.SetInteger("transition", 0);
                 else
                     anim.SetInteger("transition", 4);
+            }
+        }
+
+        void Jump()
+        {
+            if (!isJumping)
+            {
+                rotationSpeed = originalRotation;
+            }
+            if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !withObject)
+            {
+                if (jumpCount == 0)
+                {
+                    // Aplica a força do pulo
+                    _direction.y = jumpForce;
+                    isJumping = true;
+                    rotationSpeed = rotationSpeed / 2;
+                    characterController.Move(_direction * Time.deltaTime);
+                    anim.SetInteger("transition", 2);
+                    jumpCount++;
+                    timeSinceJump = 0; // Reseta o tempo desde o último pulo
+                }
+                else if (jumpCount == 1 && timeSinceJump < maxTimeBetweenJumps)
+                {
+                    _direction.y = doubleJumpForce;
+                    isJumping = true;
+                    rotationSpeed = rotationSpeed / 2;
+                    anim.SetInteger("transition", 3);
+                    jumpCount++;
+                }
+                isJumping = true;
+                isWalking = false;
+            }
+
+            if (timeSinceJump > maxTimeBetweenJumps && characterController.isGrounded)
+            {
+                jumpCount = 0;
+                timeSinceJump = 0;
+            }
+            if (jumpCount == 1)
+            {
+                timeSinceJump += Time.deltaTime;
+            }
+
+            // Check if the character has landed
+            if (characterController.isGrounded)
+            {
+                //anim.SetInteger("transition", 1);
+                isJumping = false;
+                if (jumpCount == 2)
+                {
+                    jumpCount = 0;
+                }
+            }
+            // Adiciona a velocidade ao movimento do personagem
+            characterController.Move(_direction * Time.deltaTime);
+        }
+
+        private bool IsGrounded() => characterController.isGrounded;
+
+        private void ApplyGravity()
+        {
+            if (IsGrounded())
+            {
+                _direction.y = -1.0f;
+            }
+            else
+            {
+                _direction.y += gravityValue * Time.deltaTime;
             }
         }
 

@@ -124,6 +124,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canSeePlayer: 0
+  start: 0
 --- !u!195 &5677221755877288916
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -144,7 +145,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 14
   m_ObstacleAvoidanceType: 4
 --- !u!54 &7286307361279608389
 Rigidbody:
@@ -185,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d683faf948bc44947a284c8e620462d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  life: 6
   speed: 4
   chaseSpeed: 8
   rotationSpeed: 8
@@ -195,3 +197,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   currentPathIndex: 0
+  floatingSpeed: 1
+  floatingAmplitude: 0.5
+  floatingFrequency: 2

@@ -10,6 +10,8 @@ namespace Level3
     public class Boo : MonoBehaviour
     {
         [Header("Status")]
+        public float life = 6;
+        public float score = 300;
         public float speed = 4.0f;
         public float chaseSpeed = 8.0f;
         public float rotationSpeed = 10.0f;
@@ -27,12 +29,31 @@ namespace Level3
         private NavMeshAgent agent;
         private bool playerIsDead;
 
+        [Header("Floating")]
+        public float floatingSpeed = 1f; // Adjust speed as needed
+        public float floatingAmplitude = 0.5f; // Adjust floating height variation
+        public float floatingFrequency = 2f; // Adjust floating movement frequency
+
+        private float timeOffset = 0f;
+        //specifics
+        public float tempoParadoMaximo = 4.0f; // Tempo máximo que o inimigo pode ficar parado (em segundos)
+        public float tempoParadoAtual = 0.0f; // Tempo que o inimigo está parado (em segundos)
+        private Vector3 posicaoAnterior; // Posição anterior do inimigo
+        private bool isDead = false;
+        public float knockbackForce = 3f;
+        public float knockbackDuration = 0.5f;
         // Start is called before the first frame update
         void Start()
         {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                target = player;
+            }
             agent = GetComponent<NavMeshAgent>();
             playerIsDead = target.GetComponent<PlayerControl>().isDead;
             canSeePlayer = gameObject.GetComponent<FieldOfView>().canSeePlayer;
+            posicaoAnterior = transform.position;
         }
 
         void moveToNextPoint()
@@ -41,7 +62,6 @@ namespace Level3
             {
                 float distance = Vector3.Distance(pathPoints[currentPathIndex].position, transform.position);
                 agent.destination = pathPoints[currentPathIndex].position;
-
                 if (distance <= 4f)
                 {
                     currentPathIndex++;
@@ -52,7 +72,97 @@ namespace Level3
         // Update is called once per frame
         void Update()
         {
-            Walk();
+            if (!isDead) 
+            {
+                Walk();
+                Floating();
+            }
+        }
+
+        void Stoped()
+        {
+            Vector3 posicaoAtual = transform.position;
+
+            // Verifica se o inimigo se moveu
+            if (posicaoAtual != posicaoAnterior)
+            {
+                tempoParadoAtual = 0.0f;
+            }
+            else
+            {
+                tempoParadoAtual += Time.deltaTime;
+                if (tempoParadoAtual >= tempoParadoMaximo)
+                {
+                    currentPathIndex++;
+                    currentPathIndex %= pathPoints.Count;
+                }
+            }
+
+            posicaoAnterior = posicaoAtual;
+        }
+
+        void Floating()
+        {
+            // Calculate floating position offset
+            float floatOffset = Mathf.Sin(Time.time * floatingFrequency + timeOffset) * floatingAmplitude;
+
+            // Apply floating offset to transform position
+            transform.position = new Vector3(transform.position.x, transform.position.y + floatOffset, transform.position.z);
+        }
+
+        public void GetHit(Vector3 hitDirection)
+        {
+            life--;
+            print("DANO");
+
+            // Apply knockback force (adjust force and duration as needed)
+            GetComponent<Rigidbody>().AddForce(hitDirection * knockbackForce, ForceMode.Impulse);
+            StartCoroutine(KnockbackDuration(hitDirection)); // Start a coroutine to disable knockback after a short time
+            if (life <= 0)
+            {
+                isDead = true;
+                agent.isStopped = true;
+                StartCoroutine(AlphaDie());
+            }
+        }
+        void Die()
+        {
+            target.GetComponent<PlayerControl>().playerScore += score;
+            Destroy(gameObject);
+        }
+        IEnumerator KnockbackDuration(Vector3 hitDirection)
+        {
+            GetComponent<Rigidbody>().isKinematic = false; // Disable kinematic for knockback
+                                                           // Apply knockback force here (assuming damageDirection is calculated correctly)
+            GetComponent<Rigidbody>().AddForce(hitDirection * knockbackForce, ForceMode.Impulse);
+            yield return new WaitForSeconds(knockbackDuration);
+
+            GetComponent<Rigidbody>().isKinematic = true; // Re-enable kinematic
+        }
+
+        IEnumerator AlphaDie()
+        {
+            float currentAlpha = 1;
+            float targetAlpha = 0f;
+            float alphaStep = 0.10f; // Alpha increase every 0.25 seconds
+            Renderer renderer = GetComponent<Renderer>();
+            //gameObject.GetComponent<NavMeshAgent>().enabled = false;
+
+            while (currentAlpha > targetAlpha)
+            {
+                foreach (Material material in renderer.materials)
+                {
+                    Color color = material.color;
+                    color.a = currentAlpha;  // Altere este valor para ajustar a transparência
+                    material.color = color;
+                }
+
+                // Update alpha (avoid exceeding target)
+                currentAlpha = currentAlpha - alphaStep;
+                // Wait for 0.25 seconds before next iteration
+                yield return new WaitForSeconds(0.25f);
+            }
+            Die();
         }
 
         void LookTarget()
@@ -69,7 +179,8 @@ namespace Level3
         {
             playerIsDead = target.GetComponent<PlayerControl>().isDead;
             canSeePlayer = gameObject.GetComponent<FieldOfView>().canSeePlayer;
-
+            if(!canSeePlayer)
+                Stoped();
             if (agent.enabled)
             {
                 if (!playerIsDead)
@@ -88,13 +199,13 @@ namespace Level3
                             color.a = 0.5f;  // Altere este valor para ajustar a transparência
                             material.color = color;
                         }
+                        GetComponent<CapsuleCollider>().enabled= false;
                     }
                     else
                     {
                         chasingPlayer = false;
                         moveToNextPoint();
                         agent.stoppingDistance = 6;
-
                         // Tornar o personagem opaco
                         Renderer renderer = GetComponent<Renderer>();
                         foreach (Material material in renderer.materials)
@@ -103,6 +214,7 @@ namespace Level3
                             color.a = 1f;
                             material.color = color;
                         }
+                        GetComponent<CapsuleCollider>().enabled = true;
                     }
                 }
                 else
@@ -118,7 +230,7 @@ namespace Level3
                 }
                 else if (!chasingPlayer)
                 {
-                    agent.acceleration = speed;
+                    //agent.acceleration = speed;
                     moveToNextPoint();
                 }
             }

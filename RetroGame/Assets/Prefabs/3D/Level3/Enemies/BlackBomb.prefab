@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 394906f8d973a404695c2c44b5432856, type: 3}
       propertyPath: m_Name
-      value: BlackBomb 1
+      value: BlackBomb
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 394906f8d973a404695c2c44b5432856, type: 3}
       propertyPath: m_Layer
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7d94e9a0a19164e8d682ec4b2af5ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 2
   speed: 3
   chaseSpeed: 6
   rotationSpeed: 10
@@ -173,8 +173,8 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 8
   m_BaseOffset: 4
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_WalkableMask: 7
+  m_ObstacleAvoidanceType: 0
 --- !u!54 &5810763755020179189
 Rigidbody:
   m_ObjectHideFlags: 0
