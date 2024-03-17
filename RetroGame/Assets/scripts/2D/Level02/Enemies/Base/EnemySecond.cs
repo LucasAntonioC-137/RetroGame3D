@@ -70,11 +70,12 @@ public class EnemySecond : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerC
     {
         CurrentHealth -= damageAmout;
         anim.SetTrigger("Damage");
-
+        AudioController.current.PlayMusic(AudioController.current.bossHit);
         
 
         if (CurrentHealth <= 0) {
             anim.SetBool("isDead", true);
+            AudioController.current.PlayMusic(AudioController.current.bossDeath);
             Die();
         }
     }

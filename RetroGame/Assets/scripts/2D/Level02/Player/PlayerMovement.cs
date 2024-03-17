@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         rbody.velocity = Vector2.zero;
         yield return new WaitForSeconds(.33f);
         currentState = PlayerState.walk;
-
+        AudioController.current.PlayMusic(AudioController.current.shooting);
     }
 
     void UpddateAnimationAndMove()

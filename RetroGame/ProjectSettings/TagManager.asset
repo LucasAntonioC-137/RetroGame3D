@@ -16,6 +16,8 @@ TagManager:
   - Pushable
   - Activated
   - Catchable
+  - PlayerAttack
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX
