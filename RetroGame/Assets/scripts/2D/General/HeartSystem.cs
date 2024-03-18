@@ -25,6 +25,8 @@ public class HeartSystem : MonoBehaviour
 
     void Start()
     {
+        //AudioController.current.PlayMusic(AudioController.current.bgm02);
+
         extraLife = GameObject.Find("Extra Life");
 
         playerSprite = GetComponentInParent<SpriteRenderer>();
@@ -104,8 +106,9 @@ public class HeartSystem : MonoBehaviour
             MainManager.Instance.keyFound = true;
             //haveKey = true;
             //fazer player regenerar 1 coração a cada 5 segundos
-            if(collision.gameObject.tag == "Key") { Destroy(collision.gameObject); }
-            
+            if(collision.gameObject.tag == "Key") { Destroy(collision.gameObject);
+                AudioController.current.PlayMusic(AudioController.current.powerUpPick); }
+
             InvokeRepeating("LifeRegen", 10f, 7f);
         }
         

@@ -71,6 +71,7 @@ public class BossAction : Enemy
 
         if(!summoning)
         {
+            AudioController.current.PlayMusic(AudioController.current.bossAttack);
             Instantiate(phantoms, sPointA.position, Quaternion.identity);
             Instantiate(phantoms, sPointB.position, Quaternion.identity);
             Instantiate(phantoms, sPointC.position, Quaternion.identity);
@@ -99,6 +100,7 @@ public class BossAction : Enemy
     private void takeDMG()
     {
         life -= 1;
+        AudioController.current.PlayMusic(AudioController.current.bossHit);
     }
 }
 

@@ -17,6 +17,8 @@ TagManager:
   - Activated
   - Catchable
   - Boss
+  - PlayerAttack
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX

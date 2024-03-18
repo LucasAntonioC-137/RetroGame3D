@@ -33,6 +33,7 @@ public class PattrolingEnemy : Enemy
 
             if(life <= 0)
             {
+                AudioController.current.PlayMusic(AudioController.current.phantomDeath);
                 Destroy(collision.gameObject);
                 Destroy(this.gameObject, 0.05f);
             }
