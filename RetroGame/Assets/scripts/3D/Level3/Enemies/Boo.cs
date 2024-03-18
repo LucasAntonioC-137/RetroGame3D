@@ -113,7 +113,6 @@ namespace Level3
         public void GetHit(Vector3 hitDirection)
         {
             life--;
-            print("DANO");
 
             // Apply knockback force (adjust force and duration as needed)
             GetComponent<Rigidbody>().AddForce(hitDirection * knockbackForce, ForceMode.Impulse);

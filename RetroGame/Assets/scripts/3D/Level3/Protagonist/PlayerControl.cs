@@ -52,7 +52,10 @@ namespace Level3
         public bool isFall = false;
         private float previousYPosition;
         private float currentYPosition;
-        
+        public float raycastDistance = 1.0f; // Distância do raio
+        public LayerMask groundLayer; // Camada que representa o chão
+        public bool inBridge = false;
+
         // Start is called before the first frame 
 
 
@@ -66,6 +69,7 @@ namespace Level3
             originalRotation = rotationSpeed;
             playerScore= 0;
             withObject= false;
+            inBridge = false;
         }   
 
         // Update is called once per frame
@@ -74,37 +78,19 @@ namespace Level3
 
             if (!isDead && !knockBack)
             {
-                characterController.transform.position = characterController.transform.position;
+                //characterController.transform.position = characterController.transform.position;
                 ApplyGravity();
                 FallDamage();
                 Jump();
                 Move();
                 Take_Object();
             }
-            if (characterController.isGrounded)
-            {
-                // Calcula a inclinação do terreno
-
-                float angle = Vector3.Angle(normal, Vector3.up);
-
-                // Se a inclinação for maior que o limite, aplica o deslizamento
-                if (angle > slopeLimit)
-                {
-                    slideDirection = Vector3.ProjectOnPlane(normal, -Vector3.up);
-                    slideDirection *= slideSpeed;
-
-                    // Aplica a gravidade ao deslizamento
-                    slideDirection.y += gravityValue * Time.deltaTime;
-
-                    characterController.Move(slideDirection * Time.deltaTime);
-                }
-            }
             else if(isDead)
             {
                 characterController.enabled= false;
                 return;
             }
-            if(bomb != null)
+            if (bomb != null)
             {
                 if (bomb.isDead)
                 {
@@ -123,14 +109,6 @@ namespace Level3
             if(playerHealth < 6)
             {
                 playerHealth++;
-            }
-        }
-
-        void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-            if (hit.normal != Vector3.up) // Check if not colliding with top surface
-            {
-                normal = hit.normal; // Access the normal from the collision
             }
         }
 
@@ -169,7 +147,6 @@ namespace Level3
             {
                 //float damage = Mathf.Clamp(fallDistance - fallLimit, 0f, Mathf.Infinity);
                 isFall = true;
-                print("QUEDA");
                 GetDamage(2, Vector3.up); // Apply damage based on fall distance
                 knockBack = false;
             }
@@ -177,7 +154,6 @@ namespace Level3
             {
                 currentYPosition = transform.position.y;
                 fallDistance = previousYPosition - currentYPosition;
-                print(fallDistance);
             }
             else
             {
@@ -308,13 +284,16 @@ namespace Level3
 
         private void ApplyGravity()
         {
-            if (IsGrounded())
+            if (!inBridge)
             {
-                _direction.y = -1.0f;
-            }
-            else
-            {
-                _direction.y += gravityValue * Time.deltaTime;
+                if (IsGrounded())
+                {
+                    _direction.y = -1.0f;
+                }
+                else
+                {
+                    _direction.y += gravityValue * Time.deltaTime;
+                }  
             }
         }
 
@@ -323,7 +302,7 @@ namespace Level3
             float heightOffset = 0.5f; // Change this value as needed
             // Define the range within which the character can take an object
             float range = 2.0f;
-            if (Input.GetKeyDown(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 if (!withObject)
                 {
@@ -340,7 +319,7 @@ namespace Level3
                         {
                             withObject = true;
                             // Take the object (you can define what this means for your game)
-                            Debug.Log("Object taken: " + hit.collider.gameObject.name);
+                            //Debug.Log("Object taken: " + hit.collider.gameObject.name);
                             Rigidbody rb = hit.collider.gameObject.GetComponent<Rigidbody>();
                             if (hit.collider.gameObject.GetComponent<BlackBomb>())
                             {
@@ -380,7 +359,6 @@ namespace Level3
                 }
                 else
                 {
-                    print(playerHand.childCount);
                     if (playerHand.childCount > 0)
                     {
                         // Get the object that the character is holding
@@ -414,5 +392,28 @@ namespace Level3
             Debug.DrawRay(transform.position + new Vector3(0, heightOffset, 0), transform.forward * range, Color.red);
         }
 
+        /*private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer == 6)
+                inBridge = false;
+        }
+
+        private void nTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer == 6)
+                inBridge = false;
+        }
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.layer == 6)
+            {
+                // Ajuste a posição do personagem para a posição X da plataforma
+                Vector3 newPosition = new Vector3(other.transform.position.x, transform.position.y, transform.position.z);
+                transform.position = newPosition;
+
+                // Desative a gravidade (se necessário)
+                _direction.y = 0f; // Supondo que _direction é o vetor de movimento do personagem
+            }
+        }*/
     }
 }

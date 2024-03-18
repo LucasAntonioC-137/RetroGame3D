@@ -44,13 +44,10 @@ namespace Level3
             {
                 target = player;
             }
-            else
-            {
-                Debug.LogError("Player object with tag 'Player' not found!");
-            }
             agent = GetComponent<NavMeshAgent>();
             anim = GetComponent<Animator>();
-            playerIsDead = target.GetComponent<PlayerControl>().isDead;
+            if(target != null)
+                playerIsDead = target.GetComponent<PlayerControl>().isDead;
         }
 
         public bool Captured
@@ -104,7 +101,11 @@ namespace Level3
 
         void Walk()
         {
-            playerIsDead = target.GetComponent<PlayerControl>().isDead;
+            if (target == null)
+                playerIsDead = true;
+            else
+                playerIsDead = target.GetComponent<PlayerControl>().isDead;
+
             // Verifica se o jogador está dentro do alcance usando um raycast
             RaycastHit hit;
             Vector3 rayDirection = transform.forward;
@@ -180,12 +181,10 @@ namespace Level3
                 //agent.isStopped= true;
                 startCountdown = true;
                 anim.SetInteger("transition", 0);
-                print("PEGARO");
             }else if (thrown && captured)
             {
                 captured= false;
                 chaseTime = 4f;
-                print("JOGARO");
             }
         }
 

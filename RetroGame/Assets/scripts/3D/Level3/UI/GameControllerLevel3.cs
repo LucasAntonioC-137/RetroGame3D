@@ -31,6 +31,7 @@ namespace Level3
         public Image cameraUI;
 
         private ThirdPersonCameraController camPlayer;
+        public FieldOfView fieldOV;
 
         // Start is called before the first frame update
         void Start()
@@ -39,9 +40,11 @@ namespace Level3
             player = GameObject.FindObjectOfType<PlayerControl>();
             bossZone = GameObject.FindObjectOfType<BossFightZone>();
             booBoss = GameObject.FindObjectOfType<Boo>();
+            //fieldOV = GameObject.FindObjectOfType<FieldOfView>();
             healthUI.sprite = healthSprites[(int)player.playerHealth];
             bossUI.enabled = false;
             bombOn.enabled = false;
+            bossVision.SetActive(false);
             playerScore = 0;
         }
 
@@ -56,7 +59,17 @@ namespace Level3
                 PlayerWithBomb();
                 BossMood();
                 CameraStatus();
+                BossSeeing();
             }
+        }
+
+        private void BossSeeing()
+        {
+            if (fieldOV.canSeePlayer)
+            {
+                bossVision.SetActive(true);
+            }else
+                bossVision.SetActive(false);
         }
 
         private void CameraStatus()
@@ -75,7 +88,6 @@ namespace Level3
         {
             if (bossZone.isPlayerInside)
             {
-                print("DEntro");
                 bossUI.enabled = true;
                 if (booBoss.life > 4)
                     bossUI.sprite = bossMood[0];
