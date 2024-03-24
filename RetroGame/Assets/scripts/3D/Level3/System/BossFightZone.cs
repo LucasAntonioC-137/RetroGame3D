@@ -15,8 +15,12 @@ namespace Level3
         public Transform[] pathPoints;  // Array of path points for enemy to follow
         public bool isPlayerInside = false; // Flag to track player presence
         private bool needRestart = false;
+        public AudioSource bossTheme;
+        private Boo booLife;
+
         private void Start()
         {
+            booLife = GameObject.FindObjectOfType<Boo>();
             // Ensure initial disabled state
             boss.SetActive(false);
             foreach (GameObject spawner in enemySpawners)
@@ -25,12 +29,17 @@ namespace Level3
             }
         }
 
+        private void Update()
+        {
+            if (booLife.life <= 0)
+                StopBossFight();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
                 isPlayerInside = true;
-                print("Entrou");
                 StartBossFight();
             }
         }
@@ -39,9 +48,9 @@ namespace Level3
         {
             if (other.CompareTag("Player"))
             {
+                bossTheme.Stop();
                 isPlayerInside = false;
                 needRestart = true;
-                Debug.Log("SAIU");
                 ResetBossFight();
             }
         }
@@ -57,7 +66,6 @@ namespace Level3
 
         IEnumerator IncreaseBossTransparency()
         {
-            Debug.Log("NASCER BOSS");
 
             // Ensure boss is active
             boss.SetActive(true);
@@ -103,6 +111,7 @@ namespace Level3
             booScript.enabled = true;
             fovScript.enabled = true;
             StartCoroutine(EnableSpawners());
+            bossTheme.Play();
             Debug.Log("Boss fully visible and ready to move!");
         }
 
@@ -155,6 +164,31 @@ namespace Level3
                     //Destroy(collider.gameObject); // Destroy if needed
                 }
             }
+        }
+
+        private void StopBossFight()
+        {
+            foreach (GameObject spawner in enemySpawners)
+            {
+                spawner.SetActive(false);
+                // Reset enemy spawner logic
+            }
+            // Define the enemy layer
+            int enemyLayer = LayerMask.NameToLayer("Enemy"); // Replace "Enemy" with your actual layer name
+
+            // Create a LayerMask combining both tags using bitwise OR
+            LayerMask enemyMask = LayerMask.GetMask("Enemy", "Catchable"); // Replace tags if needed
+
+            // Find all active objects on the enemy layer matching the combined mask
+            enemyColliders = Physics.OverlapSphere(transform.position, triggerRadius, enemyMask);
+            // Loop through colliders and handle enemies
+            foreach (Collider collider in enemyColliders)
+            {
+                // Handle the enemy: deactivate or destroy
+                collider.gameObject.SetActive(false); // Deactivate for re-use
+                                                      //Destroy(collider.gameObject); // Destroy if needed
+            }
+            bossTheme.Stop();
         }
     }
 

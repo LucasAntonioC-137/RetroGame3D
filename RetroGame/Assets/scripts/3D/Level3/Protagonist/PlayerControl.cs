@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Level3
         public float jumpForce = 10f; // A força máxima do salto
         public float maxTimeBetweenJumps = 2;
         public float doubleJumpForce = 15;
-        public float knockbackStrength = 10;
+        public float knockbackStrength = 3;
         public bool knockBack = false;
         private BlackBomb bomb;
         private float originalSpeed;
@@ -55,7 +56,12 @@ namespace Level3
         public float raycastDistance = 1.0f; // Distância do raio
         public LayerMask groundLayer; // Camada que representa o chão
         public bool inBridge = false;
+        [Header("Sound")]
+        public AudioSource footStep;
+        public AudioSource jumpSound;
+        public AudioSource landSound;
 
+        public CinemachineBrain mainCameraBrain;
         // Start is called before the first frame 
 
 
@@ -76,14 +82,18 @@ namespace Level3
         void Update()
         {
 
-            if (!isDead && !knockBack)
+            if (!isDead && !knockBack && !mainCameraBrain.IsBlending)
             {
-                //characterController.transform.position = characterController.transform.position;
                 ApplyGravity();
                 FallDamage();
                 Jump();
                 Move();
                 Take_Object();
+                Time.timeScale = 1;
+            }
+            else if (mainCameraBrain.IsBlending)
+            {
+                Time.timeScale = 1;
             }
             else if(isDead)
             {
@@ -106,7 +116,7 @@ namespace Level3
 
         public void AddHealth()
         {
-            if(playerHealth < 6)
+            if(playerHealth < 8)
             {
                 playerHealth++;
             }
@@ -120,8 +130,9 @@ namespace Level3
                 PlayerDie();
             }
             knockBack = true;
+            float duration = IsGrounded() ? 0.3f : 0.1f;
             if (!isDead && !isFall)
-                StartCoroutine(Knockback(0.5f, damageDirection));
+                StartCoroutine(Knockback(duration, damageDirection));
             else if(isFall)
                 anim.SetTrigger("Fall"); isFall = false; fallDistance = 0f;
         }
@@ -187,8 +198,8 @@ namespace Level3
                 // Calculate the movement direction based on the input
                 Vector3 movementDirection = (forwardDirection * verticalInput) + (rightDirection * horizontalInput);
                 movementDirection.Normalize();
-                isWalking = true;
-                if (!isJumping || IsGrounded())
+                
+                if (!isJumping && IsGrounded())
                 {
                     if (!withObject)
                     {
@@ -206,7 +217,7 @@ namespace Level3
                 if (characterController.enabled)
                 {
                     characterController.Move(movementDirection * Time.deltaTime * speed * speedModifier);
-
+                    isWalking = true;
                 }
                 // If there is any movement, rotate the character to face the movement direction
                 if (movementDirection != Vector3.zero)
@@ -216,17 +227,45 @@ namespace Level3
                 }
 
             }
-            else if (!isJumping && isWalking)
+            else if (!isJumping && !isWalking)
             {
                 if (!withObject)
                     anim.SetInteger("transition", 0);
                 else
                     anim.SetInteger("transition", 4);
             }
+            else
+            {
+                isWalking= false;
+            }
+        }
+
+        void PlayFootStepSound()
+        {
+            if(IsGrounded())
+                footStep.Play();
+        }
+        void PlayJumpSound()
+        {
+            jumpSound.Play();
+        }
+        void PlayLandingSound()
+        {
+            landSound.Play();
         }
 
         void Jump()
         {
+            // Check if the character has landed
+            if (IsGrounded())
+            {
+                //anim.SetInteger("transition", 1);
+                isJumping = false;
+                if (jumpCount == 2)
+                {
+                    jumpCount = 0;
+                }
+            }
             if (!isJumping)
             {
                 rotationSpeed = originalRotation;
@@ -236,23 +275,22 @@ namespace Level3
                 if (jumpCount == 0)
                 {
                     // Aplica a força do pulo
-                    _direction.y = jumpForce;
+                    anim.SetInteger("transition", 2);
                     isJumping = true;
+                    _direction.y = jumpForce;
                     rotationSpeed = rotationSpeed / 2;
                     characterController.Move(_direction * Time.deltaTime);
-                    anim.SetInteger("transition", 2);
                     jumpCount++;
                     timeSinceJump = 0; // Reseta o tempo desde o último pulo
                 }
                 else if (jumpCount == 1 && timeSinceJump < maxTimeBetweenJumps)
                 {
-                    _direction.y = doubleJumpForce;
-                    isJumping = true;
-                    rotationSpeed = rotationSpeed / 2;
                     anim.SetInteger("transition", 3);
+                    isJumping = true;
+                    _direction.y = doubleJumpForce;
+                    rotationSpeed = rotationSpeed / 2;
                     jumpCount++;
                 }
-                isJumping = true;
                 isWalking = false;
             }
 
@@ -266,22 +304,26 @@ namespace Level3
                 timeSinceJump += Time.deltaTime;
             }
 
-            // Check if the character has landed
-            if (characterController.isGrounded)
-            {
-                //anim.SetInteger("transition", 1);
-                isJumping = false;
-                if (jumpCount == 2)
-                {
-                    jumpCount = 0;
-                }
-            }
             // Adiciona a velocidade ao movimento do personagem
             characterController.Move(_direction * Time.deltaTime);
         }
 
-        private bool IsGrounded() => characterController.isGrounded;
+        private bool IsGrounded()
+        {
+            // Check if CharacterController thinks it's grounded
+            if (characterController.isGrounded)
+                return true;
 
+            // Create a ray that points downwards from the bottom of the character
+            Ray ray = new Ray(transform.position + Vector3.up * 0.1f, -Vector3.up);
+
+            // Perform the raycast
+            if (Physics.Raycast(ray, 0.15f))
+                return true;
+
+            // If neither check succeeded, we're not grounded
+            return false;
+        }
         private void ApplyGravity()
         {
             if (!inBridge)

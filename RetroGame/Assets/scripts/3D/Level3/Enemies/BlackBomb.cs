@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 
 namespace Level3
 {
@@ -35,6 +36,15 @@ namespace Level3
         private bool captured = false;
         private bool thrown = false;
         private bool readyToThrow;
+        [Header("Sounds")]
+        public AudioSource fuseBurning;
+        public AudioSource explosion;
+
+ 
+        public GameObject vfxExplosion;
+        private bool explode = false;
+        public GameObject body1;
+        public GameObject body2;
 
         void Start()
         {
@@ -137,6 +147,10 @@ namespace Level3
 
                 if (chasingPlayer)
                 {
+                    if (!fuseBurning.isPlaying)
+                    {
+                        fuseBurning.Play();
+                    }
                     agent.acceleration = chaseSpeed;
                     agent.SetDestination(target.transform.position);
                     anim.SetInteger("transition", 2);
@@ -190,39 +204,63 @@ namespace Level3
 
         void Explode()
         {
-            // Define o raio da explosão
-            float radius = 5f;
-
-            // Obtém todos os objetos dentro do raio da explosão
-            Collider[] objectsInRange = Physics.OverlapSphere(transform.position, radius);
-
-            foreach (Collider col in objectsInRange)
+            if (!explode)
             {
-                // Check for enemies more efficiently
-                if (col.CompareTag("Enemy"))
+                explode = true;
+                StartCoroutine(ExplodeAndDestroy());
+                // Define o raio da explosão
+                float radius = 4f;
+                // Obtém todos os objetos dentro do raio da explosão
+                Collider[] objectsInRange = Physics.OverlapSphere(transform.position, radius);
+                foreach (Collider col in objectsInRange)
                 {
-                    Destroy(col.gameObject);
+                    // Check for enemies more efficiently
+                    if (col.CompareTag("Enemy"))
+                    {
+                        Destroy(col.gameObject);
+                    }
+                    // Verifica se o objeto é o jogador
+                    PlayerControl player = col.gameObject.GetComponent<PlayerControl>();
+                    Boo bossBoo = col.gameObject.gameObject.GetComponent<Boo>();
+                    if (player != null)
+                    {
+                        // Causa dano ao jogador
+                        Vector3 damageDirection = player.transform.position - transform.position;
+                        player.GetDamage(damage, damageDirection);
+                    }
+                    else if (bossBoo != null)
+                    {
+                        Vector3 damageDirection = col.transform.position - transform.position;
+                        bossBoo.GetHit(damageDirection);
+                    }
                 }
-                // Verifica se o objeto é o jogador
-                PlayerControl player = col.gameObject.GetComponent<PlayerControl>();
-                Boo bossBoo = col.gameObject.gameObject.GetComponent<Boo>();
-                if (player != null)
+                isDead = true;
+                if (thrown)
                 {
-                    // Causa dano ao jogador
-                    Vector3 damageDirection = player.transform.position - transform.position;
-                    player.GetDamage(damage, damageDirection);
+                    target.GetComponent<PlayerControl>().playerScore += score;
                 }
-                else if(bossBoo != null)
-                {
-                    Vector3 damageDirection = col.transform.position - transform.position;
-                    bossBoo.GetHit(damageDirection);
-                }
+
+                //Destroy(gameObject);
+
             }
-            isDead = true;
-            if (thrown)
+        }
+
+        IEnumerator ExplodeAndDestroy()
+        {
+            body1.SetActive(false);
+            body2.SetActive(false);
+            gameObject.GetComponent<SphereCollider>().enabled = false;
+            // Toca o som da explosão
+            if (!explosion.isPlaying)
             {
-                target.GetComponent<PlayerControl>().playerScore += score;
+                explosion.Play();
+                Instantiate(vfxExplosion, transform.position, Quaternion.identity);
             }
+
+            // Aguarda um pouco para o som ser reproduzido
+            yield return new WaitForSeconds(explosion.clip.length);
+
+            // Agora destrói o objeto
             Destroy(gameObject);
         }
     }

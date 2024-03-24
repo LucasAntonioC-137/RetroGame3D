@@ -21,7 +21,8 @@ namespace Level3
         public Image bossUI;
         public GameObject bossVision;
         private BossFightZone bossZone;
-        private Boo booBoss;
+        public Boo booBoss;
+        //public int[] bossStages;
 
         [Header("Bomb")]
         public Image bombOn;
@@ -30,16 +31,16 @@ namespace Level3
         public Sprite[] cameraStatsSprites;
         public Image cameraUI;
 
-        private ThirdPersonCameraController camPlayer;
+        private CameraRotation camPlayer;
         public FieldOfView fieldOV;
 
         // Start is called before the first frame update
         void Start()
         {
-            camPlayer = GameObject.FindObjectOfType<ThirdPersonCameraController>();
+            camPlayer = GameObject.FindObjectOfType<CameraRotation>();
             player = GameObject.FindObjectOfType<PlayerControl>();
             bossZone = GameObject.FindObjectOfType<BossFightZone>();
-            booBoss = GameObject.FindObjectOfType<Boo>();
+            //booBoss = GameObject.FindObjectOfType<Boo>();
             //fieldOV = GameObject.FindObjectOfType<FieldOfView>();
             healthUI.sprite = healthSprites[(int)player.playerHealth];
             bossUI.enabled = false;
@@ -74,7 +75,7 @@ namespace Level3
 
         private void CameraStatus()
         {
-            if (camPlayer.camMode)
+            if (!camPlayer.camMode)
             {
                 cameraUI.sprite = cameraStatsSprites[0];
             }
@@ -86,15 +87,22 @@ namespace Level3
 
         private void BossMood()
         {
-            if (bossZone.isPlayerInside)
+            if (booBoss.life > 0)
             {
-                bossUI.enabled = true;
-                if (booBoss.life > 4)
-                    bossUI.sprite = bossMood[0];
-                else if (booBoss.life > 2 && booBoss.life < 5)
-                    bossUI.sprite = bossMood[1];
-                else if (booBoss.life < 3)
-                    bossUI.sprite = bossMood[2];
+                if (bossZone.isPlayerInside)
+                {
+                    bossUI.enabled = true;
+                    if (booBoss.life > 4)
+                        bossUI.sprite = bossMood[0];
+                    else if (booBoss.life > 2 && booBoss.life < 5)
+                        bossUI.sprite = bossMood[1];
+                    else if (booBoss.life < 3)
+                        bossUI.sprite = bossMood[2];
+                }
+                else
+                {
+                    bossUI.enabled = false;
+                }
             }
             else
             {
@@ -116,7 +124,10 @@ namespace Level3
 
         private void PlayerHelth()
         {
-            healthUI.sprite = healthSprites[(int)player.playerHealth];
+            if(player.isDead)
+                healthUI.sprite = healthSprites[0];
+            else
+                healthUI.sprite = healthSprites[(int)player.playerHealth];
         }
     } 
 }

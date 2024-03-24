@@ -23,6 +23,10 @@ namespace Level3
         public List<Transform> pathPoints = new List<Transform>();
         public int currentPathIndex = 0;
 
+
+        [Header("Sound")]
+        public AudioSource smashSound;
+
         private bool chasingPlayer = false;
         private Animator anim;
         private Vector3 moveDirection;
@@ -197,8 +201,16 @@ namespace Level3
             Vector3 newPosition = transform.position;
             newPosition.y -= 0.3f; // Ajuste este valor conforme necessário
             transform.position = newPosition;
+            StartCoroutine(smashAndDestroy());
+        }
 
-            Destroy(gameObject, 2f);
+        IEnumerator smashAndDestroy()
+        {
+            if(!smashSound.isPlaying)
+                smashSound.Play();
+            yield return new WaitForSeconds(smashSound.clip.length);
+            // Agora destrói o objeto
+            Destroy(gameObject);
         }
     }
 }

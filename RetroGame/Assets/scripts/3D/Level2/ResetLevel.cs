@@ -10,7 +10,7 @@ public class ResetLevel : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("Nivel 3 - 3D");
         }
     }
 }
