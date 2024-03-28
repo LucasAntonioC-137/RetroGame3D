@@ -47,8 +47,7 @@ public class PlayButtonScript : MonoBehaviour
         DesativateScreen(menuUI);
         // Retoma o jogo quando o botão PLAY é pressionado
         ActivateScreen(ingameUI);
-        Time.timeScale = 1;
-        
+        Time.timeScale = 1;    
     }
 
     void OnResetButtonPressed()
@@ -57,6 +56,5 @@ public class PlayButtonScript : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         DesativateScreen(gameOverUI);
         // Esconde a tela de "Game Over" e o botão de reinício
-
     }
 }

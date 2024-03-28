@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7302244, g: 0.7889752, b: 0.8498586, a: 1}
+  m_IndirectSpecularColor: {r: 0.48395744, g: 0.57573867, b: 0.68019843, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -516,8 +516,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279037830}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25623852, y: -0.5766906, z: 0.19694252, w: 0.7503223}
-  m_LocalPosition: {x: 7.4517384, y: 22.54523, z: -21.456337}
+  m_LocalRotation: {x: 0.024190294, y: 0.9750011, z: -0.13478264, w: 0.17498961}
+  m_LocalPosition: {x: -9.977252, y: 16.673586, z: -4.6357517}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2500,8 +2500,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015043055}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18272027, y: -0.6828975, z: 0.18260884, w: 0.68331426}
-  m_LocalPosition: {x: -4.649999, y: 35.440002, z: -41.92}
+  m_LocalRotation: {x: 0.18272023, y: -0.68289745, z: 0.18260875, w: 0.6833143}
+  m_LocalPosition: {x: -4.649999, y: 5.1, z: -0.7999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2885,8 +2885,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106727886}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03828599, y: 0.8378006, z: -0.5414002, w: 0.059246413}
-  m_LocalPosition: {x: -10.228172, y: 41.557076, z: -37.85248}
+  m_LocalRotation: {x: -0.0015376393, y: 0.987918, z: 0.15465815, w: 0.0098220585}
+  m_LocalPosition: {x: -9.839311, y: -0.95609367, z: 8.719687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3471,7 +3471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Path: {fileID: 536076019}
-  m_PathPosition: 6.0399985
+  m_PathPosition: 2.2917874
   m_PositionUnits: 0
   m_PathOffset: {x: -8, y: 5, z: 1.5}
   m_XDamping: 1
@@ -3670,6 +3670,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1489301802}
   - component: {fileID: 1489301801}
+  - component: {fileID: 1489301803}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -3755,6 +3756,29 @@ Transform:
   - {fileID: 381793331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1489301803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489301800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!43 &1527856108
 Mesh:
   m_ObjectHideFlags: 0
@@ -3932,6 +3956,7 @@ GameObject:
   - component: {fileID: 1590211761}
   - component: {fileID: 1590211760}
   - component: {fileID: 1590211759}
+  - component: {fileID: 1590211763}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -3959,7 +3984,7 @@ MonoBehaviour:
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
-    m_Time: 1
+    m_Time: 0
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -4040,13 +4065,57 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590211758}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18272027, y: -0.6828975, z: 0.18260884, w: 0.68331426}
-  m_LocalPosition: {x: -4.649999, y: 35.440002, z: -41.92}
+  m_LocalRotation: {x: 0.18272023, y: -0.68289745, z: 0.18260875, w: 0.6833143}
+  m_LocalPosition: {x: -4.649999, y: 5.1, z: -0.7999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 924750920}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1590211763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590211758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!4 &1609169682 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6846381227288960411, guid: 09beedd17e9856f488181986a3041ee9, type: 3}
@@ -5637,11 +5706,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2114363279730977697, guid: 32aac1f370336ef428b67e9f955fd74f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 31.44
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 2114363279730977697, guid: 32aac1f370336ef428b67e9f955fd74f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -41.92
+      value: -0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2114363279730977697, guid: 32aac1f370336ef428b67e9f955fd74f, type: 3}
       propertyPath: m_LocalRotation.w
