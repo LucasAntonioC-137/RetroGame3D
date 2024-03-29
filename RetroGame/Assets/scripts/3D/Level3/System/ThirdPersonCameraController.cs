@@ -50,7 +50,7 @@ namespace Level3
                     isPlayerStopped= true;
             }
             ManualControl();
-            if (Time.time > lastArrowKeyDownTime + 1.0f && !isPlayerStopped)
+            if (Time.time > lastArrowKeyDownTime + 2.0f && !isPlayerStopped)
             {
                 StopAllCoroutines();
                 AutoControl();

@@ -42,6 +42,9 @@ namespace Level3
         private bool isDead = false;
         public float knockbackForce = 3f;
         public float knockbackDuration = 0.5f;
+        private bool hasSoundPlayed = false;
+        public AudioSource bossLaugh;
+        public bool hit = false;
         // Start is called before the first frame update
         void Start()
         {
@@ -76,6 +79,8 @@ namespace Level3
             {
                 Walk();
                 Floating();
+                if (hit)
+                    HitBoss();
             }
         }
 
@@ -109,11 +114,18 @@ namespace Level3
             // Apply floating offset to transform position
             transform.position = new Vector3(transform.position.x, transform.position.y + floatOffset, transform.position.z);
         }
-
+        void HitBoss()
+        {
+            GetHit(transform.position);
+            GetHit(transform.position);
+            GetHit(transform.position);
+            GetHit(transform.position);
+            GetHit(transform.position);
+            GetHit(transform.position);
+        }
         public void GetHit(Vector3 hitDirection)
         {
             life--;
-            print("DANO");
 
             // Apply knockback force (adjust force and duration as needed)
             GetComponent<Rigidbody>().AddForce(hitDirection * knockbackForce, ForceMode.Impulse);
@@ -227,13 +239,24 @@ namespace Level3
                     agent.acceleration = chaseSpeed;
                     agent.SetDestination(target.transform.position);
                     LookTarget();
+                    if (!hasSoundPlayed)
+                    {
+                        bossLaugh.Play();
+                        hasSoundPlayed = true;
+                    }
                 }
                 else if (!chasingPlayer)
                 {
+                    hasSoundPlayed = false;
                     //agent.acceleration = speed;
                     moveToNextPoint();
                 }
             }
+        }
+
+        IEnumerator playLaugh()
+        {
+            yield return null;
         }
     } 
 }

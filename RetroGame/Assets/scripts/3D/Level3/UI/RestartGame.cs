@@ -13,9 +13,11 @@ namespace Level3
         public GameObject telaMorte; // Tela de reiniciar o jogo
         public PlayerControl playerControl; // Script do jogador
         public Button restartButton;
+        private GameControllerLevel3 uiplayer;
 
         private void Start()
         {
+            uiplayer = GameObject.FindObjectOfType<GameControllerLevel3>();
             telaMorte.SetActive(false);
             // Adiciona o ouvinte ao evento de clique do botão restart
             restartButton.onClick.AddListener(OnResetButtonPressed);
@@ -25,12 +27,19 @@ namespace Level3
             // Se a vida do jogador for menor ou igual a 0, ele está morto
             if (playerControl.playerHealth <= 0)
             {
-                // Mostra a tela de morte
-                telaMorte.SetActive(true);
+                uiplayer.healthUI.sprite = uiplayer.healthSprites[0];
+                StartCoroutine(playerDeath());
 
-                // Desativa o jogador
-                playerControl.gameObject.SetActive(false);
             }
+        }
+
+        IEnumerator playerDeath()
+        {
+            yield return new WaitForSeconds(2f);
+            // Mostra a tela de morte
+            telaMorte.SetActive(true);
+            // Desativa o jogador
+            playerControl.gameObject.SetActive(false);
         }
         void OnResetButtonPressed()
         {

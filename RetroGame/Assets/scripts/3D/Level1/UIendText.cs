@@ -24,6 +24,7 @@ public class UIendText : MonoBehaviour
     private float progress = 0;
 
     public Button restartButton;
+    public Button continueButton;
     public AudioSource scoreSound;
 
     void Start()
@@ -34,8 +35,11 @@ public class UIendText : MonoBehaviour
         fullText = textComponent.text; // Armazena o texto completo
         textComponent.text = ""; // Começa com o texto vazio
         restartButton.onClick.AddListener(OnResetButtonPressed);
+        continueButton.onClick.AddListener(OnContinueButtonPressed);
         restartButton.gameObject.SetActive(false);
         restartButton.interactable = false;
+        continueButton.gameObject.SetActive(false);
+        continueButton.interactable = false;
         StartCoroutine(TypeText());
     }
     void Update()
@@ -75,6 +79,8 @@ public class UIendText : MonoBehaviour
             scoreText.text = "0";
             restartButton.gameObject.SetActive(true); // Mostra o botão
             restartButton.interactable = true; // Ativa a interação
+            continueButton.gameObject.SetActive(true); // Mostra o botão
+            continueButton.interactable = true; // Ativa a interação
             yield break;
         }
         float elapsed = 0;
@@ -112,10 +118,16 @@ public class UIendText : MonoBehaviour
         scoreText.text = targetScore.ToString();
         restartButton.gameObject.SetActive(true); // Mostra o botão
         restartButton.interactable = true; // Ativa a interação
+        continueButton.gameObject.SetActive(true); // Mostra o botão
+        continueButton.interactable = true; // Ativa a interação
     }
     void OnResetButtonPressed()
     {
         SceneManager.LoadScene("Nivel 1 - 3D");
+    }
+    void OnContinueButtonPressed()
+    {
+        SceneManager.LoadScene("Nivel 2 - 3D");
     }
 
 }
