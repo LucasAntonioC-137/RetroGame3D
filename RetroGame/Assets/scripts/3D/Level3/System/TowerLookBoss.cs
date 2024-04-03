@@ -5,29 +5,35 @@ using UnityEngine;
 
 namespace Level3
 {
-    public class TowerClimb : MonoBehaviour
+    public class TowerLookBoss : MonoBehaviour
     {
         public CinemachineVirtualCamera baseCamera;
         public CinemachineVirtualCamera towerCamera;
-        public Transform lookAtTower;
-
+        public LookAtToYPlayer lookY;
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.tag == "Player")
+            if (other.gameObject.tag == "Player")
             {
-                Debug.Log("Entrou");
-                towerCamera.LookAt = lookAtTower;
-                baseCamera.Priority = 0;
-                towerCamera.Priority = 1;
+                lookY.canMoveZ= true;
             }
 
         }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                baseCamera.Priority = 0;
+                towerCamera.Priority = 1;
+            }
+        }
+
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.tag == "Player")
             {
-                baseCamera.Priority = 1;
-                towerCamera.Priority = 0;
+                lookY.canMoveZ= false;
+                lookY.cannotMoveZmore= true;
             }
         }
     } 

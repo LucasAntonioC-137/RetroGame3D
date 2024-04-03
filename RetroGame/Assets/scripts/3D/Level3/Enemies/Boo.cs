@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -40,15 +41,19 @@ namespace Level3
         public float tempoParadoAtual = 0.0f; // Tempo que o inimigo está parado (em segundos)
         private Vector3 posicaoAnterior; // Posição anterior do inimigo
         private bool isDead = false;
+        public bool bossLive = true;
         public float knockbackForce = 3f;
         public float knockbackDuration = 0.5f;
         private bool hasSoundPlayed = false;
         public AudioSource bossLaugh;
         public bool hit = false;
+        public CinemachineVirtualCamera[] virtualCameras;
+        public Transform lookAtPlayer;
+        private GameObject player;
         // Start is called before the first frame update
         void Start()
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
                 target = player;
@@ -117,11 +122,7 @@ namespace Level3
         void HitBoss()
         {
             GetHit(transform.position);
-            GetHit(transform.position);
-            GetHit(transform.position);
-            GetHit(transform.position);
-            GetHit(transform.position);
-            GetHit(transform.position);
+            hit= false;
         }
         public void GetHit(Vector3 hitDirection)
         {
@@ -129,10 +130,11 @@ namespace Level3
 
             // Apply knockback force (adjust force and duration as needed)
             GetComponent<Rigidbody>().AddForce(hitDirection * knockbackForce, ForceMode.Impulse);
-            StartCoroutine(KnockbackDuration(hitDirection)); // Start a coroutine to disable knockback after a short time
+            if(life > 0)
+                StartCoroutine(KnockbackDuration(hitDirection)); // Start a coroutine to disable knockback after a short time
             if (life <= 0)
             {
-                isDead = true;
+                isDead= true;
                 agent.isStopped = true;
                 StartCoroutine(AlphaDie());
             }
@@ -140,6 +142,7 @@ namespace Level3
         void Die()
         {
             target.GetComponent<PlayerControl>().playerScore += score;
+            bossLive = false;
             Destroy(gameObject);
         }
         IEnumerator KnockbackDuration(Vector3 hitDirection)
@@ -154,27 +157,42 @@ namespace Level3
 
         IEnumerator AlphaDie()
         {
+            player.GetComponent<PlayerControl>().cameraInCutScene= true;
+
+            virtualCameras[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_XAxis.m_MaxValue= 0f;
+            virtualCameras[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_XAxis.m_MinValue= 0f;
+            virtualCameras[0].Follow = gameObject.transform;
+            virtualCameras[0].LookAt = gameObject.transform;
             float currentAlpha = 1;
             float targetAlpha = 0f;
-            float alphaStep = 0.10f; // Alpha increase every 0.25 seconds
+            float alphaStep = 0.20f; // Alpha increase every 0.25 seconds
             Renderer renderer = GetComponent<Renderer>();
-            //gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
-            while (currentAlpha > targetAlpha)
+            while (currentAlpha > targetAlpha) // Changed the condition
             {
                 foreach (Material material in renderer.materials)
                 {
                     Color color = material.color;
-                    color.a = currentAlpha;  // Altere este valor para ajustar a transparência
+                    color.a = currentAlpha; // Set alpha to the current value
                     material.color = color;
                 }
 
-                // Update alpha (avoid exceeding target)
-                currentAlpha = currentAlpha - alphaStep;
-                // Wait for 0.25 seconds before next iteration
-                yield return new WaitForSeconds(0.25f);
+                // Update alpha (avoid going below target)
+                currentAlpha = Mathf.Max(currentAlpha - alphaStep, targetAlpha); // Subtract alpha
+
+                // Wait for 0.5 seconds before the next iteration
+                yield return new WaitForSeconds(0.5f);
             }
+            yield return new WaitForSeconds(1f);
+            virtualCameras[0].Follow = player.transform;
+            virtualCameras[0].LookAt = lookAtPlayer;
+            virtualCameras[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_XAxis.m_MaxValue= 180f;
+            virtualCameras[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_XAxis.m_MinValue= -180f;
+            player.GetComponent<PlayerControl>().cameraInCutScene = false;
             Die();
+            yield return new WaitForSeconds(1f);
+
         }
 
         void LookTarget()

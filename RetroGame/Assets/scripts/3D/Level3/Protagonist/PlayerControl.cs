@@ -62,6 +62,7 @@ namespace Level3
         public AudioSource landSound;
 
         public CinemachineBrain mainCameraBrain;
+        public bool cameraInCutScene = false;
         // Start is called before the first frame 
 
 
@@ -82,7 +83,7 @@ namespace Level3
         void Update()
         {
 
-            if (!isDead && !knockBack && !mainCameraBrain.IsBlending)
+            if (!cameraInCutScene && !isDead && !knockBack && !mainCameraBrain.IsBlending)
             {
                 ApplyGravity();
                 FallDamage();
@@ -308,7 +309,7 @@ namespace Level3
             characterController.Move(_direction * Time.deltaTime);
         }
 
-        private bool IsGrounded()
+        public bool IsGrounded()
         {
             // Check if CharacterController thinks it's grounded
             if (characterController.isGrounded)

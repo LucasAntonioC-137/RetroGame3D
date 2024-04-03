@@ -53,7 +53,6 @@ MonoBehaviour:
   explosionRadius: 4
   explosionDamage: 100
   audioSourcePrefab: {fileID: 1304632276631777754, guid: 6a4a54e412d11c844b4464c99332404a, type: 3}
-  soundOfExplosion: {fileID: -8571396895278736661}
 --- !u!114 &5167874852568868095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +130,7 @@ SpriteRenderer:
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5

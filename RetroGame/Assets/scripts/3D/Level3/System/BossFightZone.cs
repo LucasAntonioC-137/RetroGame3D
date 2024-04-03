@@ -1,6 +1,8 @@
+using Cinemachine;
 using RailShooter;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,15 +13,24 @@ namespace Level3
         [SerializeField] private GameObject boss; // Reference to the boss GameObject
         [SerializeField] private GameObject[] enemySpawners; // Array of enemy spawner GameObjects
         [SerializeField] private float triggerRadius = 5f; // Radius of the trigger collider
+        [SerializeField] private CinemachineVirtualCamera[] virtualCameras;
+        public Vector3 newFollowOffset = new Vector3(0f, 4f, -5f);
+        private Vector4 currentFollowOffset;
         private Collider[] enemyColliders;
         public Transform[] pathPoints;  // Array of path points for enemy to follow
         public bool isPlayerInside = false; // Flag to track player presence
         private bool needRestart = false;
         public AudioSource bossTheme;
         private Boo booLife;
+        private CinemachineOrbitalTransposer transposer;
+        private PlayerControl playerScript;
+        public Transform playerLookAt;
 
         private void Start()
         {
+            playerScript = GameObject.FindObjectOfType<PlayerControl>();
+            transposer = virtualCameras[0].GetCinemachineComponent<CinemachineOrbitalTransposer>();
+            currentFollowOffset = transposer.m_FollowOffset;
             booLife = GameObject.FindObjectOfType<Boo>();
             // Ensure initial disabled state
             boss.SetActive(false);
@@ -37,8 +48,11 @@ namespace Level3
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && booLife.bossLive)
             {
+                //StartCoroutine(BossAwakening());
+                //virtualCamera.LookAt = booLife.transform;
+
                 isPlayerInside = true;
                 StartBossFight();
             }
@@ -46,9 +60,12 @@ namespace Level3
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && booLife.bossLive)
             {
+                //virtualCameras[0].Priority = 1;
+                //virtualCameras[1].Priority = 0;
                 bossTheme.Stop();
+                transposer.m_FollowOffset = currentFollowOffset;
                 isPlayerInside = false;
                 needRestart = true;
                 ResetBossFight();
@@ -64,10 +81,23 @@ namespace Level3
             StartCoroutine(IncreaseBossTransparency());
         }
 
+        /*IEnumerator BossAwakening()
+        {
+            playerScript.cameraInCutScene = true;
+            virtualCameras.LookAt = booLife.transform;
+            yield return null;
+        }*/
+
         IEnumerator IncreaseBossTransparency()
         {
-
+            while (!playerScript.IsGrounded() && isPlayerInside)
+            {
+                yield return null;
+            }
+            virtualCameras[0].Priority = 0;
+            virtualCameras[1].Priority = 1;
             // Ensure boss is active
+            playerScript.cameraInCutScene = true;
             boss.SetActive(true);
             Boo booScript = boss.GetComponent<Boo>();
             booScript.pathPoints.Clear();  // Clear existing path points in enemy script
@@ -112,7 +142,13 @@ namespace Level3
             fovScript.enabled = true;
             StartCoroutine(EnableSpawners());
             bossTheme.Play();
-            Debug.Log("Boss fully visible and ready to move!");
+            yield return new WaitForSeconds(0.5f);
+            playerScript.cameraInCutScene = false;
+            //follow the player from further away
+            transposer.m_FollowOffset = newFollowOffset;
+            virtualCameras[0].Priority = 1;
+            virtualCameras[1].Priority = 0;
+            //Debug.Log("Boss fully visible and ready to move!");
         }
 
         IEnumerator EnableSpawners()
