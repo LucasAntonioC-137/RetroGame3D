@@ -13,7 +13,7 @@ namespace Level3
     public class PlayerControl : MonoBehaviour
     {
         private CharacterController characterController;
-        private Animator anim;
+        public Animator anim;
         private Vector3 velocity;
         private float timeSinceJump;
 
@@ -41,7 +41,7 @@ namespace Level3
         private BlackBomb bomb;
         private float originalSpeed;
         private float originalRotation;
-
+        private Boo boss;
 
         private Vector3 slideDirection;
         public float slopeLimit = 45f; // Ângulo máximo de inclinação que o personagem pode subir
@@ -63,11 +63,16 @@ namespace Level3
 
         public CinemachineBrain mainCameraBrain;
         public bool cameraInCutScene = false;
+        public bool cameraChanged = false;
+
+        private Vector3 forwardDirection;
+        private Vector3 rightDirection;
         // Start is called before the first frame 
 
 
         void Start()
         {
+            boss = GameObject.FindObjectOfType<Boo>();
             characterController= GetComponent<CharacterController>();
             anim = GetComponent<Animator>();
             anim.SetInteger("transition", 0);
@@ -82,7 +87,6 @@ namespace Level3
         // Update is called once per frame
         void Update()
         {
-
             if (!cameraInCutScene && !isDead && !knockBack && !mainCameraBrain.IsBlending)
             {
                 ApplyGravity();
@@ -185,10 +189,17 @@ namespace Level3
             float verticalInput = Input.GetAxis("Vertical");
 
             if (horizontalInput != 0 || verticalInput != 0)
-            { 
-                // Calculate the forward and right directions based on the camera's rotation
-                Vector3 forwardDirection = Camera.main.transform.forward;
-                Vector3 rightDirection = Camera.main.transform.right;
+            {
+                if (cameraChanged)
+                {
+                    StartCoroutine(DelayCamera());
+                }
+                else
+                {
+                    // Calculate the forward and right directions based on the camera's rotation
+                    forwardDirection = Camera.main.transform.forward;
+                    rightDirection = Camera.main.transform.right;
+                }
 
                 // Remove any vertical movement from the directions
                 forwardDirection.y = 0;
@@ -239,6 +250,15 @@ namespace Level3
             {
                 isWalking= false;
             }
+        }
+
+        IEnumerator DelayCamera()
+        {
+            yield return new WaitForSeconds(0.5f);
+            // Calculate the forward and right directions based on the camera's rotation
+            forwardDirection = Camera.main.transform.forward;
+            rightDirection = Camera.main.transform.right;
+            cameraChanged = false;
         }
 
         void PlayFootStepSound()

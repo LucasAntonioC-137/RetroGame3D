@@ -10,6 +10,13 @@ namespace Level3
         public CinemachineVirtualCamera baseCamera;
         public CinemachineVirtualCamera towerCamera;
         public LookAtToYPlayer lookY;
+        private PlayerControl playerScript;
+
+        private void Start()
+        {
+            playerScript = GameObject.FindObjectOfType<PlayerControl>();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "Player")
@@ -34,6 +41,7 @@ namespace Level3
             {
                 lookY.canMoveZ= false;
                 lookY.cannotMoveZmore= true;
+                playerScript.cameraChanged = true;
             }
         }
     } 

@@ -10,6 +10,12 @@ namespace Level3
         public CinemachineVirtualCamera baseCamera;
         public CinemachineVirtualCamera towerCamera;
         public Transform lookAtTower;
+        public PlayerControl playerScript;
+
+        private void Start()
+        {
+            playerScript = GameObject.FindObjectOfType<PlayerControl>();    
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -19,6 +25,7 @@ namespace Level3
                 towerCamera.LookAt = lookAtTower;
                 baseCamera.Priority = 0;
                 towerCamera.Priority = 1;
+                playerScript.cameraChanged = true;
             }
 
         }
@@ -28,6 +35,7 @@ namespace Level3
             {
                 baseCamera.Priority = 1;
                 towerCamera.Priority = 0;
+                playerScript.cameraChanged = true;
             }
         }
     } 

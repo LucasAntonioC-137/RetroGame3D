@@ -21,6 +21,7 @@ namespace Level3
         public bool isPlayerInside = false; // Flag to track player presence
         private bool needRestart = false;
         public AudioSource bossTheme;
+        public AudioSource bossAwake;
         private Boo booLife;
         private CinemachineOrbitalTransposer transposer;
         private PlayerControl playerScript;
@@ -62,8 +63,6 @@ namespace Level3
         {
             if (other.CompareTag("Player") && booLife.bossLive)
             {
-                //virtualCameras[0].Priority = 1;
-                //virtualCameras[1].Priority = 0;
                 bossTheme.Stop();
                 transposer.m_FollowOffset = currentFollowOffset;
                 isPlayerInside = false;
@@ -94,11 +93,14 @@ namespace Level3
             {
                 yield return null;
             }
+            yield return new WaitForSeconds(0.25f);
             virtualCameras[0].Priority = 0;
             virtualCameras[1].Priority = 1;
+            playerScript.cameraChanged = true;
             // Ensure boss is active
             playerScript.cameraInCutScene = true;
             boss.SetActive(true);
+            bossAwake.Play();
             Boo booScript = boss.GetComponent<Boo>();
             booScript.pathPoints.Clear();  // Clear existing path points in enemy script
             booScript.pathPoints.AddRange(pathPoints);  // Add current path points to enemy script
@@ -135,7 +137,7 @@ namespace Level3
                 // Wait for 0.25 seconds before next iteration
                 yield return new WaitForSeconds(0.5f);
             }
-
+            booLife.bossSounds[0].Play();
             // Enable AI scripts after fade is complete
             boss.GetComponent<NavMeshAgent>().enabled = true;
             booScript.enabled = true;
@@ -148,6 +150,7 @@ namespace Level3
             transposer.m_FollowOffset = newFollowOffset;
             virtualCameras[0].Priority = 1;
             virtualCameras[1].Priority = 0;
+            playerScript.cameraChanged = true;
             //Debug.Log("Boss fully visible and ready to move!");
         }
 
@@ -178,7 +181,7 @@ namespace Level3
             {
                 //boss.SetActive(false);
                 // Reset boss health, animations, AI state, etc.
-
+                boss.SetActive(false);
                 foreach (GameObject spawner in enemySpawners)
                 {
                     spawner.SetActive(false);

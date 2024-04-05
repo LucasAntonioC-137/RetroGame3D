@@ -45,7 +45,7 @@ namespace Level3
         public float knockbackForce = 3f;
         public float knockbackDuration = 0.5f;
         private bool hasSoundPlayed = false;
-        public AudioSource bossLaugh;
+        public AudioSource[] bossSounds;
         public bool hit = false;
         public CinemachineVirtualCamera[] virtualCameras;
         public Transform lookAtPlayer;
@@ -157,6 +157,7 @@ namespace Level3
 
         IEnumerator AlphaDie()
         {
+            yield return new WaitForSeconds(1f);
             player.GetComponent<PlayerControl>().cameraInCutScene= true;
 
             virtualCameras[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_XAxis.m_MaxValue= 0f;
@@ -168,7 +169,7 @@ namespace Level3
             float alphaStep = 0.20f; // Alpha increase every 0.25 seconds
             Renderer renderer = GetComponent<Renderer>();
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
-
+            bossSounds[1].Play();
             while (currentAlpha > targetAlpha) // Changed the condition
             {
                 foreach (Material material in renderer.materials)
@@ -259,7 +260,7 @@ namespace Level3
                     LookTarget();
                     if (!hasSoundPlayed)
                     {
-                        bossLaugh.Play();
+                        bossSounds[0].Play();
                         hasSoundPlayed = true;
                     }
                 }

@@ -15,6 +15,7 @@ namespace Level3
         private PlayerControl playerScript;
         private Boo booLife;
         public CinemachineVirtualCamera[] virtualCameras;
+        public AudioSource[] portalSounds;
         
         // Start is called before the first frame update
         void Start()
@@ -43,8 +44,11 @@ namespace Level3
             yield return new WaitForSeconds(0.5f);
             tvBlock.SetActive(true);
             portalEffect.SetActive(true);
+            portalSounds[0].Play();
             gameObject.GetComponent<BoxCollider>().enabled= true;
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(1f);
+            portalSounds[1].Play();
+            yield return new WaitForSeconds(1.5f);
             virtualCameras[0].Priority = 1;
             virtualCameras[1].Priority = 0;
             playerScript.cameraInCutScene = false;

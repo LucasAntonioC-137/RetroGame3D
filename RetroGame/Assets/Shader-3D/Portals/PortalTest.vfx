@@ -192,10 +192,10 @@ MonoBehaviour:
   - title: " PR\xC9 BEAM FLASH"
     position:
       serializedVersion: 2
-      x: 3950
-      y: -277
-      width: 654
-      height: 1762
+      x: 3877
+      y: -428
+      width: 727
+      height: 1913
     contents:
     - model: {fileID: 8926484042661615619}
       id: 0
