@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/2D/Level_02A.unity
     guid: 1a87e855098ca8549967459f0e6ccead
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3D/Nivel 2 - 3D/Nivel 2 - 3D.unity
     guid: 0bce341a575c8e9489739e317d2fca2b
   - enabled: 0

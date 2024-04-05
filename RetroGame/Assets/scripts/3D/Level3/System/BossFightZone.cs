@@ -20,12 +20,14 @@ namespace Level3
         public Transform[] pathPoints;  // Array of path points for enemy to follow
         public bool isPlayerInside = false; // Flag to track player presence
         private bool needRestart = false;
+        public AudioSource gameTheme;
         public AudioSource bossTheme;
         public AudioSource bossAwake;
         private Boo booLife;
         private CinemachineOrbitalTransposer transposer;
         private PlayerControl playerScript;
         public Transform playerLookAt;
+        private bool stopedFight;
 
         private void Start()
         {
@@ -39,12 +41,17 @@ namespace Level3
             {
                 spawner.SetActive(false);
             }
+            stopedFight= false;
         }
 
         private void Update()
         {
-            if (booLife.life <= 0)
+            if (booLife.life <= 0 && !stopedFight)
+            {
                 StopBossFight();
+                stopedFight = true;
+            }
+                
         }
 
         private void OnTriggerEnter(Collider other)
@@ -68,6 +75,7 @@ namespace Level3
                 isPlayerInside = false;
                 needRestart = true;
                 ResetBossFight();
+                gameTheme.Play();
             }
         }
 
@@ -77,6 +85,7 @@ namespace Level3
             {
                 boss = Instantiate(boss, transform.position, transform.rotation); // Instantiate the boss
             }
+            gameTheme.Stop();
             StartCoroutine(IncreaseBossTransparency());
         }
 

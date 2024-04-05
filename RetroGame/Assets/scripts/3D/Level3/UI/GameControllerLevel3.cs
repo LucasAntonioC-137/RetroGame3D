@@ -58,7 +58,7 @@ namespace Level3
                 this.scoreText.text = playerScore.ToString("D6");
                 PlayerHelth();
                 PlayerWithBomb();
-                //BossMood();
+                BossMood();
                 CameraStatus();
                 BossSeeing();
             }

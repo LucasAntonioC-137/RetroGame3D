@@ -16,10 +16,12 @@ namespace Level3
         private Boo booLife;
         public CinemachineVirtualCamera[] virtualCameras;
         public AudioSource[] portalSounds;
+        private BossFightZone bossZone;
         
         // Start is called before the first frame update
         void Start()
         {
+            bossZone = GameObject.FindObjectOfType<BossFightZone>();
             playerScript = GameObject.FindObjectOfType<PlayerControl>();
             booLife = GameObject.FindObjectOfType<Boo>();
             tvBlock.SetActive(false);
@@ -52,6 +54,7 @@ namespace Level3
             virtualCameras[0].Priority = 1;
             virtualCameras[1].Priority = 0;
             playerScript.cameraInCutScene = false;
+            bossZone.gameTheme.Play();
         }
 
         private void OnTriggerEnter(Collider other)
