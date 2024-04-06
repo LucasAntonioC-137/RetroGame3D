@@ -135,19 +135,32 @@ namespace Level3
                 PlayerDie();
             }
             knockBack = true;
-            float duration = IsGrounded() ? 0.3f : 0.1f;
+            float duration = 4f;
+            //float duration = IsGrounded() ? 0.3f : 0.1f;
             if (!isDead && !isFall)
                 StartCoroutine(Knockback(duration, damageDirection));
             else if(isFall)
                 anim.SetTrigger("Fall"); isFall = false; fallDistance = 0f;
         }
-        public IEnumerator Knockback(float duration, Vector3 hitDirection)
+        /*public IEnumerator Knockback(float duration, Vector3 hitDirection)
         {
             float elapsedTime = 0f;
             while (elapsedTime < duration)
             {
                 characterController.Move(hitDirection * knockbackStrength * Time.deltaTime);
                 elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            knockBack = false;
+        }*/
+        public IEnumerator Knockback(float maxDistance, Vector3 hitDirection)
+        {
+            float distanceTraveled = 0f;
+            while (distanceTraveled < maxDistance)
+            {
+                Vector3 moveVector = hitDirection * knockbackStrength * Time.deltaTime;
+                characterController.Move(moveVector);
+                distanceTraveled += moveVector.magnitude;
                 yield return null;
             }
             knockBack = false;
@@ -365,6 +378,9 @@ namespace Level3
             float heightOffset = 0.5f; // Change this value as needed
             // Define the range within which the character can take an object
             float range = 2.0f;
+            // Define the radius of the sphere cast
+            float radius = 0.5f;
+
             if (Input.GetKeyDown(KeyCode.O))
             {
                 if (!withObject)
@@ -375,7 +391,7 @@ namespace Level3
                     RaycastHit hit;
 
                     // Cast the ray
-                    if (Physics.Raycast(ray, out hit, range))
+                    if (Physics.SphereCast(ray, radius, out hit, range))
                     {
                         // Check if the object is the one you want to take
                         if (hit.collider.gameObject.CompareTag("Catchable"))
@@ -419,6 +435,8 @@ namespace Level3
 
                         }
                     }
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(ray.origin + ray.direction * range, radius);
                 }
                 else
                 {
@@ -452,7 +470,6 @@ namespace Level3
                     }
                 }
             }
-            Debug.DrawRay(transform.position + new Vector3(0, heightOffset, 0), transform.forward * range, Color.red);
         }
 
         /*private void OnTriggerEnter(Collider other)
