@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class PlayerMovementPhase03 : PhysicsObject
 {
+    public Animator anim;
+
     public float maxSpeed = 5;
     public float jumpForce = 10;
+
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
 
     protected override void ComputeVelocity()
     {
         Vector2 move = Vector2.zero;
         move.x = Input.GetAxis("Horizontal");
-        if(Input.GetButtonDown("Jump") && grounded)
+
+        if (move.x > 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 0f, 0f); } //player está subindo aos céus misteriosamente
+        else if (move.x < 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 180f, 0f); }//preciso descobrir o que é
+        //else if(move.x == 0) anim.Play("Idle");
+
+        if(Input.GetKeyDown(KeyCode.W) && grounded)
         {
             velocity.y = jumpForce;
         }
-        else if(Input.GetButtonUp("Jump"))
+        else if(Input.GetKeyUp(KeyCode.W))
         {
              if(velocity.y > 0) { }
             {

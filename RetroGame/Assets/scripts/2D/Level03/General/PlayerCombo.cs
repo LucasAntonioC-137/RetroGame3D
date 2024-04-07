@@ -95,11 +95,11 @@ public class PlayerCombo : MonoBehaviour
     void PlayHit(Hit hit)
     {
         comboTimer = 0f;
-        anim.Play(hit.animation);
+        attackData.SetAttack(hit);
         startCombo = true;
         currentCombo.Add(hit.inputButton);
         currentHit = hit;
-        attackData.SetAttack(hit);
+        anim.Play(hit.animation);
         canHit = true;
     }
 
