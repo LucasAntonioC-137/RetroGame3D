@@ -13,7 +13,7 @@ namespace Level3
     public class PlayerControl : MonoBehaviour
     {
         private CharacterController characterController;
-        private Animator anim;
+        public Animator anim;
         private Vector3 velocity;
         private float timeSinceJump;
 
@@ -41,7 +41,7 @@ namespace Level3
         private BlackBomb bomb;
         private float originalSpeed;
         private float originalRotation;
-
+        private Boo boss;
 
         private Vector3 slideDirection;
         public float slopeLimit = 45f; // Ângulo máximo de inclinação que o personagem pode subir
@@ -62,11 +62,17 @@ namespace Level3
         public AudioSource landSound;
 
         public CinemachineBrain mainCameraBrain;
+        public bool cameraInCutScene = false;
+        public bool cameraChanged = false;
+
+        private Vector3 forwardDirection;
+        private Vector3 rightDirection;
         // Start is called before the first frame 
 
 
         void Start()
         {
+            boss = GameObject.FindObjectOfType<Boo>();
             characterController= GetComponent<CharacterController>();
             anim = GetComponent<Animator>();
             anim.SetInteger("transition", 0);
@@ -81,8 +87,7 @@ namespace Level3
         // Update is called once per frame
         void Update()
         {
-
-            if (!isDead && !knockBack && !mainCameraBrain.IsBlending)
+            if (!cameraInCutScene && !isDead && !knockBack && !mainCameraBrain.IsBlending)
             {
                 ApplyGravity();
                 FallDamage();
@@ -130,19 +135,32 @@ namespace Level3
                 PlayerDie();
             }
             knockBack = true;
-            float duration = IsGrounded() ? 0.3f : 0.1f;
+            float duration = 4f;
+            //float duration = IsGrounded() ? 0.3f : 0.1f;
             if (!isDead && !isFall)
                 StartCoroutine(Knockback(duration, damageDirection));
             else if(isFall)
                 anim.SetTrigger("Fall"); isFall = false; fallDistance = 0f;
         }
-        public IEnumerator Knockback(float duration, Vector3 hitDirection)
+        /*public IEnumerator Knockback(float duration, Vector3 hitDirection)
         {
             float elapsedTime = 0f;
             while (elapsedTime < duration)
             {
                 characterController.Move(hitDirection * knockbackStrength * Time.deltaTime);
                 elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            knockBack = false;
+        }*/
+        public IEnumerator Knockback(float maxDistance, Vector3 hitDirection)
+        {
+            float distanceTraveled = 0f;
+            while (distanceTraveled < maxDistance)
+            {
+                Vector3 moveVector = hitDirection * knockbackStrength * Time.deltaTime;
+                characterController.Move(moveVector);
+                distanceTraveled += moveVector.magnitude;
                 yield return null;
             }
             knockBack = false;
@@ -184,10 +202,17 @@ namespace Level3
             float verticalInput = Input.GetAxis("Vertical");
 
             if (horizontalInput != 0 || verticalInput != 0)
-            { 
-                // Calculate the forward and right directions based on the camera's rotation
-                Vector3 forwardDirection = Camera.main.transform.forward;
-                Vector3 rightDirection = Camera.main.transform.right;
+            {
+                if (cameraChanged)
+                {
+                    StartCoroutine(DelayCamera());
+                }
+                else
+                {
+                    // Calculate the forward and right directions based on the camera's rotation
+                    forwardDirection = Camera.main.transform.forward;
+                    rightDirection = Camera.main.transform.right;
+                }
 
                 // Remove any vertical movement from the directions
                 forwardDirection.y = 0;
@@ -238,6 +263,15 @@ namespace Level3
             {
                 isWalking= false;
             }
+        }
+
+        IEnumerator DelayCamera()
+        {
+            yield return new WaitForSeconds(0.5f);
+            // Calculate the forward and right directions based on the camera's rotation
+            forwardDirection = Camera.main.transform.forward;
+            rightDirection = Camera.main.transform.right;
+            cameraChanged = false;
         }
 
         void PlayFootStepSound()
@@ -308,7 +342,7 @@ namespace Level3
             characterController.Move(_direction * Time.deltaTime);
         }
 
-        private bool IsGrounded()
+        public bool IsGrounded()
         {
             // Check if CharacterController thinks it's grounded
             if (characterController.isGrounded)
@@ -344,6 +378,9 @@ namespace Level3
             float heightOffset = 0.5f; // Change this value as needed
             // Define the range within which the character can take an object
             float range = 2.0f;
+            // Define the radius of the sphere cast
+            float radius = 0.5f;
+
             if (Input.GetKeyDown(KeyCode.O))
             {
                 if (!withObject)
@@ -354,7 +391,7 @@ namespace Level3
                     RaycastHit hit;
 
                     // Cast the ray
-                    if (Physics.Raycast(ray, out hit, range))
+                    if (Physics.SphereCast(ray, radius, out hit, range))
                     {
                         // Check if the object is the one you want to take
                         if (hit.collider.gameObject.CompareTag("Catchable"))
@@ -398,6 +435,8 @@ namespace Level3
 
                         }
                     }
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(ray.origin + ray.direction * range, radius);
                 }
                 else
                 {
@@ -431,7 +470,6 @@ namespace Level3
                     }
                 }
             }
-            Debug.DrawRay(transform.position + new Vector3(0, heightOffset, 0), transform.forward * range, Color.red);
         }
 
         /*private void OnTriggerEnter(Collider other)

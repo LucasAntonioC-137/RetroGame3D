@@ -53602,7 +53602,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6846381227288960411}
-  - component: {fileID: 1951550827254366197}
   m_Layer: 6
   m_Name: ClimbOne
   m_TagString: Untagged
@@ -53627,20 +53626,6 @@ Transform:
   - {fileID: 1058139319485428462}
   m_Father: {fileID: 3264917994882820765}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1951550827254366197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8536162961769832829}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5358b6c85c1656446bd29aaa710ffada, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseCamera: {fileID: 0}
-  towerCamera: {fileID: 0}
 --- !u!1 &8538400958487827377
 GameObject:
   m_ObjectHideFlags: 0
@@ -53806,6 +53791,7 @@ MonoBehaviour:
   - {fileID: 543984404474310510}
   - {fileID: 5998344379491049945}
   isPlayerInside: 0
+  bossTheme: {fileID: 0}
 --- !u!65 &3690096364705330523
 BoxCollider:
   m_ObjectHideFlags: 0
