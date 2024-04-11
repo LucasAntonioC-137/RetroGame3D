@@ -79,7 +79,7 @@ public class PhysicsObject : MonoBehaviour
                 }
 
                 float modifiedDistance = raycastHit2Ds[i].distance - colRadius;
-                distance = modifiedDistance < distance ? modifiedDistance : distance; //se o valor modificadao da distancia é menor que ela, se for,
+                distance = modifiedDistance < distance ? modifiedDistance : distance; //if o valor modificadao da distancia é menor que ela, se for,
                                                                                       //ela vai receber o valor da modifiedDistance, senão permanece
                                                                                       //o mesmo valor
             }

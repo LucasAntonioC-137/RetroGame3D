@@ -889,7 +889,6 @@ GameObject:
   - component: {fileID: 999301180}
   - component: {fileID: 999301182}
   - component: {fileID: 999301181}
-  - component: {fileID: 999301183}
   m_Layer: 5
   m_Name: Player Life Bar
   m_TagString: Untagged
@@ -956,21 +955,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999301179}
   m_CullTransparentMesh: 1
---- !u!114 &999301183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999301179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life: 100
-  specialBar: 25
-  LifeBar: {fileID: 1477508685}
 --- !u!1 &1124581015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,6 +1840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityModifier: 1
   minGroundY: 0.5
+  anim: {fileID: 0}
   maxSpeed: 5
   jumpForce: 8
 --- !u!61 &1773142799
@@ -2251,7 +2236,6 @@ GameObject:
   - component: {fileID: 2127001274}
   - component: {fileID: 2127001276}
   - component: {fileID: 2127001275}
-  - component: {fileID: 2127001277}
   m_Layer: 5
   m_Name: Boss Life Bar
   m_TagString: Untagged
@@ -2318,21 +2302,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127001273}
   m_CullTransparentMesh: 1
---- !u!114 &2127001277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127001273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life: 100
-  specialBar: 25
-  LifeBar: {fileID: 546563745}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

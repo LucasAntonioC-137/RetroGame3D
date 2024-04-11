@@ -6,6 +6,7 @@ public class BossCombat : MonoBehaviour
 {
     [SerializeField] Transform punchAttack;
     public float punchRange = 0.5f;
+    private int punchDamage = 10;
     public LayerMask playerLayer;
 
     // Start is called before the first frame update
@@ -27,7 +28,6 @@ public class BossCombat : MonoBehaviour
     void bossPunch1()
     {
         Physics2D.OverlapCircleAll(punchAttack.position, punchRange, playerLayer);
-        Debug.Log("essa praga funcionou");
     }
 
     private void OnDrawGizmosSelected()
@@ -36,5 +36,16 @@ public class BossCombat : MonoBehaviour
             return;
 
         Gizmos.DrawWireSphere(punchAttack.position, punchRange);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Life player = collision.GetComponent<Life>();
+        if(player != null && collision.gameObject.CompareTag("Player"))
+        {
+            player.TakeDamage(punchDamage);
+            Debug.Log(player.life);
+            
+        }
     }
 }

@@ -24,7 +24,7 @@ public class AttackData : MonoBehaviour
         {
             enemy.TakeDamage(damage);
             audioPlayer.PlaySound(hitSound); //botei na main camera porque no player ficava o ícone de áudio
-                                             //preciso descobrir o pq
+                                             //preciso descobrir o pq (descobri, é só pira do editor mesmo, in game não vai ter ela)
             if(slowDown)
                SlowDownEffect.instance.SetSlowDown();
             
