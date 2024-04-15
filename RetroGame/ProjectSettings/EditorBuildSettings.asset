@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/3D/Nivel 1 - 3D/Nivel 1 - 3D.unity
     guid: a1eb7a313a2889042986e7e8ed48084d
   - enabled: 0
@@ -29,7 +29,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/2D/Level_02_BossFight.unity
     guid: 817044d4b1ec8444f8c855f009f9889a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3D/Nivel 3 - 3D/Nivel 3 - 3D.unity
     guid: c68de700e6cc32d4e8ae000c0239ae08
+  - enabled: 1
+    path: Assets/Scenes/3D/MainMenu3D.unity
+    guid: c0e13f5befaccc64b90577a284c9517a
   m_configObjects: {}
