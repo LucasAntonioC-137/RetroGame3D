@@ -17,7 +17,8 @@ public class Barrel : MonoBehaviour
             GameObject audioObject = Instantiate(audioSourcePrefab, transform.position, Quaternion.identity);
             AudioSource audioSource = audioObject.GetComponent<AudioSource>();
             audioSource.Play();
-
+            GameObject explosion = Instantiate(explosionAnimation, transform.position, Quaternion.identity);
+            Destroy(explosion, 2f);
             // Destrua o objeto de áudio depois que o som terminar
             Destroy(audioObject, audioSource.clip.length);
             Destroy(gameObject);
@@ -26,10 +27,7 @@ public class Barrel : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Instancie a animação de explosão na posição do 
         Explode();
-        GameObject explosion = Instantiate(explosionAnimation, transform.position, Quaternion.identity);
-        Destroy(explosion, 2f);
     }
 
 

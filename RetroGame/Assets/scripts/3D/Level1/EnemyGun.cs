@@ -56,6 +56,6 @@ public class EnemyGun : MonoBehaviour
     {
         GameObject laser = Instantiate(laserPrefab, transform.position, transform.rotation) as GameObject;
         laser.GetComponent<Rigidbody>().velocity = transform.forward * laserSpeed;
-        AudioSource.PlayClipAtPoint(laserSfx.clip, transform.position);
+        laserSfx.Play();
     }
 }

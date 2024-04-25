@@ -16,18 +16,24 @@ public class EnemyHealthN13D : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            AudioSource.PlayClipAtPoint(explosionSfx.clip, transform.position);
-            //explosionSfx.Play();
+            // Instantiate the audio source prefab
+            AudioSource laserSfxInstance = Instantiate(explosionSfx, transform.position, Quaternion.identity);
+            // Play the sound
+            laserSfxInstance.Play();
+            // Destroy the audio source after the sound has finished playing
+            Destroy(laserSfxInstance.gameObject, laserSfxInstance.clip.length);
+            
             destroyedByPlayer = true;
             
             PlayerStats.instance.AddScore(score);
-            Destroy(gameObject);
+            
             if (gameObject.GetComponent<DestroyVFX>() != null)
             {
                 GameObject prefabVfx = gameObject.GetComponent<DestroyVFX>().prefabVfx;
                 GameObject vfx = Instantiate(prefabVfx, transform.position, Quaternion.identity);
                 Destroy(vfx, 2f);
             }
+            Destroy(gameObject);
         }
     }
 }

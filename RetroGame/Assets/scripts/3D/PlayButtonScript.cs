@@ -16,8 +16,8 @@ public class PlayButtonScript : MonoBehaviour
     void Start()
     {
         // Inicia o jogo em um estado pausado
-        Time.timeScale = 0;
-        DesativateScreen(ingameUI);
+        //Time.timeScale = 0;
+        //DesativateScreen(ingameUI);
         DesativateScreen(gameOverUI);
 
         // Adiciona o ouvinte ao evento de clique do botão PLAY
