@@ -422,7 +422,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1739397, y: 4.5436015}
+  m_Offset: {x: 3.1485157, y: 4.5436015}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -433,7 +433,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1303959, y: 10.087203}
+  m_Size: {x: 7.7753067, y: 10.087203}
   m_EdgeRadius: 0
 --- !u!1 &361255010
 GameObject:
@@ -557,7 +557,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!4 &480718881
 Transform:
   m_ObjectHideFlags: 0
@@ -588,7 +588,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   punchAttack: {fileID: 361255011}
-  punchRange: 0.5
+  punchRange: 0.8
+  repulsionForce: 100
   playerLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -731,7 +732,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 8.255637, y: 0}
+  m_Offset: {x: 8.255637, y: -1.7763581}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -742,7 +743,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 17.98955, y: 1}
+  m_Size: {x: 17.98955, y: 4.5527163}
   m_EdgeRadius: 0
 --- !u!4 &747737156
 Transform:
@@ -1019,7 +1020,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1739397, y: 4.5436015}
+  m_Offset: {x: -2.7259707, y: 4.5436015}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1030,7 +1031,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1303959, y: 10.087203}
+  m_Size: {x: 6.234458, y: 10.087203}
   m_EdgeRadius: 0
 --- !u!1 &1322608477
 GameObject:
@@ -1814,35 +1815,18 @@ GameObject:
   - component: {fileID: 1773142801}
   - component: {fileID: 1773142800}
   - component: {fileID: 1773142799}
-  - component: {fileID: 1773142798}
   - component: {fileID: 1773142802}
   - component: {fileID: 1773142803}
-  - component: {fileID: 1773142805}
   - component: {fileID: 1773142804}
+  - component: {fileID: 1773142806}
+  - component: {fileID: 1773142805}
   m_Layer: 0
   m_Name: Player 2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1773142798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1773142797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0623e22fb405afb4dbe677d809de94d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravityModifier: 1
-  minGroundY: 0.5
-  anim: {fileID: 0}
-  maxSpeed: 5
-  jumpForce: 8
 --- !u!61 &1773142799
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1896,7 +1880,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773142797}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
@@ -1913,8 +1897,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!4 &1773142801
 Transform:
   m_ObjectHideFlags: 0
@@ -2128,6 +2112,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1773142806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773142797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1027e5eacc977214faf5978b6c82f330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rbody: {fileID: 1773142800}
+  playerSpeed: 5
+  jumpForce: 9
+  isJumping: 0
+  anim: {fileID: 0}
 --- !u!1 &1825312105
 GameObject:
   m_ObjectHideFlags: 0

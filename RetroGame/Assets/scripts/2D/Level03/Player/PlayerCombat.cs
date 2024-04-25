@@ -49,7 +49,7 @@ public class PlayerCombat : MonoBehaviour
             }
         }
         //damage them
-        Debug.Log("We hit him");
+        //Debug.Log("We hit him");
         //anim.SetTrigger("Attack1);
 
 
