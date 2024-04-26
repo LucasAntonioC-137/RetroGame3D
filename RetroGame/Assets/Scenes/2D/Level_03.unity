@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 480718879}
   - component: {fileID: 480718882}
   - component: {fileID: 480718883}
+  - component: {fileID: 480718884}
   m_Layer: 9
   m_Name: Enemy Test
   m_TagString: Enemy
@@ -608,6 +609,19 @@ MonoBehaviour:
   life: 100
   specialBar: 25
   LifeBar: {fileID: 546563745}
+--- !u!114 &480718884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480718878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79d92bb69e0a1d4dbd907173cb91063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1773142797}
 --- !u!1 &546563743
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,7 +1835,7 @@ GameObject:
   - component: {fileID: 1773142806}
   - component: {fileID: 1773142805}
   m_Layer: 0
-  m_Name: Player 2
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2128,7 +2142,8 @@ MonoBehaviour:
   playerSpeed: 5
   jumpForce: 9
   isJumping: 0
-  anim: {fileID: 0}
+  anim: {fileID: 1359542997}
+  Enemy: {fileID: 480718878}
 --- !u!1 &1825312105
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,8 @@ public class PlayerWalk : MonoBehaviour
         //transform.Translate( *)
         Move();
         Jump();
+
+        Facing();
     }
 
     void Move()
@@ -45,6 +47,23 @@ public class PlayerWalk : MonoBehaviour
             //anim.SetBool("jump", true);
         }
     }
+
+    #region Direção da Visão do jogador
+    public GameObject Enemy;
+    void Facing()
+    {
+        Vector3 scale = transform.localScale;
+
+        if (Enemy.transform.position.x > transform.position.x)
+            scale.x = Mathf.Abs(scale.x);
+        else
+        {
+            scale.x = Mathf.Abs(scale.x) * -1;
+        }
+
+        transform.localScale = scale;
+    }
+    #endregion
 
     void OnCollisionEnter2D(Collision2D collision)
     {
