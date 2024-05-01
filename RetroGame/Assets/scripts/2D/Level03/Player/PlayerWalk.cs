@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.ReorderableList;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -8,12 +9,17 @@ public class PlayerWalk : MonoBehaviour
     public Rigidbody2D rbody;
     public int playerSpeed, jumpForce;
     public bool isJumping;
-    public Animator anim;
+    public bool isFacingRight; // começa como true apenas porque ele é o jogador e por conveniência 
+    public Animator anim;             // ele vai começar do lado esquerdo
+    public SpriteRenderer spriteRenderer;
+    private bool canMove = true;
 
+    Vector3 movement;
     //Este é um script de movimentação simples (praticamente o mesmo que usei no nível 1)
     //preciso adaptar para ser o mais próximo possível de um jogo de luta
     void Start()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rbody = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
     }
@@ -24,18 +30,51 @@ public class PlayerWalk : MonoBehaviour
         //transform.Translate( *)
         Move();
         Jump();
-
         Facing();
     }
 
     void Move()
     {
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
+        {
+            movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
 
-        if (movement.x > 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 0f, 0f); } 
-        else if (movement.x < 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 180f, 0f); }
+            switch (isFacingRight)
+            {
+                case true: //olhando para a direita
+                    if (movement.x > 0)
+                    {
+                        anim.SetBool("isRunning", true);
+                    }
+                    else if (movement.x < 0)
+                    {
+                        anim.SetBool("runningBack", true);
+                    }
+                    else
+                    {
+                        anim.SetBool("isRunning", false);
+                        anim.SetBool("runningBack", false);
+                    }
+                    break;
+                case false: //olhando para a esquerda
+                    if (movement.x > 0)
+                    {
+                        anim.SetBool("runningBack", true);
+                    }
+                    else if (movement.x < 0)
+                    {
+                        anim.SetBool("isRunning", true);
+                    }
+                    else
+                    {
+                        anim.SetBool("isRunning", false);
+                        anim.SetBool("runningBack", false);
+                    }
+                    break;
+            }
 
-        transform.position += movement * Time.deltaTime * playerSpeed;
+            transform.position += movement * Time.deltaTime * playerSpeed;
+        }
+        
     }
 
     void Jump()
@@ -44,24 +83,32 @@ public class PlayerWalk : MonoBehaviour
         {
             rbody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
+           //deactivate();
             //anim.SetBool("jump", true);
         }
     }
 
     #region Direção da Visão do jogador
     public GameObject Enemy;
+    private float fightersDistance;
     void Facing()
     {
         Vector3 scale = transform.localScale;
 
         if (Enemy.transform.position.x > transform.position.x)
+        {
             scale.x = Mathf.Abs(scale.x);
+            isFacingRight = true;
+        }
         else
         {
             scale.x = Mathf.Abs(scale.x) * -1;
+            isFacingRight = false;
         }
+        
 
         transform.localScale = scale;
+
     }
     #endregion
 
@@ -72,5 +119,13 @@ public class PlayerWalk : MonoBehaviour
             isJumping = false;
             //anim.SetBool("jump", false);
         }
+    }
+
+    IEnumerator deactivate()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(0.5f);
+        canMove = true;
+        StopCoroutine(deactivate());
     }
 }

@@ -20,4 +20,6 @@ public class BossMovimentation : MonoBehaviour
 
         transform.localScale = scale;
     }
+
+    //fightersDistance = Vector3.Distance(transform.position, Enemy.transform.position); //tentar usar na IA do boss
 }

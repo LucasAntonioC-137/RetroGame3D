@@ -2142,7 +2142,9 @@ MonoBehaviour:
   playerSpeed: 5
   jumpForce: 9
   isJumping: 0
-  anim: {fileID: 1359542997}
+  isFacingRight: 1
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   Enemy: {fileID: 480718878}
 --- !u!1 &1825312105
 GameObject:
@@ -2327,6 +2329,6 @@ SceneRoots:
   - {fileID: 112929519}
   - {fileID: 977507936}
   - {fileID: 19767704}
-  - {fileID: 480718881}
   - {fileID: 1773142801}
   - {fileID: 1431267574}
+  - {fileID: 480718881}
