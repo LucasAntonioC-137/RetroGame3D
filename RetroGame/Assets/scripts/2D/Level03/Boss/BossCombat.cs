@@ -32,6 +32,7 @@ public class BossCombat : MonoBehaviour
 
         foreach (Collider2D playerCol in hitPlayer)
         {
+            Life player = playerCol.GetComponent<Life>();
             //aplicar força de repulsão
             Rigidbody2D enemyRb = playerCol.GetComponent<Rigidbody2D>();
             if (enemyRb != null)
@@ -41,6 +42,8 @@ public class BossCombat : MonoBehaviour
 
                 float repulsionY = 0.7f;
                 repulsionDirection.y += repulsionY;
+                
+                player.TakeDamage(punchDamage);
 
                 enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
             }
@@ -55,16 +58,17 @@ public class BossCombat : MonoBehaviour
         Gizmos.DrawWireSphere(punchAttack.position, punchRange);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        
-        Life player = collision.GetComponent<Life>();
-        if(player != null && collision.gameObject.CompareTag("Player"))
-        {
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+
+    //    Debug.Log("entramos no collision");
+    //    Life player = collision.GetComponent<Life>();
+    //    if(player != null && collision.gameObject.CompareTag("Player"))
+    //    {
+
+    //        player.TakeDamage(punchDamage);
+    //        Debug.Log("Vida do player:" + player.life);
             
-            player.TakeDamage(punchDamage);
-            Debug.Log("Vida do player:" + player.life);
-            
-        }
-    }
+    //    }
+    //}
 }

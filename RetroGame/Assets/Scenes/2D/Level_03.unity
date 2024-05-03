@@ -590,7 +590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   punchAttack: {fileID: 361255011}
   punchRange: 0.8
-  repulsionForce: 100
+  repulsionForce: 80
   playerLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -1834,7 +1834,7 @@ GameObject:
   - component: {fileID: 1773142804}
   - component: {fileID: 1773142806}
   - component: {fileID: 1773142805}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2330,5 +2330,5 @@ SceneRoots:
   - {fileID: 977507936}
   - {fileID: 19767704}
   - {fileID: 1773142801}
-  - {fileID: 1431267574}
   - {fileID: 480718881}
+  - {fileID: 1431267574}
