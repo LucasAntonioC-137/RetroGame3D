@@ -22,6 +22,9 @@ namespace Level3
         public GameObject bossVision;
         private BossFightZone bossZone;
         public Boo booBoss;
+        private bool mood1Blinked = false;
+        private bool mood2Blinked = false;
+        private bool hasInside = false;
         //public int[] bossStages;
 
         [Header("Bomb")]
@@ -91,22 +94,55 @@ namespace Level3
             {
                 if (bossZone.isPlayerInside)
                 {
-                    bossUI.enabled = true;
+                    if(!hasInside)
+                        bossUI.enabled = true; hasInside = true;
                     if (booBoss.life > 4)
+                    {
                         bossUI.sprite = bossMood[0];
+                        mood1Blinked = false;
+                        mood2Blinked = false;
+                    }
                     else if (booBoss.life > 2 && booBoss.life < 5)
+                    {
                         bossUI.sprite = bossMood[1];
+                        if (!mood1Blinked)
+                        {
+                            StartCoroutine(BlinkBossMood());
+                            mood1Blinked = true;
+                        }
+                        mood2Blinked = false;
+                    }
                     else if (booBoss.life < 3)
+                    {
                         bossUI.sprite = bossMood[2];
+                        if (!mood2Blinked)
+                        {
+                            StartCoroutine(BlinkBossMood());
+                            mood2Blinked = true;
+                        }
+                    }
                 }
                 else
                 {
                     bossUI.enabled = false;
+                    hasInside= false;
                 }
             }
             else
             {
                 bossUI.enabled = false;
+            }
+        }
+
+        IEnumerator BlinkBossMood()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                bossUI.enabled = true;
+                yield return new WaitForSeconds(0.7f);
+                bossUI.enabled = false;
+                yield return new WaitForSeconds(0.7f);
+                bossUI.enabled = true;
             }
         }
 

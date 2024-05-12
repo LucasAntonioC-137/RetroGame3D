@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Video;
+using UnityEngine.Audio;
 using System;
 using UnityEngine.SceneManagement;
 
@@ -25,12 +26,29 @@ public class MainMenuController : MonoBehaviour
     [Header("Controls")]
     public GameObject[] controlScreens;
 
+    [Header("Volume")]
+    [SerializeField] private AudioMixer myMixer;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+
     // Start is called before the first frame update
     void Start()
     {
         //backGroundVideoPlayer.clip = backGroundVideoClips[0];
         //backGroundVideoPlayer.Play();
         //Listers
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
+            LoadVolume();
+        }else if (PlayerPrefs.HasKey("sfxVolume"))
+        {
+            LoadVolume();
+        }
+        else
+        {
+            SetMusicVolume();
+            SetSfxVolume();
+        }
         backgroundImage.enabled = false;
         InstantiateBackGroundListeners();
         gameImages[0].SetActive(true);
@@ -61,10 +79,31 @@ public class MainMenuController : MonoBehaviour
         controlScreens[0].SetActive(true);
     }
 
+    public void Volume()
+    {
+        mainMenuOptionsScreens[2].SetActive(true);
+        mainMenuOptionsScreens[0].SetActive(false);
+    }
+
+    public void About()
+    {
+        mainMenuOptionsScreens[3].SetActive(true);
+        mainMenuOptionsScreens[0].SetActive(false);
+    }
+    
+    public void Exit()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
+
+
     //Controls
     public void ControlsReturnPreviousPage()
     {
-        Debug.Log("Voltar");
         if (controlScreens[0].activeSelf)
         {
             controlScreens[0].SetActive(false);
@@ -83,7 +122,6 @@ public class MainMenuController : MonoBehaviour
 
     public void ControlsGoNextPage()
     {
-        Debug.Log("Proximo");
         if (controlScreens[0].activeSelf)
         {
             controlScreens[0].SetActive(false);
@@ -94,6 +132,41 @@ public class MainMenuController : MonoBehaviour
             controlScreens[1].SetActive(false);
             controlScreens[2].SetActive(true);
         }
+    }
+
+    //Volumes
+    public void VolumeReturnMenu()
+    {
+        mainMenuOptionsScreens[0].SetActive(true);
+        mainMenuOptionsScreens[2].SetActive(false);
+    }
+
+    public void SetMusicVolume()
+    {
+        float volume = musicSlider.value;
+        myMixer.SetFloat("music", Mathf.Log10(volume)*20);
+        PlayerPrefs.SetFloat("musicVolume", volume);
+    }
+    public void SetSfxVolume()
+    {
+        float volume = sfxSlider.value;
+        myMixer.SetFloat("sfx", Mathf.Log10(volume)*20);
+        PlayerPrefs.SetFloat("sfxVolume", volume);
+    }
+
+    private void LoadVolume()
+    {
+        musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        SetMusicVolume();
+        SetSfxVolume();
+    }
+
+    //About
+    public void AboutReturnMenu()
+    {
+        mainMenuOptionsScreens[0].SetActive(true);
+        mainMenuOptionsScreens[3].SetActive(false);
     }
 
 

@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SCORE
+  m_text: PONTOS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4a61f09e9ea495a449c7f95c30d3548e, type: 2}
   m_sharedMaterial: {fileID: 7425841724348484763, guid: 4a61f09e9ea495a449c7f95c30d3548e, type: 2}
@@ -1245,7 +1245,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CONGRATULATIONS!!! LEVEL 1 COMPLETE!!!
+  m_text: "PARABENS!!!\n NIVEL 1 COMPLETO!!!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4a61f09e9ea495a449c7f95c30d3548e, type: 2}
   m_sharedMaterial: {fileID: 7425841724348484763, guid: 4a61f09e9ea495a449c7f95c30d3548e, type: 2}

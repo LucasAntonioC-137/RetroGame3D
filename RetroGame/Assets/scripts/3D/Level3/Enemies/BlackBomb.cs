@@ -45,11 +45,15 @@ namespace Level3
         private bool explode = false;
         public GameObject body1;
         public GameObject body2;
+        public PlayerControl character;
+        public GameObject player;
 
         void Start()
         {
             // Find the player object with the "Player" tag
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if(player==null)
+                player = GameObject.FindGameObjectWithTag("Player");
+            character= player.GetComponent<PlayerControl>();
             if (player != null)
             {
                 target = player;
@@ -214,13 +218,15 @@ namespace Level3
                 Collider[] objectsInRange = Physics.OverlapSphere(transform.position, radius);
                 foreach (Collider col in objectsInRange)
                 {
+                    // Verifica se o objeto é o jogador
+                    PlayerControl player = col.gameObject.GetComponent<PlayerControl>();
                     // Check for enemies more efficiently
                     if (col.CompareTag("Enemy"))
                     {
+                        character.AddHealth();
                         Destroy(col.gameObject);
                     }
-                    // Verifica se o objeto é o jogador
-                    PlayerControl player = col.gameObject.GetComponent<PlayerControl>();
+
                     Boo bossBoo = col.gameObject.gameObject.GetComponent<Boo>();
                     if (player != null)
                     {

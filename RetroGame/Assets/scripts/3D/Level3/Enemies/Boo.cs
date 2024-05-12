@@ -78,7 +78,7 @@ namespace Level3
             }
         }
         // Update is called once per frame
-        void Update()
+        void LateUpdate()
         {
             if (!isDead) 
             {

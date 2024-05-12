@@ -2,6 +2,10 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace Level3
 {
@@ -17,7 +21,10 @@ namespace Level3
         public CinemachineVirtualCamera[] virtualCameras;
         public AudioSource[] portalSounds;
         private BossFightZone bossZone;
-        
+        public Volume volume;
+        private Vignette vignette;
+        public GameObject player;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -61,8 +68,33 @@ namespace Level3
         {
             if(other.tag == "Player")
             {
+                PlayerControl player = other.gameObject.GetComponent<PlayerControl>();
+                PlayerPrefs.SetInt("Score3", (int)player.playerScore); // Armazena a pontuação com a chave "Score"
+                PlayerPrefs.Save(); // Salva as alterações
+                //Time.timeScale = 0;
+                player.gameObject.SetActive(false);
+                // Get the Vignette layer
+                if (volume.profile.TryGet(out vignette))
+                {
+                    // Start the coroutine to change the intensity
+                    StartCoroutine(ChangeIntensity());
+                }
                 Debug.Log("TELA FINAL");
             }
         }
+        IEnumerator ChangeIntensity()
+        {
+            float targetIntensity = 1f;
+            float step = 0.1f;
+
+            // Gradually increase the intensity
+            for (float i = 0; i <= targetIntensity; i += step)
+            {
+                vignette.intensity.value = i;
+                yield return new WaitForSeconds(0.1f);
+            }
+            SceneManager.LoadScene("EndUINivel3-3D");
+        }
+
     } 
 }

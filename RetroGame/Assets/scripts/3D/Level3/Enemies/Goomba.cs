@@ -36,7 +36,10 @@ namespace Level3
         private bool playerIsDead;
         //Specifics
         public bool die = false;
-        private float cowndown = 0f;
+        private bool cooldown = false;
+        public Collider deadCollider;
+        private bool smashed = false;
+        public GoombaHead hitDamage;
 
         void Start()
         {
@@ -79,10 +82,6 @@ namespace Level3
             else
             {
                 anim.SetInteger("transition", 0);
-            }
-            if(cowndown> 0f)
-            {
-                cowndown -= Time.deltaTime;
             }
         }
 
@@ -161,32 +160,44 @@ namespace Level3
         private void OnTriggerEnter(Collider collision)
         {
             if (collision.gameObject.tag == "Player")
-            {
+            { 
                 PlayerControl player = collision.gameObject.GetComponent<PlayerControl>();
 
                 if (player != null)
                 {
-                    // Check if the player is above the enemy
-                    if (player.transform.position.y > gameObject.transform.position.y)
+                    if(!smashed && !cooldown)
                     {
-                        // Player jumped on the enemy's head
-                        anim.SetInteger("transition", 0);
-
-                        Vector3 currentScale = gameObject.transform.localScale;
-                        currentScale.y = 0.01f;
-                        gameObject.transform.localScale = currentScale;
-                        player.GetComponent<PlayerControl>().AddHealth();
-                        player.playerScore += score;
-                        Die();
-                    }
-                    else if(cowndown <= 0)
-                    {
-                        cowndown= 1.5f;
+                        StartCoroutine(hitDamage.hitTimer());
+                        StartCoroutine(CooldownTimer());
                         Vector3 damageDirection = player.transform.position - transform.position;
                         player.GetDamage(damage, damageDirection);
                     }
                 }
             }
+        }
+
+        IEnumerator CooldownTimer()
+        {
+            cooldown = true;
+            gameObject.GetComponent<BoxCollider>().isTrigger = false;
+            yield return new WaitForSeconds(1.5f);
+            gameObject.GetComponent<BoxCollider>().isTrigger = true;
+            cooldown = false;
+        }
+
+        public void Smash(PlayerControl player)
+        {
+            smashed = true;
+            Debug.Log("Matar");
+            // Player jumped on the enemy's head
+            anim.SetInteger("transition", 0);
+
+            Vector3 currentScale = gameObject.transform.localScale;
+            currentScale.y = 0.01f;
+            gameObject.transform.localScale = currentScale;
+            player.GetComponent<PlayerControl>().AddHealth();
+            player.playerScore += score;
+            Die();
         }
 
         void Die()

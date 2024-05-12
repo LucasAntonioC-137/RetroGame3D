@@ -18,6 +18,8 @@ namespace Level3
 
         public bool canSeePlayer;
         public bool start;
+        //FogField of view
+
 
         // Start is called before the first frame update
         void Start()
@@ -29,7 +31,7 @@ namespace Level3
 
         private IEnumerator FOVRoutine()
         {
-            float delay = 0.2f;
+            float delay = 0.1f;
             WaitForSeconds wait = new WaitForSeconds(delay);
 
             while (true)

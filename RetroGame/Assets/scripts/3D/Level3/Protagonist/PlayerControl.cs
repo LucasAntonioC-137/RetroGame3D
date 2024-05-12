@@ -94,7 +94,6 @@ namespace Level3
                 Jump();
                 Move();
                 Take_Object();
-                Time.timeScale = 1;
             }
             else if (mainCameraBrain.IsBlending)
             {
@@ -379,13 +378,13 @@ namespace Level3
             // Define the range within which the character can take an object
             float range = 2.0f;
             // Define the radius of the sphere cast
-            float radius = 0.5f;
+            float radius = 0.6f;
 
             if (Input.GetKeyDown(KeyCode.O))
             {
                 if (!withObject)
                 {
-                    Ray ray = new Ray(transform.position + new Vector3(0, heightOffset, 0), transform.forward);
+                    Ray ray = new Ray(transform.position + new Vector3(0.5f, heightOffset, 0), transform.forward);
                     
                     // Define the hit information
                     RaycastHit hit;
@@ -435,8 +434,6 @@ namespace Level3
 
                         }
                     }
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawWireSphere(ray.origin + ray.direction * range, radius);
                 }
                 else
                 {
@@ -470,6 +467,17 @@ namespace Level3
                     }
                 }
             }
+        }
+
+        void OnDrawGizmos()
+        {
+            float heightOffset = 0.5f; // Change this value as needed
+            // Define the radius of the sphere cast
+            float radius = 0.6f;
+            Ray ray = new Ray(transform.position + new Vector3(0.5f, heightOffset, 0), transform.forward);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(ray.origin + ray.direction, radius);
         }
 
         /*private void OnTriggerEnter(Collider other)

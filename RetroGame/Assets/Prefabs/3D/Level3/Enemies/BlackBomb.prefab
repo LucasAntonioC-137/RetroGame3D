@@ -438,6 +438,8 @@ MonoBehaviour:
   vfxExplosion: {fileID: 100004, guid: bd5a7ae3e8bd4c8499f69e8e45138021, type: 3}
   body1: {fileID: 3557726300188237820}
   body2: {fileID: 7612552538681281367}
+  character: {fileID: 0}
+  player: {fileID: 1593265602750771483, guid: 32aac1f370336ef428b67e9f955fd74f, type: 3}
 --- !u!95 &3479051734767812479
 Animator:
   serializedVersion: 5

@@ -27,6 +27,7 @@ namespace Level3
         private CinemachineOrbitalTransposer transposer;
         private PlayerControl playerScript;
         public Transform playerLookAt;
+        public GameObject bossFOV;
         private bool stopedFight;
 
         private void Start()
@@ -153,6 +154,7 @@ namespace Level3
             fovScript.enabled = true;
             StartCoroutine(EnableSpawners());
             bossTheme.Play();
+            bossFOV.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             playerScript.cameraInCutScene = false;
             //follow the player from further away
@@ -191,6 +193,7 @@ namespace Level3
                 //boss.SetActive(false);
                 // Reset boss health, animations, AI state, etc.
                 boss.SetActive(false);
+                bossFOV.SetActive(false);
                 foreach (GameObject spawner in enemySpawners)
                 {
                     spawner.SetActive(false);
@@ -221,6 +224,7 @@ namespace Level3
                 spawner.SetActive(false);
                 // Reset enemy spawner logic
             }
+            bossFOV.SetActive(false);
             // Define the enemy layer
             int enemyLayer = LayerMask.NameToLayer("Enemy"); // Replace "Enemy" with your actual layer name
 
