@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BossCombat : MonoBehaviour
@@ -10,10 +12,12 @@ public class BossCombat : MonoBehaviour
     public float repulsionForce = 100f;
     public LayerMask playerLayer;
 
+    //para defesa do player ativar
+    private Animator bossAnim;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+       bossAnim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -21,7 +25,7 @@ public class BossCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            bossPunch1();
+            bossPunch1();            
         }
     
     }
@@ -29,26 +33,29 @@ public class BossCombat : MonoBehaviour
     void bossPunch1()
     {
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(punchAttack.position, punchRange, playerLayer);
-
+        StartCoroutine(atk());
         foreach (Collider2D playerCol in hitPlayer)
         {
-            Life player = playerCol.GetComponent<Life>();
-            //aplicar força de repulsão
-            Rigidbody2D enemyRb = playerCol.GetComponent<Rigidbody2D>();
-            if (enemyRb != null)
-            {
-                Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
-                repulsionDirection.Normalize();
-
-                float repulsionY = 0.7f;
-                repulsionDirection.y += repulsionY;
                 
-                player.TakeDamage(punchDamage);
+                Life player = playerCol.GetComponent<Life>();
+                //aplicar força de repulsão
+                Rigidbody2D enemyRb = playerCol.GetComponent<Rigidbody2D>();
+                if (enemyRb != null)
+                {
+                    Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
+                    repulsionDirection.Normalize();
 
-                enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
-            }
+                    float repulsionY = 0.7f;
+                    repulsionDirection.y += repulsionY;
+
+                    player.TakeDamage(punchDamage);
+
+                    enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
+                }
         }
+        
     }
+    
 
     private void OnDrawGizmosSelected()
     {
@@ -56,6 +63,14 @@ public class BossCombat : MonoBehaviour
             return;
 
         Gizmos.DrawWireSphere(punchAttack.position, punchRange);
+    }
+
+    IEnumerator atk()
+    {
+        bossAnim.SetBool("attacking", true);
+        yield return new WaitForSeconds(1f);
+        bossAnim.SetBool("attacking", false);
+
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)

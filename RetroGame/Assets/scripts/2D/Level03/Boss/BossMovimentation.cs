@@ -7,6 +7,7 @@ public class BossMovimentation : MonoBehaviour
 {
     public GameObject player;
 
+    //troca de lados
     void Update()
     {
         Vector3 scale = transform.localScale;

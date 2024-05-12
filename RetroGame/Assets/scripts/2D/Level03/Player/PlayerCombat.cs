@@ -62,4 +62,17 @@ public class PlayerCombat : MonoBehaviour
 
         Gizmos.DrawWireSphere(punchAttack.position, punchRange);
     }
+
+
+    #region Special Attack
+    private bool canMove = true;
+    IEnumerator deactivate() //utilizar quando for fazer o especial
+    {
+        canMove = false;
+        yield return new WaitForSeconds(0.5f);
+        canMove = true;
+        StopCoroutine(deactivate());
+    }
+
+    #endregion
 }

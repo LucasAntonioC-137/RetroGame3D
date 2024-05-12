@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -8,12 +9,9 @@ public class PlayerWalk : MonoBehaviour
 {
     public Rigidbody2D rbody;
     public int playerSpeed, jumpForce;
-    public bool isJumping;
     public bool isFacingRight; // começa como true apenas porque ele é o jogador e por conveniência 
     public Animator anim;             // ele vai começar do lado esquerdo
     public SpriteRenderer spriteRenderer;
-    private bool canMove = true;
-
     Vector3 movement;
     //Este é um script de movimentação simples (praticamente o mesmo que usei no nível 1)
     //preciso adaptar para ser o mais próximo possível de um jogo de luta
@@ -22,6 +20,7 @@ public class PlayerWalk : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rbody = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+
     }
 
     // Update is called once per frame
@@ -74,8 +73,11 @@ public class PlayerWalk : MonoBehaviour
 
             transform.position += movement * Time.deltaTime * playerSpeed;
         }
-        
+
     }
+
+    #region Jump
+    public bool isJumping;
 
     void Jump()
     {
@@ -83,12 +85,25 @@ public class PlayerWalk : MonoBehaviour
         {
             rbody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
-           //deactivate();
+            //deactivate();
             //anim.SetBool("jump", true);
         }
     }
 
-    #region Direção da Visão do jogador
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 6)
+        {
+            isJumping = false;
+            //anim.SetBool("jump", false);
+        }
+    }
+    #endregion
+
+
+
+
+    #region Player's FacingDir
     public GameObject Enemy;
     private float fightersDistance;
     void Facing()
@@ -105,27 +120,11 @@ public class PlayerWalk : MonoBehaviour
             scale.x = Mathf.Abs(scale.x) * -1;
             isFacingRight = false;
         }
-        
+
 
         transform.localScale = scale;
 
     }
     #endregion
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 6)
-        {
-            isJumping = false;
-            //anim.SetBool("jump", false);
-        }
-    }
-
-    IEnumerator deactivate()
-    {
-        canMove = false;
-        yield return new WaitForSeconds(0.5f);
-        canMove = true;
-        StopCoroutine(deactivate());
-    }
 }
