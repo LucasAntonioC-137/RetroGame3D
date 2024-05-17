@@ -14,6 +14,7 @@ public class BossCombat : MonoBehaviour
 
     //para defesa do player ativar
     private Animator bossAnim;
+    
     // Start is called before the first frame update
     private void Awake()
     {
@@ -48,9 +49,19 @@ public class BossCombat : MonoBehaviour
                     float repulsionY = 0.7f;
                     repulsionDirection.y += repulsionY;
 
+                if (PlayerDefense.isDefending == true)
+                {
+                    Debug.Log(PlayerDefense.isDefending); //não tá chegando aqui como true, apenas quando eu ataco duas vezes seguidas rapidamente
+                    player.TakeDamage(punchDamage / 2); //diminuir o dano pegando a variável isDefending
+                }
+                else if (PlayerDefense.isDefending == false)
+                {
+                    Debug.Log(PlayerDefense.isDefending);
                     player.TakeDamage(punchDamage);
-
                     enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
+                }   
+
+                    //enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force); //repulsão normal, vou por dentro apenas quando isDefending é false
                 }
         }
         

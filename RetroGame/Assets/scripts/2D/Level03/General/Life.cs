@@ -21,7 +21,7 @@ public class Life : MonoBehaviour //, Damage
         //LifeBar.fillAmount = life / 100;
 
         specialBar += damage * 2f;
-        Debug.Log("Vida: " + life + " Special bar: " + specialBar);
+        //Debug.Log("Vida: " + life + " Special bar: " + specialBar);
 
         if (specialBar >= 100)
         {
