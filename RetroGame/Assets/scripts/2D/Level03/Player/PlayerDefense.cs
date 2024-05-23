@@ -10,90 +10,110 @@ public class PlayerDefense : MonoBehaviour
     public static bool isDefending = false; //utilizar para desativar a possibilidade de movimentação na defesa
     private PlayerWalk walk;
     public Rigidbody2D weight; //pego no editor
-    
+
     private void Awake()
     {
         walk = GameObject.Find("Player").GetComponent<PlayerWalk>();
         //playerCol = gameObject.GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        ActiveDefense();
+    }
     void FixedUpdate()
     {
-        if(isDefending == true) 
-        { 
-            Defending();
-        } else isDefending = false;
+        //if (isDefending == true)
+        //{
+        //    Defending();
+        //}
+        //else isDefending = false;
     }
 
     IEnumerator DefenseEndCo()
     {
-       
+
         yield return new WaitForSeconds(0.6f);
+        isDefending = true;
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //if (collision.gameObject.CompareTag("EnemyAttack")) { Debug.Log("eu existo"); return; } //funcionou, agora por que não funciona quando peço pra
-                                                                                                //testar com o player andando pra trás? Resposta: precisava instanciar o script
-                                                                                                //no awake pra que o IF "soubesse" que a variável isFacingRight existe
-        if (collision.gameObject.CompareTag("EnemyAttack") &&
-        (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
-        Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && (FUNCIONANDO)
-        {
-            Debug.Log("Defendemos!");
-            isDefending = true; //fazer durar uma quantidade específica de frames, USAREMOS ESSA BOOL pra manter um while ligado, depois que ela mudar de valor ele acaba 
-            //StartCoroutine(DefenseCo());
-        }
-        else if (collision.gameObject.CompareTag("EnemyAttack") &&
-                ((Input.GetAxis("Horizontal") == 0 ||
-                ((Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == true) || (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == false)))))
-        {
-            isDefending = false;
-        }
+        //testar com o player andando pra trás? Resposta: precisava instanciar o script
+        //no awake pra que o IF "soubesse" que a variável isFacingRight existe
+
+        //if (collision.gameObject.CompareTag("EnemyAttack"))// &&
+        //(Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
+        //Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && (FUNCIONANDO)
+        //{
+        Defending(collision.gameObject);
+  
+
+        //if (collision.gameObject.CompareTag("EnemyAttack") &&
+        //        ((Input.GetAxis("Horizontal") == 0 ||
+        //        ((Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == true) || (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == false))))) //isso aqui é desnecessário
+        //                                                                                                                                                 //pq é só voltar pra falso depois de
+        //                                                                                                                                                 //um tempo
+        //{
+        //    isDefending = false;
+        //}
 
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("EnemyAttack") || 
-            (collision.gameObject.CompareTag("EnemyAttack") && (Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == true
-                                                             || (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == false))))
+        //isDefending = false; //isso aqui é um problema, pq ele que tá deixando a variável em falso antes do
+        //dano mitigado acontecer, preciso fazer a variável mudar apenas depois que o player soltar os direcionais
+    }
+
+    void ActiveDefense()
+    {
+        if (Input.GetKeyDown(KeyCode.L)) //preciso pegar a distância do inimigo pro player aqui, pra detectar que tão de frente um pro outro ou fazer um escudo igual do smash
         {
-            StartCoroutine(DefenseEndCo());
+
+            isDefending = true;
+
+        } else if (Input.GetKeyUp(KeyCode.L)) 
+        { 
             isDefending = false;
         }
     }
 
-    void Defending()
+    void Defending(GameObject coll)
     {
-        weight.velocity = Vector2.zero;
+        if (coll.gameObject.CompareTag("EnemyAttack") && isDefending == true)
+            //(Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
+            //Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false))
+        {
+            //isDefending = true;
 
-        weight.GetComponent<Rigidbody2D>().IsSleeping();
-        
-        weight.GetComponent<Rigidbody2D>().IsAwake(); //deu quase bom, ainda temos problema com o dano saindo menor mesmo quando o player está indo pra frente do ataque
+            weight.velocity = Vector2.zero;
+
+            weight.GetComponent<Rigidbody2D>().IsSleeping();
+
+            //tenho que dar um jeito de voltar a isDefending pra false caso ele não continue segurando a direção das costas
+
+            //while (isDefending == true) {
+
+
+            //    if (((Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
+            //          Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) && coll.gameObject.CompareTag("EnemyAttack"))
+            //    {
+            //        Defending(coll);
+
+            //    }
+
+        }
+        else if (coll.gameObject.CompareTag("EnemyAttack") && isDefending != false)
+            //((Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Horizontal") > 0.1) && walk.isFacingRight == true ||
+            //((Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Horizontal") < -0.1) && walk.isFacingRight == false)))
+        {
+            //isDefending = false;
+            weight.GetComponent<Rigidbody2D>().IsAwake();
+            Debug.Log("Defendemos");
+        }
+        //StartCoroutine(DefenseEndCo());
     }
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-
-    //    if (collision.gameObject.CompareTag("EnemyAttack") &&
-    //        (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
-    //         Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && )
-    //    {
-    //        Debug.Log("Defendemos!");
-    //        isDefending = true; //fazer durar uma quantidade específica de frames
-    //    }
-
-
-    //    if (collision.gameObject.CompareTag("EnemyAttack")){ Debug.Log("mizera"); }
-    //    //(movement.x < 0 && isFacingRight == true ||
-    //    // movement.x > 0 && isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && )
-    //    //{
-    //    //    Debug.Log("Defendemos!");
-    //    //    isDefending = true; //fazer durar uma quantidade específica de frames
-    //    //}
-
-    //}
-
 
 }

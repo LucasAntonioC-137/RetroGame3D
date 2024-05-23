@@ -9,7 +9,7 @@ public class PlayerWalk : MonoBehaviour
 {
     public Rigidbody2D rbody;
     public int playerSpeed, jumpForce;
-    public bool isFacingRight; // começa como true apenas porque ele é o jogador e por conveniência 
+    public bool isFacingRight;         // começa como true apenas porque ele é o jogador e por conveniência 
     public Animator anim;             // ele vai começar do lado esquerdo
     public SpriteRenderer spriteRenderer;
     Vector3 movement;
