@@ -15,7 +15,8 @@ public class BossCombat : MonoBehaviour
     //para defesa do player ativar
     private Animator bossAnim;
 
-    // Start is called before the first frame update
+    //LEMBRANDO QUE PRECISO DESATIVAR MOMENTANEAMENTE
+    //O AGGRO DO CHEFE QUANDO ELE EESTIVER RECEBENDO GOLPES DO PLAYER
     private void Awake()
     {
         bossAnim = GetComponentInChildren<Animator>();

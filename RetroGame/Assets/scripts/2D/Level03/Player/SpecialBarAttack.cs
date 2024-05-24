@@ -26,6 +26,11 @@ public class SpecialBarAttack : MonoBehaviour
             Debug.Log("Barra de especial atual: " + spBar.specialBar);
         }
 
+        
+    }
+
+    private void FixedUpdate()
+    {
         SpecialATK();
     }
 
@@ -35,6 +40,7 @@ public class SpecialBarAttack : MonoBehaviour
 
         if (spBar.specialBar >= 100 && Input.GetKey(KeyCode.R)) //lembrar que o special é no R
         {
+
             spBar.specialBar = 0;
             Debug.Log("Ativamos o special!");
             spIsActive = true; //pegar o script de movimentação do player e desativar a movimentação, aqui ou lá
