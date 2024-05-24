@@ -8,7 +8,7 @@ public class BossCombat : MonoBehaviour
 {
     [SerializeField] Transform punchAttack;
     public float punchRange = 0.5f;
-    private int punchDamage = 10;
+    private float punchDamage = 10;
     public float repulsionForce = 100f;
     public LayerMask playerLayer;
 

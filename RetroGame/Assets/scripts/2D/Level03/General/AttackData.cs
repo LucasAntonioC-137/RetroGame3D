@@ -6,7 +6,7 @@ public class AttackData : MonoBehaviour
 {
     public AudioPlayer audioPlayer;
 
-    private int damage;
+    private float damage;
     private bool slowDown;
     private AudioClip hitSound;
 

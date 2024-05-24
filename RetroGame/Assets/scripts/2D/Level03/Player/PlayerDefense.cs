@@ -21,22 +21,7 @@ public class PlayerDefense : MonoBehaviour
     {
         ActiveDefense();
     }
-    void FixedUpdate()
-    {
-        //if (isDefending == true)
-        //{
-        //    Defending();
-        //}
-        //else isDefending = false;
-    }
 
-    IEnumerator DefenseEndCo()
-    {
-
-        yield return new WaitForSeconds(0.6f);
-        isDefending = true;
-
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //if (collision.gameObject.CompareTag("EnemyAttack")) { Debug.Log("eu existo"); return; } //funcionou, agora por que não funciona quando peço pra
@@ -59,12 +44,6 @@ public class PlayerDefense : MonoBehaviour
         //    isDefending = false;
         //}
 
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //isDefending = false; //isso aqui é um problema, pq ele que tá deixando a variável em falso antes do
-        //dano mitigado acontecer, preciso fazer a variável mudar apenas depois que o player soltar os direcionais
     }
 
     void ActiveDefense()
