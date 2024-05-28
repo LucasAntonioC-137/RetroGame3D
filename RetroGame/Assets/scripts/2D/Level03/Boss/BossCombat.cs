@@ -32,7 +32,7 @@ public class BossCombat : MonoBehaviour
 
     }
 
-    void bossPunch1()
+    public void bossPunch1()
     {
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(punchAttack.position, punchRange, playerLayer);
         StartCoroutine(atk());
