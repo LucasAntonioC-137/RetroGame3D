@@ -672,6 +672,11 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 8814183874902435608, guid: dc627802ae22e754eb19f375fdc2bef0, type: 3}
   m_PrefabInstance: {fileID: 2774573419069692946}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &673920458 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+  m_PrefabInstance: {fileID: 1901813632864924086}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &763915010
 GameObject:
   m_ObjectHideFlags: 0
@@ -5419,6 +5424,113 @@ Transform:
   - {fileID: 7808295645054971250}
   m_Father: {fileID: 7909433496796248275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1901813632864924086
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4751776310400739046}
+    m_Modifications:
+    - target: {fileID: 2459676679825914535, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: sentences.Array.data[0]
+      value: "Voc\xEA foi teletransportado para esse mundo dentro de v\xEDdeo game
+        ap\xF3s ser enganado por um fantasma em um fliperama. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459676679825914535, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: sentences.Array.data[1]
+      value: "Agora sua miss\xE3o \xE9 passar por todos os desafios que o fantasma
+        criou neste mundo e derrot\xE1-lo para poder retornar ao mundo real."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292341593497919037, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774714222186986461, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
+      propertyPath: m_Name
+      value: DialogSystem
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3fd58a5bf77cfda4cb93bc1e1e24387e, type: 3}
 --- !u!222 &2060183259682270484
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6373,6 +6485,7 @@ RectTransform:
   - {fileID: 1786215011551898082}
   - {fileID: 571869480}
   - {fileID: 983635822}
+  - {fileID: 673920458}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6619,7 +6732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &5829766043654258731
 GameObject:
   m_ObjectHideFlags: 0

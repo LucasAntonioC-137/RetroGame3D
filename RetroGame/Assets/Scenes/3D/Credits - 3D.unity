@@ -600,8 +600,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Desenvolvido por Lucas Antonio Da Silva Lima\n\nProfessor Orientador:
-    Manoel Ribeiro\n\nModelos \n\nSprites\n\nM\xFAsicas\n\nSuporte em L\xF3gica de
-    programa\xE7\xE3o\n\nVFX\n\nSFX\n\nAnima\xE7\xF5es\n\n\n\n\n\n\n\n\nOBRIGADO!\n"
+    Manoel Ribeiro\n\nModelos 3D\n\nTexturas\n\nSprites\n\nM\xFAsicas\n\nL\xF3gica
+    de programa\xE7\xE3o\n\nEfeitos visuais\n\nEfeitos sonoros\n\nAnima\xE7\xF5es\n\n\n\n\n\n\nOBRIGADO!\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
