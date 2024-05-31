@@ -14,7 +14,7 @@ public class Life : MonoBehaviour //, Damage
         LifeBar.fillAmount = life / 100f;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         life -= damage;
 

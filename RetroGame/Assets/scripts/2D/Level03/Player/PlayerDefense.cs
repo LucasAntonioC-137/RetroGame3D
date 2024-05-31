@@ -1,65 +1,98 @@
+using Schema.Builtin.Nodes;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerDefense : MonoBehaviour
 {
-    public bool isDefending = false; //utilizar para desativar a possibilidade de movimentação na defesa
+    public static bool isDefending = false; //utilizar para desativar a possibilidade de movimentação na defesa
     private PlayerWalk walk;
-    // Start is called before the first frame update
+    public Rigidbody2D weight; //pego no editor
+
     private void Awake()
     {
         walk = GameObject.Find("Player").GetComponent<PlayerWalk>();
+        //playerCol = gameObject.GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
+        ActiveDefense();
     }
 
-    //void GetDirection()
-    //{
-    //    movement = new Vector3(Input.GetAxis("Horizontal"))
-    //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //if (collision.gameObject.CompareTag("EnemyAttack")) { Debug.Log("eu existo"); return; } //funcionou, agora por que não funciona quando peço pra
-                                                                                                //testar com o player andando pra trás? Resposta: precisava instanciar o script
-                                                                                                //no awake pra que o IF "soubesse" que a variável isFacingRight existe
-        if (collision.gameObject.CompareTag("EnemyAttack") && //não está pegando o colisor por ele aparentemente "não estar instanciado"
-        (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
-        Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && (FUNCIONANDO)
-        {
-            Debug.Log("Defendemos!");
-            isDefending = true; //fazer durar uma quantidade específica de frames
-        }
+        //testar com o player andando pra trás? Resposta: precisava instanciar o script
+        //no awake pra que o IF "soubesse" que a variável isFacingRight existe
 
+        //if (collision.gameObject.CompareTag("EnemyAttack"))// &&
+        //(Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
+        //Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && (FUNCIONANDO)
+        //{
+        Defending(collision.gameObject);
+  
 
-        if (collision.gameObject.CompareTag("EnemyAttack")) { Debug.Log("mizera"); }
+        //if (collision.gameObject.CompareTag("EnemyAttack") &&
+        //        ((Input.GetAxis("Horizontal") == 0 ||
+        //        ((Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == true) || (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == false))))) //isso aqui é desnecessário
+        //                                                                                                                                                 //pq é só voltar pra falso depois de
+        //                                                                                                                                                 //um tempo
+        //{
+        //    isDefending = false;
+        //}
+
     }
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
 
-    //    if (collision.gameObject.CompareTag("EnemyAttack") &&
-    //        (Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
-    //         Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && )
-    //    {
-    //        Debug.Log("Defendemos!");
-    //        isDefending = true; //fazer durar uma quantidade específica de frames
-    //    }
+    void ActiveDefense()
+    {
+        if (Input.GetKeyDown(KeyCode.L)) //preciso pegar a distância do inimigo pro player aqui, pra detectar que tão de frente um pro outro ou fazer um escudo igual do smash
+        {
+
+            isDefending = true;
+
+        } else if (Input.GetKeyUp(KeyCode.L)) 
+        { 
+            isDefending = false;
+        }
+    }
+
+    void Defending(GameObject coll)
+    {
+        if (coll.gameObject.CompareTag("EnemyAttack") && isDefending == true)
+            //(Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
+            //Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false))
+        {
+            //isDefending = true;
+
+            weight.velocity = Vector2.zero;
+
+            weight.GetComponent<Rigidbody2D>().IsSleeping();
+
+            //tenho que dar um jeito de voltar a isDefending pra false caso ele não continue segurando a direção das costas
+
+            //while (isDefending == true) {
 
 
-    //    if (collision.gameObject.CompareTag("EnemyAttack")){ Debug.Log("mizera"); }
-    //    //(movement.x < 0 && isFacingRight == true ||
-    //    // movement.x > 0 && isFacingRight == false)) //Aqui preciso fazer ele detectar que o jogador tá andando pra trás && )
-    //    //{
-    //    //    Debug.Log("Defendemos!");
-    //    //    isDefending = true; //fazer durar uma quantidade específica de frames
-    //    //}
+            //    if (((Input.GetAxis("Horizontal") < 0 && walk.isFacingRight == true ||
+            //          Input.GetAxis("Horizontal") > 0 && walk.isFacingRight == false)) && coll.gameObject.CompareTag("EnemyAttack"))
+            //    {
+            //        Defending(coll);
 
-    //}
+            //    }
 
+        }
+        else if (coll.gameObject.CompareTag("EnemyAttack") && isDefending != false)
+            //((Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Horizontal") > 0.1) && walk.isFacingRight == true ||
+            //((Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Horizontal") < -0.1) && walk.isFacingRight == false)))
+        {
+            //isDefending = false;
+            weight.GetComponent<Rigidbody2D>().IsAwake();
+            Debug.Log("Defendemos");
+        }
+        //StartCoroutine(DefenseEndCo());
+    }
 
 }
