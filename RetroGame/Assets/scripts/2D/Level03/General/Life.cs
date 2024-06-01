@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class Life : MonoBehaviour //, Damage
 {
     public float life = 100;
-    public float specialBar = 25;
-    public Image LifeBar;
+    public float special = 25;
+    public Image lifeBar;
+    public Image specialBar;
 
     private void Update()
     {
-        LifeBar.fillAmount = life / 100f;
+        lifeBar.fillAmount = life / 100f;
+        specialBar.fillAmount = special/ 100f;
     }
 
     public void TakeDamage(float damage)
@@ -20,12 +22,12 @@ public class Life : MonoBehaviour //, Damage
 
         //LifeBar.fillAmount = life / 100;
 
-        specialBar += damage * 2f;
-        Debug.Log("Vida: " + life + " Special bar: " + specialBar);
+        special += damage * 2f;
+        //Debug.Log("Vida: " + life + " Special bar: " + special);
 
-        if (specialBar >= 100)
+        if (special >= 100)
         {
-            specialBar = 100;
+            special = 100;
         }
 
         if(life <= 0)
