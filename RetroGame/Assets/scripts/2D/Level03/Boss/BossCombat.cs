@@ -81,10 +81,54 @@ public class BossCombat : MonoBehaviour
 
     }
 
+    void BossAttack2()
+    {
+        Debug.Log("acertamos o ataque2");
+
+        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(punchAttack.position, punchRange * 2, playerLayer);
+        //StartCoroutine(atk());
+        foreach (Collider2D playerCol in hitPlayer)
+        {
+            Life player = playerCol.GetComponent<Life>();
+            //aplicar força de repulsão
+            Rigidbody2D enemyRb = playerCol.GetComponent<Rigidbody2D>();
+
+            if (PlayerDefense.isDefending == true && enemyRb != null)
+            {
+                float directionX;
+                if (playerDirection.isFacingRight == true) { directionX = repulsionX; } else { directionX = -repulsionX; }
+
+                Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
+                repulsionDirection.Normalize();
+
+
+                repulsionDirection.y += repulsionY;
+                repulsionDirection.x += 0.2f;//repulsionX;
+
+                player.TakeDamage(punchDamage / 3);
+                enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
+                return;
+            }
+            else if (PlayerDefense.isDefending == false && enemyRb != null)
+            {
+                //primeiro hit do combo
+                float directionX;
+                if (playerDirection.isFacingRight == true) { directionX = repulsionX; } else { directionX = -repulsionX; }
+
+                Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
+                repulsionDirection.Normalize();
+
+                repulsionDirection.y += 15;
+                repulsionDirection.x += directionX;
+
+                player.TakeDamage(punchDamage * 2); 
+                enemyRb.AddForce(repulsionDirection * (repulsionForce), ForceMode2D.Force);
+            }
+        }
+    }
     //Esse ataque vai começar com uma estocada, se acertar o primeiro golpe, seguiremos pro segundo
     public void bossComboFirstHit()
     {
-        Debug.Log("acertamos o ataque2");
         
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(punchAttack.position, punchRange, playerLayer);
         //StartCoroutine(atk());
@@ -183,26 +227,4 @@ public class BossCombat : MonoBehaviour
 
         Gizmos.DrawWireSphere(punchAttack.position, punchRange);
     }
-
-    //IEnumerator atk()
-    //{
-    //    bossAnim.SetBool("attacking", true);
-    //    yield return new WaitForSeconds(1f);
-    //    bossAnim.SetBool("attacking", false);
-
-    //}
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-
-    //    Debug.Log("entramos no collision");
-    //    Life player = collision.GetComponent<Life>();
-    //    if(player != null && collision.gameObject.CompareTag("Player"))
-    //    {
-
-    //        player.TakeDamage(punchDamage);
-    //        Debug.Log("Vida do player:" + player.life);
-
-    //    }
-    //}
 }
