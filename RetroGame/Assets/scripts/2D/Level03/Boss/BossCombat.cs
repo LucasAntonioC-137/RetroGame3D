@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class BossCombat : MonoBehaviour
 {
+    public LayerMask playerLayer;
+    private PlayerWalk playerDirection;
+    
+
+    #region Dados de ataque
     [SerializeField] Transform punchAttack;
     public float punchRange = 0.5f;
     private float punchDamage = 10;
@@ -13,27 +18,48 @@ public class BossCombat : MonoBehaviour
     
     public float repulsionY = 0.9f;
     public float repulsionX = -4f;
+    #endregion
 
-    public LayerMask playerLayer;
-    private PlayerWalk playerDirection;
-
-    //para defesa do player ativar
+    #region movimentação do Chefe
+    private Rigidbody2D bossRb;
     private Animator bossAnim;
+
+    [SerializeField] float speedDash;// = 3f;
+    
+    private Vector2 stopMoving = Vector2.zero;
+    
+    private float originalGravity;
+    #endregion
 
     //LEMBRANDO QUE PRECISO DESATIVAR MOMENTANEAMENTE
     //O AGGRO DO CHEFE QUANDO ELE EESTIVER RECEBENDO GOLPES DO PLAYER
     private void Awake()
     {
+        bossRb = GameObject.Find("Enemy Test").GetComponentInParent<Rigidbody2D>();
         bossAnim = GetComponentInChildren<Animator>();
         playerDirection = GameObject.Find("Player").GetComponent<PlayerWalk>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        originalGravity = bossRb.gravityScale;
+    }
+
+    //Dados funciondo no componente "Sprite" do boss
+    public void bossBackdash()
+    {
+
+//        bossRb.gravityScale = 0f;
+        //bossAnim.SetBool("Backdash", true);
+        
+
+        if (playerDirection.isFacingRight == true)
         {
-            bossAttack1();
+            bossRb.velocity = new Vector2(speedDash, bossRb.velocity.y);            
+        } 
+        else 
+        {
+            bossRb.velocity = new Vector2(-speedDash, bossRb.velocity.y);
         }
 
     }

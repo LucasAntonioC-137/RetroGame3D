@@ -10,9 +10,13 @@ public class BossMovimentation : StateMachineBehaviour
     public float attackRange = 3f;
     public int randomBehavior;
     public int randomSpeed;
+    [SerializeField] float timeDash;// = 0.4f;
+    private float currentTimeDash;
+    private float rbOriginalGravity;
+
     private float timeToAction = 3.5f;
     private float tempoPassado = 0f;
-    private Vector2 Backdash;// = new Vector2(7f, 0f);
+    
     int lastState;
     //private BossCombat bossCombat;
     private Life bossSpecialBar;
@@ -71,7 +75,7 @@ public class BossMovimentation : StateMachineBehaviour
             {
                 //if(tempoPassado > 1.5f) { speed = 2f; }
                 //Testes
-                randomBehavior = Random.Range(0, 1);
+                randomBehavior = Random.Range(1, 5);
 
                //DEFINITIVO
                //randomBehavior = Random.Range(1, 6);
@@ -81,21 +85,20 @@ public class BossMovimentation : StateMachineBehaviour
                 switch (randomBehavior)
                 {
                     case 0:
-                        Debug.Log("case 0");
                         //dash pra trás
-                        Backdash = -rb.velocity.normalized;
+                        rbOriginalGravity = rb.gravityScale;
 
-                        if (player.position.x < rb.position.x)
+                        currentTimeDash = timeDash;
+                        animator.SetTrigger("bossBackdash");
+                        timeDash -= Time.deltaTime;
+
+                        if (timeDash <= 0)
                         {
-                            Debug.Log("ENTREI NO BACKDASH");
-                            rb.AddForce(Backdash *  4f, ForceMode2D.Impulse);
-                            //colocar corrotina de ficar parado por 1 segundo depois do backdash
+                            //bossAnim.SetBool("Backdash", false);
+                            Debug.Log("finalizou");
+                            rb.gravityScale = rbOriginalGravity;
                         }
-                        else if(player.position.x > rb.position.x)
-                        {
-                            rb.AddForce(Backdash * 4f, ForceMode2D.Impulse);
-                        }
-                        //
+
                         break;
                     case 01:
                         animator.SetTrigger("attack1");
