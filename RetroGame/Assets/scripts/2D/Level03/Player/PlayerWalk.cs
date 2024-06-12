@@ -13,10 +13,12 @@ public class PlayerWalk : MonoBehaviour
     public Animator anim;             // ele vai começar do lado esquerdo
     public SpriteRenderer spriteRenderer;
     Vector3 movement;
+    public bool canMove;
     //Este é um script de movimentação simples (praticamente o mesmo que usei no nível 1)
     //preciso adaptar para ser o mais próximo possível de um jogo de luta
     void Start()
     {
+        canMove = true;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rbody = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
@@ -27,9 +29,18 @@ public class PlayerWalk : MonoBehaviour
     void Update()
     {
         //transform.Translate( *)
-        Move();
-        Jump();
-        Facing();
+        if(canMove == true)
+        {
+            Move();
+            Jump();
+            Facing();
+        }
+
+        if(canMove == false)
+        {
+            resetAnimation();
+        }
+        
     }
 
     void Move()
@@ -127,4 +138,13 @@ public class PlayerWalk : MonoBehaviour
     }
     #endregion
 
+    void resetAnimation()
+    {
+        if(canMove == false)
+        {
+            anim.SetBool("isRunning", false);
+            anim.SetBool("runningBack", false);
+            //anim.SetBool("taking Damage", true); ou trigger, preciso fazer ele voltar ao iddle depois
+        }
+    }
 }

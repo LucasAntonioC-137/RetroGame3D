@@ -1,11 +1,8 @@
-using Schema.Builtin.Nodes;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-
-public class BossMovimentation : StateMachineBehaviour
+public class BossBehavior : MonoBehaviour
 {
     public float speed = 2f;
     public float attackRange = 3f;
@@ -17,7 +14,7 @@ public class BossMovimentation : StateMachineBehaviour
 
     private float timeToAction = 3.5f;
     private float tempoPassado = 0f;
-    
+
     int lastState;
     //private BossCombat bossCombat;
     private Life bossSpecialBar;
@@ -26,30 +23,29 @@ public class BossMovimentation : StateMachineBehaviour
     Rigidbody2D rb;
 
     //Getting Hit variables
-    
-    private float StunTimer = 1.5f;
+    private float StunTimer;
     private bool isGettingHit;
+    public Animator bossAnim;
 
-    //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    // Start is called before the first frame update
+    void Start()
     {
+
         player = GameObject.FindWithTag("Player").transform;
-        rb = animator.GetComponentInParent<Rigidbody2D>();
+        rb = GameObject.Find("Enemy Test").GetComponent<Rigidbody2D>();
+        bossAnim = GameObject.Find("Enemy Test").GetComponentInChildren<Animator>();
         bossSpecialBar = GameObject.Find("Enemy Test").GetComponent<Life>();
 
         randomSpeed = Random.Range(1, 3);
-        if(randomSpeed == 1) { speed = 2f; } else { speed = 3f; }
-        //bossCombat = animator.GetComponentInParent<BossCombat>();
-        
-        //animator.SetBool("isIddle", false);
     }
 
-    //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    // Update is called once per frame
+    void Update()
     {
-        if(isGettingHit == false) { 
-                                    
-            animator.SetBool("isIddle", false); //andando
+        if (isGettingHit == false)
+        { //preciso de um get bool aqui do attack data
+
+            bossAnim.SetBool("isIddle", false); //andando
 
             tempoPassado += Time.fixedDeltaTime;
             //regulagem de velocidade
@@ -85,7 +81,7 @@ public class BossMovimentation : StateMachineBehaviour
                 {
                     //if(tempoPassado > 1.5f) { speed = 2f; }
                     //Testes
-                    randomBehavior = Random.Range(3, 4);
+                    randomBehavior = Random.Range(1, 5);
 
                     //DEFINITIVO
                     //randomBehavior = Random.Range(1, 6);
@@ -99,7 +95,7 @@ public class BossMovimentation : StateMachineBehaviour
                             rbOriginalGravity = rb.gravityScale;
 
                             currentTimeDash = timeDash;
-                            animator.SetTrigger("bossBackdash");
+                            bossAnim.SetTrigger("bossBackdash");
                             timeDash -= Time.deltaTime;
 
                             if (timeDash <= 0)
@@ -111,15 +107,15 @@ public class BossMovimentation : StateMachineBehaviour
 
                             break;
                         case 01:
-                            animator.SetTrigger("attack1");
+                            bossAnim.SetTrigger("attack1");
                             new WaitForSeconds(1);
                             break;
                         case 02:
-                            animator.SetTrigger("attack2");  //colocar set trigger pra animação do ataque 2 com um código pra ele lá no bossCombat
+                            bossAnim.SetTrigger("attack2");  //colocar set trigger pra animação do ataque 2 com um código pra ele lá no bossCombat
                             new WaitForSeconds(1);
                             break;
                         case 03:
-                            animator.SetTrigger("bossCombo");
+                            bossAnim.SetTrigger("bossCombo");
                             new WaitForSeconds(1);
                             break;
                         case 04: //está funcionando mas lembre-se que precisa da barrinha dele estar cheia!
@@ -132,7 +128,7 @@ public class BossMovimentation : StateMachineBehaviour
                             }
                             break;
                         case 05:
-                            animator.SetTrigger("bossWalkBack");
+                            bossAnim.SetTrigger("bossWalkBack");
                             tempoPassado = 0;
                             break;
                     }
@@ -149,65 +145,48 @@ public class BossMovimentation : StateMachineBehaviour
                 }
                 //bossCombat.bossPunch1();//tá acertando múltiplas vezes por estar no método UPDATE, preciso fazer ele acertar só uma vez
             }
-        } else if(isGettingHit == true)
+
+            bossAnim.ResetTrigger("attack1");
+            bossAnim.ResetTrigger("attack2");
+            bossAnim.ResetTrigger("bossCombo");
+            bossAnim.ResetTrigger("bossWalkBack");
+            bossAnim.ResetTrigger("bossBackdash");
+            bossAnim.ResetTrigger("bossSpecialAttack");
+
+        }
+        else if (isGettingHit == true)
         {
             Debug.Log("entramos no true");
-            animator.SetBool("isIddle", true);
-
-            if (isGettingHit == false) return;
+            bossAnim.SetBool("isIddle", true);
         }
 
     }
 
-    // if(Input.GetKeyDown(KeyCode.M)) { animator.SetBool("isIddle", true); } 
-
-
-    //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        animator.ResetTrigger("attack1");
-        animator.ResetTrigger("attack2");
-        animator.ResetTrigger("bossCombo");
-        animator.ResetTrigger("bossWalkBack");
-        animator.ResetTrigger("bossBackdash");
-        animator.ResetTrigger("bossSpecialAttack");
-    }
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        
-
         if (coll.gameObject.CompareTag("PlayerAttack"))
         {
             //função de ficar parado
-            Debug.Log("mizera");
             GettingHit();
         }
-
-
     }
 
-    void GettingHit() //chamado por mensagem lá no AttackData
+    void GettingHit()
     {
-        Debug.Log("mizzera");
+        isGettingHit = true;
         //StunTimer += 1.5f;
 
-        for(float i = 0; i < StunTimer; StunTimer += Time.deltaTime)
+        if (StunTimer < 1.5f)
         {
-            isGettingHit = true;
+            StunTimer += Time.deltaTime;
             rb.velocity = Vector2.zero;
-
-            tempoPassado = 0;
-            
-            if (StunTimer > 1.5f)
-            {
-                isGettingHit = false;
-                return;
-            }
         }
-        
-        
-    }
+        if (StunTimer > 1.5f)
+        {
+            isGettingHit = false;
+            return;
+        }
 
-    //NÃO USAR ON COLLISION EXIT PQ VAI RESETAR A BOOL ANTES DO RECUO DO GOLPE ACABAR, preciso resetar o contador depois do stun
+    }
 }

@@ -13,7 +13,8 @@ public class BulletStrike : MonoBehaviour
     public GameObject BoltHit;
 
     public LayerMask enemyLayer;
-    
+
+    private Animator bossAnim;
     void Start()
     {
         Invoke("SpDestroy", spLifeTime);
@@ -23,8 +24,12 @@ public class BulletStrike : MonoBehaviour
     {
         if(btHit.CompareTag("Enemy") || btHit.gameObject.layer == 6)
         {
+
             BoltHit = Instantiate(BoltHit, gameObject.transform.position, Quaternion.identity);
-            
+
+            bossAnim = GameObject.Find("Enemy Test").GetComponentInChildren<Animator>();
+            bossAnim.SetTrigger("SufferedDamage");
+
             btHit.GetComponent<Life>().TakeDamage(spDamage);
 
             Destroy(gameObject, 0.08f);

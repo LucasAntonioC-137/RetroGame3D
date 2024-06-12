@@ -12,7 +12,7 @@ public class Life : MonoBehaviour //, Damage
 
     private void Update()
     {
-        lifeBar.fillAmount = life / 100f;
+        lifeBar.fillAmount = life / 200f;
         specialBar.fillAmount = special/ 100f;
     }
 

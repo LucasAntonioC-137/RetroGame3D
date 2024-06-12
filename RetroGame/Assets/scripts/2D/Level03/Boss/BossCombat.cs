@@ -73,21 +73,21 @@ public class BossCombat : MonoBehaviour
 
             Life player = playerCol.GetComponent<Life>();
             //aplicar força de repulsão
-            Rigidbody2D enemyRb = playerCol.GetComponent<Rigidbody2D>();
+            Rigidbody2D playerRb = playerCol.GetComponent<Rigidbody2D>();
 
-            if (PlayerDefense.isDefending == true && enemyRb != null)
+            if (PlayerDefense.isDefending == true && playerRb != null)
             {
                 //Debug.Log(PlayerDefense.isDefending); //não tá chegando aqui como true, apenas quando eu ataco duas vezes seguidas rapidamente
                 player.TakeDamage(punchDamage / 2); //diminuir o dano pegando a variável isDefending
                 //Debug.Log("Entramos no while");
             }
-            else if (PlayerDefense.isDefending == false && enemyRb != null)
+            else if (PlayerDefense.isDefending == false && playerRb != null)
             {
                 float directionX;
                 if(playerDirection.isFacingRight == true) { directionX = repulsionX; } else {  directionX = -repulsionX; }
 
 
-                Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
+                Vector2 repulsionDirection = (Vector2)playerRb.position - (Vector2)punchAttack.position;
                 repulsionDirection.Normalize();
 
                 
@@ -98,9 +98,11 @@ public class BossCombat : MonoBehaviour
                 //{
                 //Debug.Log("recebemos o ataque");
                 player.TakeDamage(punchDamage);
-                enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
-                //}
+                playerDirection.canMove = false;
 
+                playerRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
+                StartCoroutine(takingDamage());
+                //}
                 //enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force); //repulsão normal, vou por dentro apenas quando isDefending é false
             }
         }
@@ -147,8 +149,11 @@ public class BossCombat : MonoBehaviour
                 repulsionDirection.y += 15;
                 repulsionDirection.x += directionX;
 
-                player.TakeDamage(punchDamage * 2); 
+                player.TakeDamage(punchDamage * 2);
+                playerDirection.canMove = false;
+
                 enemyRb.AddForce(repulsionDirection * (repulsionForce), ForceMode2D.Force);
+                StartCoroutine(takingDamage());
             }
         }
     }
@@ -182,7 +187,10 @@ public class BossCombat : MonoBehaviour
                 repulsionDirection.x += directionX;//repulsionX;
 
                 player.TakeDamage(punchDamage / 2);
+                playerDirection.canMove = false;
+
                 enemyRb.AddForce(repulsionDirection * (repulsionForce * 0.2f), ForceMode2D.Force);
+                StartCoroutine(takingDamage());
             }
         }
     }
@@ -211,8 +219,10 @@ public class BossCombat : MonoBehaviour
                 
 
                 player.TakeDamage(punchDamage / 2);
+                playerDirection.canMove = false;
+                
                 enemyRb.AddForce(repulsionDirection * (repulsionForce), ForceMode2D.Force);
-
+                StartCoroutine(takingDamage());
             }
         }
     }
@@ -240,10 +250,19 @@ public class BossCombat : MonoBehaviour
                 repulsionDirection.x += directionX;
 
                 player.TakeDamage(punchDamage);
+                playerDirection.canMove = false;
+                
                 enemyRb.AddForce(repulsionDirection * (repulsionForce * 3f), ForceMode2D.Force);
+                StartCoroutine(takingDamage());
 
             }
         }
+    }
+
+    IEnumerator takingDamage()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        playerDirection.canMove = true;
     }
 
     private void OnDrawGizmosSelected()

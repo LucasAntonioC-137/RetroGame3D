@@ -903,7 +903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 100
+  life: 200
   special: 25
   lifeBar: {fileID: 546563745}
   specialBar: {fileID: 902387780}
@@ -1857,7 +1857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txtTime: {fileID: 984394200}
-  timer: 61
+  timer: 100
 --- !u!1 &1359542994
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,7 +2176,7 @@ GameObject:
   - component: {fileID: 1474521023}
   m_Layer: 0
   m_Name: Attack Collider
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2194,6 +2194,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 1773142804}
+  attackArea: {fileID: 1474521026}
+  bossLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  bossRb: {fileID: 480718880}
 --- !u!50 &1474521024
 Rigidbody2D:
   serializedVersion: 4
@@ -2922,7 +2927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 100
+  life: 200
   special: 25
   lifeBar: {fileID: 1477508685}
   specialBar: {fileID: 48748839}
@@ -3052,6 +3057,7 @@ MonoBehaviour:
   isFacingRight: 1
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  canMove: 0
   isJumping: 0
   Enemy: {fileID: 480718878}
 --- !u!114 &1773142807
