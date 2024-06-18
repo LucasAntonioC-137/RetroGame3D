@@ -19,8 +19,8 @@ public class PlayerMovementPhase03 : PhysicsObject
         Vector2 move = Vector2.zero;
         move.x = Input.GetAxis("Horizontal");
 
-        if (move.x > 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 0f, 0f); } //player está subindo aos céus misteriosamente
-        else if (move.x < 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 180f, 0f); }//preciso descobrir o que é
+        if (move.x > 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 0f, 0f); } 
+        else if (move.x < 0) { anim.Play("run"); transform.eulerAngles = new Vector3(0f, 180f, 0f); }
         //else if(move.x == 0) anim.Play("Idle");
 
         if(Input.GetKeyDown(KeyCode.W) && grounded)

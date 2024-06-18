@@ -51,15 +51,16 @@ public class AttackData : MonoBehaviour
             //repulsionDirection.y += 2f;
             //Collider2D[] hitBoss= Physics2D.OverlapCircleAll(punchAttack.position, punchRange, playerLayer);
             enemy.TakeDamage(damage);
-            audioPlayer.PlaySound(hitSound); 
+            audioPlayer.PlaySound(hitSound);
 
+            ComboManager.instance.SetCombo();
             //bossRb.AddForce(repulsionDirection * 5, ForceMode2D.Force);
 
 
             if (slowDown)
                 SlowDownEffect.instance.SetSlowDown();
 
-            ComboManager.instance.SetCombo();
+            
 
         }
     }

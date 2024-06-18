@@ -27,7 +27,7 @@ public class BossMovimentation : StateMachineBehaviour
 
     //Getting Hit variables
     
-    private float StunTimer = 1.5f;
+    
     private bool isGettingHit;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -119,16 +119,25 @@ public class BossMovimentation : StateMachineBehaviour
                             new WaitForSeconds(1);
                             break;
                         case 03:
-                            animator.SetTrigger("bossCombo");
-                            new WaitForSeconds(1);
+                            if (bossSpecialBar.special >= 100)
+                            {
+                                animator.SetTrigger("bossCombo2");
+                                bossSpecialBar.special = 0;
+                                break;
+                            }
+                            else
+                            {
+                                animator.SetTrigger("bossCombo");
+                                new WaitForSeconds(1);
+                            }
                             break;
                         case 04: //está funcionando mas lembre-se que precisa da barrinha dele estar cheia!
                             if (bossSpecialBar.special >= 100)
                             {
-                                Debug.Log("Boss Soltou seu special");
-                                bossSpecialBar.special = 0f;
+                                animator.SetTrigger("bossSpecialAttack");
+                                bossSpecialBar.special = 0;
                                 //animator.SetTrigger("bossSpecialAttack");
-                                new WaitForSeconds(4);
+                                //new WaitForSeconds(4);
                             }
                             break;
                         case 05:
@@ -173,41 +182,41 @@ public class BossMovimentation : StateMachineBehaviour
         animator.ResetTrigger("bossSpecialAttack");
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
-    {
+    //void OnTriggerEnter2D(Collider2D coll)
+    //{
         
 
-        if (coll.gameObject.CompareTag("PlayerAttack"))
-        {
-            //função de ficar parado
-            Debug.Log("mizera");
-            GettingHit();
-        }
+    //    if (coll.gameObject.CompareTag("PlayerAttack"))
+    //    {
+    //        //função de ficar parado
+    //        Debug.Log("mizera");
+    //        GettingHit();
+    //    }
 
 
-    }
+    //}
 
-    void GettingHit() //chamado por mensagem lá no AttackData
-    {
-        Debug.Log("mizzera");
-        //StunTimer += 1.5f;
+    //void GettingHit() //chamado por mensagem lá no AttackData
+    //{
+    //    Debug.Log("mizzera");
+    //    //StunTimer += 1.5f;
 
-        for(float i = 0; i < StunTimer; StunTimer += Time.deltaTime)
-        {
-            isGettingHit = true;
-            rb.velocity = Vector2.zero;
+    //    for(float i = 0; i < StunTimer; StunTimer += Time.deltaTime)
+    //    {
+    //        isGettingHit = true;
+    //        rb.velocity = Vector2.zero;
 
-            tempoPassado = 0;
+    //        tempoPassado = 0;
             
-            if (StunTimer > 1.5f)
-            {
-                isGettingHit = false;
-                return;
-            }
-        }
+    //        if (StunTimer > 1.5f)
+    //        {
+    //            isGettingHit = false;
+    //            return;
+    //        }
+    //    }
         
         
-    }
+    //}
 
     //NÃO USAR ON COLLISION EXIT PQ VAI RESETAR A BOOL ANTES DO RECUO DO GOLPE ACABAR, preciso resetar o contador depois do stun
 }

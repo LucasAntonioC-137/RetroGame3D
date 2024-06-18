@@ -1,6 +1,9 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -12,6 +15,7 @@ public class BossCombat : MonoBehaviour
 
     #region Dados de ataque
     [SerializeField] Transform punchAttack;
+    [SerializeField] Transform specialAttack;
     public float punchRange = 0.5f;
     private float punchDamage = 10;
     public float repulsionForce = 100f;
@@ -32,7 +36,7 @@ public class BossCombat : MonoBehaviour
     #endregion
 
     //LEMBRANDO QUE PRECISO DESATIVAR MOMENTANEAMENTE
-    //O AGGRO DO CHEFE QUANDO ELE EESTIVER RECEBENDO GOLPES DO PLAYER
+    //O AGGRO DO CHEFE QUANDO ELE EESTIVER RECEBENDO GOLPES DO PLAYER (Feito)
     private void Awake()
     {
         bossRb = GameObject.Find("Enemy Test").GetComponentInParent<Rigidbody2D>();
@@ -49,17 +53,17 @@ public class BossCombat : MonoBehaviour
     public void bossBackdash()
     {
 
-//        bossRb.gravityScale = 0f;
-        //bossAnim.SetBool("Backdash", true);
-        
+//        bossRb.gravityScale = 0f;        
 
         if (playerDirection.isFacingRight == true)
         {
-            bossRb.velocity = new Vector2(speedDash, bossRb.velocity.y);            
-        } 
+            bossRb.velocity = new Vector2(speedDash, bossRb.velocity.y);
+            //bossAnim.SetBool("Backdash", true);
+        }
         else 
         {
             bossRb.velocity = new Vector2(-speedDash, bossRb.velocity.y);
+            //bossAnim.SetBool("Backdash", true);
         }
 
     }
@@ -67,7 +71,7 @@ public class BossCombat : MonoBehaviour
     public void bossAttack1()
     {
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(punchAttack.position, punchRange, playerLayer);
-        //StartCoroutine(atk());
+        
         foreach (Collider2D playerCol in hitPlayer)
         {
 
@@ -77,9 +81,8 @@ public class BossCombat : MonoBehaviour
 
             if (PlayerDefense.isDefending == true && playerRb != null)
             {
-                //Debug.Log(PlayerDefense.isDefending); //não tá chegando aqui como true, apenas quando eu ataco duas vezes seguidas rapidamente
-                player.TakeDamage(punchDamage / 2); //diminuir o dano pegando a variável isDefending
-                //Debug.Log("Entramos no while");
+                player.TakeDamage(punchDamage / 2); //diminuimos o dano pegando a variável isDefending
+                StartCoroutine(dealingDamage(0.3f));
             }
             else if (PlayerDefense.isDefending == false && playerRb != null)
             {
@@ -94,16 +97,11 @@ public class BossCombat : MonoBehaviour
                 repulsionDirection.y += repulsionY;
                 repulsionDirection.x += directionX;//repulsionX;
 
-                //if (PlayerDefense.isDefending == false)
-                //{
-                //Debug.Log("recebemos o ataque");
                 player.TakeDamage(punchDamage);
                 playerDirection.canMove = false;
 
                 playerRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
-                StartCoroutine(takingDamage());
-                //}
-                //enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force); //repulsão normal, vou por dentro apenas quando isDefending é false
+                StartCoroutine(dealingDamage(1f));
             }
         }
 
@@ -111,10 +109,10 @@ public class BossCombat : MonoBehaviour
 
     void BossAttack2()
     {
-        Debug.Log("acertamos o ataque2");
+        //Debug.Log("acertamos o ataque2");
 
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(punchAttack.position, punchRange * 2, playerLayer);
-        //StartCoroutine(atk());
+        
         foreach (Collider2D playerCol in hitPlayer)
         {
             Life player = playerCol.GetComponent<Life>();
@@ -135,6 +133,7 @@ public class BossCombat : MonoBehaviour
 
                 player.TakeDamage(punchDamage / 3);
                 enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
+                StartCoroutine(dealingDamage(0.3f));
                 return;
             }
             else if (PlayerDefense.isDefending == false && enemyRb != null)
@@ -153,16 +152,18 @@ public class BossCombat : MonoBehaviour
                 playerDirection.canMove = false;
 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce), ForceMode2D.Force);
-                StartCoroutine(takingDamage());
+                StartCoroutine(dealingDamage(1f));
             }
         }
     }
     //Esse ataque vai começar com uma estocada, se acertar o primeiro golpe, seguiremos pro segundo
+    //(por conta do tempo consegui fazer apenas ele dar os 3 golpes em sequência, a confirmação do primeiro golpe dá um pouco
+    //de trabalho pra fazer e tinha outras coisas pra fazer como prioridade
     public void bossComboFirstHit()
     {
         
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(punchAttack.position, punchRange, playerLayer);
-        //StartCoroutine(atk());
+        
         foreach (Collider2D playerCol in hitPlayer)
         {
             Life player = playerCol.GetComponent<Life>();
@@ -184,13 +185,13 @@ public class BossCombat : MonoBehaviour
                 repulsionDirection.Normalize();
 
                 repulsionDirection.y += repulsionY;
-                repulsionDirection.x += directionX;//repulsionX;
+                repulsionDirection.x += directionX;
 
                 player.TakeDamage(punchDamage / 2);
                 playerDirection.canMove = false;
 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce * 0.2f), ForceMode2D.Force);
-                StartCoroutine(takingDamage());
+                StartCoroutine(dealingDamage(1f));
             }
         }
     }
@@ -215,14 +216,14 @@ public class BossCombat : MonoBehaviour
                 repulsionDirection.Normalize();
                 if (playerDirection.isFacingRight == true) { directionX = repulsionX; } else { directionX = -repulsionX; }
 
-                repulsionDirection.y += 3f;//repulsionY;
+                repulsionDirection.y += 3f;
                 
 
                 player.TakeDamage(punchDamage / 2);
                 playerDirection.canMove = false;
                 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce), ForceMode2D.Force);
-                StartCoroutine(takingDamage());
+                StartCoroutine(dealingDamage(1f));
             }
         }
     }
@@ -253,15 +254,92 @@ public class BossCombat : MonoBehaviour
                 playerDirection.canMove = false;
                 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce * 3f), ForceMode2D.Force);
-                StartCoroutine(takingDamage());
+                StartCoroutine(dealingDamage(1f));
 
             }
         }
     }
-
-    IEnumerator takingDamage()
+    #region Ataque Especial do chefe
+    [SerializeField] private GameObject[] _virtualCameras;
+    [SerializeField] private float timeLeft = 3.0f;
+    public void BossSpecialAttack()
     {
-        yield return new WaitForSecondsRealtime(1f);
+
+        //prciso travar os controles do player e o timer quando ele for soltar o special
+        playerDirection.canMove = false;
+        //Trocar isso aqui por uma pausa do jogo inteiro enquanto a animação do special é mostrada //StartCoroutine(dealingDamage(2f));
+
+        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(specialAttack.position, (float)specialAttack.GetComponent<CircleCollider2D>().radius, playerLayer);
+
+        CameraChange();
+
+        foreach (Collider2D playerCol in hitPlayer)
+        {
+            Life player = playerCol.GetComponent<Life>();
+            //aplicar força de repulsão
+            Rigidbody2D enemyRb = playerCol.GetComponent<Rigidbody2D>();
+
+            if (PlayerDefense.isDefending == true && enemyRb != null) //vai ter repulsão mesmo na defesa por ser um special, quero passar a sensação de força
+            {
+                float directionX;
+                if (playerDirection.isFacingRight == true) { directionX = repulsionX; } else { directionX = -repulsionX; }
+
+                Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
+                repulsionDirection.Normalize();
+
+                repulsionDirection.y += repulsionY * 10; //aumentei a altura
+                repulsionDirection.x += directionX * 0.1f;
+
+                //aplicar metade do dano do special aqui
+                enemyRb.AddForce(repulsionDirection * (repulsionForce * 0.2f), ForceMode2D.Force);
+                player.TakeDamage(punchDamage * 3);
+                return;
+            }
+            else if (PlayerDefense.isDefending == false && enemyRb != null)
+            {
+                //preciso fazer ele chegar até uma certa distância do player que não seja "colado" com ele, pra não ficar impossível
+                //de desviar ou colocar duas distâncias diferentes de ativação (mesmo princípio da troca de velocidade do chefe)
+                float directionX;
+                if (playerDirection.isFacingRight == true) { directionX = -repulsionX; } else { directionX = repulsionX; }
+
+                Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
+                repulsionDirection.Normalize();
+
+                repulsionDirection.y += repulsionY * 8; //aumentei a altura
+                repulsionDirection.x += directionX * repulsionX;
+
+                player.TakeDamage(punchDamage * 6);
+                playerDirection.canMove = false;
+
+                enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
+                StartCoroutine(dealingDamage(1f));
+
+            }
+            //Pausa para animação do golpe especial
+            //StartCoroutine(CameraReturn());
+        }
+        StartCoroutine(CameraReturn());
+    }
+
+
+    void CameraChange()
+    {
+        _virtualCameras[1].SetActive(true);
+    }
+
+    IEnumerator CameraReturn()
+    {
+        Time.timeScale = 0.001f;
+        yield return new WaitForSecondsRealtime(timeLeft);
+        _virtualCameras[1].SetActive(false);
+        Time.timeScale = 1f;
+    }
+    #endregion
+
+    //Aqui eu desativo os controles do jogador quando ele estiver ativamente apanhando
+    IEnumerator dealingDamage(float timeToMove)
+    {
+        yield return new WaitForSecondsRealtime(timeToMove);
         playerDirection.canMove = true;
     }
 

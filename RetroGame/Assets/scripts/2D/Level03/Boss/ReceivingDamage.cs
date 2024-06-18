@@ -19,16 +19,19 @@ public class ReceivingDamage : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //entra na animação de apanhar e pega os dados necessários
-        player = GameObject.Find("Player").transform;
+        
+        ///////////////////////
+        ///
+        //player = GameObject.Find("Player").transform;
         rb = animator.GetComponentInParent<Rigidbody2D>();
 
-        Vector2 repulsionDirection = (Vector2)rb.position - (Vector2)player.position;
-        repulsionDirection.Normalize();
+        //Vector2 repulsionDirection = (Vector2)rb.position - (Vector2)player.position;
+        //repulsionDirection.Normalize();
 
-        repulsionDirection.x += repulsionX;
-        repulsionDirection.y += repulsionY;
+        //repulsionDirection.x += repulsionX;
+        //repulsionDirection.y += repulsionY;
 
-        rb.AddForce(-repulsionDirection * repulsionForce, ForceMode2D.Force);
+        //rb.AddForce(-repulsionDirection * repulsionForce, ForceMode2D.Force);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -46,21 +49,17 @@ public class ReceivingDamage : StateMachineBehaviour
     }
 
     void GettingHit() //chamado por mensagem lá no AttackData
-    {
-        Debug.Log("mizzera");
+    {        
         //StunTimer += 1.5f;
 
         for (float i = 0; i < StunTimer; StunTimer += Time.deltaTime)
         {
-            Debug.Log("Entramos no Stun");
-
             rb.velocity = Vector2.zero;
 
             
 
             if (StunTimer > 1.5f)
             {
-                Debug.Log("Saímos do Stun");
                 return;
             }
         }
