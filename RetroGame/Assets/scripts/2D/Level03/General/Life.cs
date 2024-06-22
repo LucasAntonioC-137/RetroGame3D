@@ -9,6 +9,7 @@ public class Life : MonoBehaviour //, Damage
     public float special = 25;
     public Image lifeBar;
     public Image specialBar;
+    public bool fainted;
 
     private void Update()
     {
@@ -33,6 +34,7 @@ public class Life : MonoBehaviour //, Damage
         if(life <= 0)
         {
             Debug.Log("Game over pra esse aqui");
+            fainted = true;
         }
         
     }

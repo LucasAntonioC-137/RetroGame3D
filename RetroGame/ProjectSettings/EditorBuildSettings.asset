@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/3D/MainMenu3D.unity
     guid: c0e13f5befaccc64b90577a284c9517a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3D/Nivel 1 - 3D/Nivel 1 - 3D.unity
     guid: a1eb7a313a2889042986e7e8ed48084d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3D/EndUINivel1-3D.unity
     guid: ef3eec7732a730046af33afa92e62f0a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3D/Nivel 2 - 3D/Nivel 2 - 3D.unity
     guid: 0bce341a575c8e9489739e317d2fca2b
   - enabled: 0
@@ -23,10 +23,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/3D/Nivel 3 - 3D/Nivel 3 - 3D.unity
     guid: c68de700e6cc32d4e8ae000c0239ae08
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3D/Nivel 3 - 3D/EndUINivel3-3D.unity
     guid: 14ece014af271c446aabcf6dbd3da868
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3D/Credits - 3D.unity
     guid: f3b0b661599dcd142ab240517082f427
   - enabled: 0

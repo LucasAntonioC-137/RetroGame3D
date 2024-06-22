@@ -7,12 +7,12 @@ using UnityEngine.UIElements;
 public class TimeCounter : MonoBehaviour
 {
 
-    [SerializeField] private TMP_Text txtTime; 
+    [SerializeField] private TMP_Text txtTime;
     public float timer;
+
     void Start()
     {
         InvokeRepeating("DecreaseTime", 0f, 1f);
-       
     }
 
     private void DecreaseTime()
@@ -31,12 +31,12 @@ public class TimeCounter : MonoBehaviour
 
         DisplayTime(timer);
 
-        if(timer <= 0)
-        {
-        
+        //if(timer <= 0)
+        //{
+            
+        //    //RoundSingleton.Instance.
 
-
-        }
+        //}
     }
 
     private void DisplayTime(float timeToDisplay)

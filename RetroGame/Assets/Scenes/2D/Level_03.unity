@@ -1068,10 +1068,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 110
+  life: 50
   special: 100
   lifeBar: {fileID: 546563745}
   specialBar: {fileID: 902387780}
+  fainted: 0
 --- !u!114 &480718884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,6 +1086,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1773142797}
+--- !u!1 &497448375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 497448377}
+  - component: {fileID: 497448376}
+  m_Layer: 0
+  m_Name: Round Singleton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &497448376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497448375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d536fc13f828dee449f454ede4ca3eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &497448377
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497448375}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.2388801, y: 1.2546597, z: -26.374254}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &531261597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2539,7 +2584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txtTime: {fileID: 984394200}
-  timer: 10
+  timer: 61
 --- !u!114 &1322608483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3951,10 +3996,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 100
+  life: 40
   special: 25
   lifeBar: {fileID: 1477508685}
   specialBar: {fileID: 48748839}
+  fainted: 0
 --- !u!114 &1773142804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4413,3 +4459,4 @@ SceneRoots:
   - {fileID: 1319743544}
   - {fileID: 476257293}
   - {fileID: 1353716096}
+  - {fileID: 497448377}
