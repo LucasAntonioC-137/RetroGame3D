@@ -59,9 +59,6 @@ public class AttackData : MonoBehaviour
 
             if (slowDown)
                 SlowDownEffect.instance.SetSlowDown();
-
-            
-
         }
     }
 

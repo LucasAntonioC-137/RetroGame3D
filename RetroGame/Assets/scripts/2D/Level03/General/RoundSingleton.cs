@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RoundSingleton : MonoBehaviour
 {
@@ -19,17 +21,30 @@ public class RoundSingleton : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        Debug.Log($"Start - Current wins - Left: {RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left)}," +
+                                        $" Right: {RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right)}");
+    }
+
+    void OnDestroy()
+    {
+        Debug.Log("Singleton OnDestroy: " + gameObject.name);
+    }
+
     private const int WINS_REQUIRED = 2;
     int _leftWins, _rightWins;
 
     //void Awake() => Reset(); fazer uma função de reset do nível, temos a antiga do nível 2 "ResetLevel"
     void OnEnable() => Instance = this;
-    void OnDisable() => Instance = null;
-    void OnDestroy() => OnDisable();
+//    void OnDisable() => Instance = null; PROBLEMA ERA NESSE CORNO que tava nulificando o singleton
     public void Reset() { _leftWins = _rightWins = 0; }
 
-    public void RecordRoundWinner(Side winner) 
-        => setWins(winner, getWins(winner) + 1);
+    public void RecordRoundWinner(Side winner)
+    {
+        setWins(winner, getWins(winner) + 1);
+        Debug.Log($"Recorded win for {winner}. Current wins of: Left: {_leftWins}, Right: {_rightWins}");
+    }
 
     public int CurrentWinsOf(Side side) => getWins(side);
 
@@ -55,5 +70,23 @@ public class RoundSingleton : MonoBehaviour
         Right = 1
     }
     //Operador Ternário => "is this condition true ? yes : no"
-  
+    
+    public void ReloadScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        //StartCoroutine(RoundTransition()); ATIVA ISSO AQUI MAIS NÃO MEU AMIGO PFV
+
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public Image roundEnd; //transição de um round pro outro
+    IEnumerator RoundTransition() //preciso desativar os scripts do player e do boss e retornar eles pras posições originais
+    {                             //enquanto a transição está ativa
+        roundEnd.gameObject.SetActive(true);
+        
+        yield return new WaitForSeconds(2.19f);
+
+        roundEnd.gameObject.SetActive(false);
+    }
 }

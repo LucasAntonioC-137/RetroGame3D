@@ -11,6 +11,10 @@ public class Life : MonoBehaviour //, Damage
     public Image specialBar;
     public bool fainted;
 
+    private void Start()
+    {
+        fainted = false;
+    }
     private void Update()
     {
         lifeBar.fillAmount = life / 200f;
@@ -33,6 +37,16 @@ public class Life : MonoBehaviour //, Damage
 
         if(life <= 0)
         {
+            //pegar em qual gameobject que isso tá e decidir a vitória com o singleton
+            //if(this.gameObject.name == "Player")
+            //{
+            //    RoundSingleton.Instance.RecordRoundWinner(RoundSingleton.Side.Right);
+            //    Debug.Log("Player morreu");
+            //} else if(this.gameObject.name == "Enemy Test")
+            //{
+            //    RoundSingleton.Instance.RecordRoundWinner(RoundSingleton.Side.Left);
+            //    Debug.Log("boss morreu");
+            //}
             Debug.Log("Game over pra esse aqui");
             fainted = true;
         }

@@ -25,9 +25,7 @@ public class BossMovimentation : StateMachineBehaviour
     Transform player;
     Rigidbody2D rb;
 
-    //Getting Hit variables
-    
-    
+    //Getting beat variables
     private bool isGettingHit;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -40,7 +38,6 @@ public class BossMovimentation : StateMachineBehaviour
         randomSpeed = Random.Range(1, 3);
         if(randomSpeed == 1) { speed = 2f; } else { speed = 3f; }
         //bossCombat = animator.GetComponentInParent<BossCombat>();
-        
         //animator.SetBool("isIddle", false);
     }
 
@@ -164,6 +161,7 @@ public class BossMovimentation : StateMachineBehaviour
             animator.SetBool("isIddle", true);
 
             if (isGettingHit == false) return;
+    
         }
 
     }
