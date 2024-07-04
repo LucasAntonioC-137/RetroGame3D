@@ -48,13 +48,13 @@ public class RoundCount : MonoBehaviour
         //UpdateHUD();
 
         Debug.Log($"LifeIcon length: {lifeIcon.Length}");
-        foreach(var icon in lifeIcon)
+        foreach (var icon in lifeIcon)
         {
             Debug.Log(icon?.name ?? "null");
         }
     }
 
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -94,7 +94,7 @@ public class RoundCount : MonoBehaviour
             GettingRoundResults();
             isUpdateEnabled = false; //para de rodar no update
 
-            if (RoundSingleton.Instance.FinalRound() == true)
+            if (RoundSingleton.Instance.FinalRound())
             {
                 //Time.timeScale = 0.01f; //vai ficar essa câmera lenta no final mesmo, até a tela de game over aparecer
                 Debug.Log("Ultimo round"); //Funcionando
@@ -103,6 +103,7 @@ public class RoundCount : MonoBehaviour
                                        //playerCombo.gameObject.SetActive(false);
 
                 isUpdateEnabled = false; //para de rodar no update
+                UpdateHUD(); //se não for ou for, tentar trocar pela corrotina aqui
                 return;
             }
 
@@ -132,7 +133,7 @@ public class RoundCount : MonoBehaviour
         //playerCombo.gameObject.SetActive(false);//DUAS LINHAS
 
         StartCoroutine(RoundTransition()); //ESSA DAQUI É A DO ROUNDCOUNT E NÃO DO SINGLETON
-        
+
     }
 
     private void RoundCheckByTime()
@@ -196,7 +197,7 @@ public class RoundCount : MonoBehaviour
             //    //tela de game over e restart aqui, talvez utilizemos velocidade mais lenta, pra dar tempo das transições
             //}
 
-           
+
             RoundSingleton.Instance.RecordRoundWinner(winner: RoundSingleton.Side.Right);
             playerData.fainted = false;
 
@@ -238,14 +239,17 @@ public class RoundCount : MonoBehaviour
 
     void UpdateHUD()
     {
-        //Debug.Log("Victory on boss side: " + RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right));
-        //Debug.Log("Victory on Player side: " + RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left));
-        if (lifeIcon[0] != null)
+       if(lifeIcon != null && lifeIcon.Length > 0)
         {
+            Debug.Log($"Victory on boss side: " + RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right));
+            Debug.Log($"Victory on Player side: " + RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left));
+
             lifeIcon[0].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right) > 0 ? hollow : full;
             lifeIcon[1].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right) > 1 ? hollow : full;
             lifeIcon[2].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left) > 0 ? hollow : full;
             lifeIcon[3].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left) > 1 ? hollow : full;
+
+            Debug.Log("HUD updated");
         }
         else Debug.LogError("lifeIcon array retornou null");
     }
@@ -256,7 +260,7 @@ public class RoundCount : MonoBehaviour
         roundEnd.gameObject.SetActive(true);
         yield return new WaitForSeconds(2.1f);
         roundEnd.gameObject.SetActive(false);
-        
+
 
         //recarregar a cena e reativar os scripts
         RoundSingleton.Instance.ReloadScene();
@@ -267,7 +271,9 @@ public class RoundCount : MonoBehaviour
         playerCombo.enabled = true;
 
         //FUNÇÃO PARA CUIDAR DAS MUDANÇAS NOS CORAÇÕES
+        Debug.Log("Calling UpdateHUD after round transition");
         UpdateHUD();
+        Debug.Log("UpdateHUD called");
         //playerWalk.gameObject.SetActive(true);
         //playerCombo.gameObject.SetActive(true);
     }
