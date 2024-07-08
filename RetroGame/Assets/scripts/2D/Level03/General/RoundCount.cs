@@ -26,7 +26,10 @@ public class RoundCount : MonoBehaviour
     public Sprite full;
     public Sprite hollow;
 
-    public Image roundEnd; //transição de um round pro outro
+    //transição de um round pro outro
+    //public Image roundEndEffect;
+    public Animator roundEndEffect;
+    public Image roundStartEffect;
 
     private bool isUpdateEnabled;
     // Start is called before the first frame update
@@ -44,8 +47,10 @@ public class RoundCount : MonoBehaviour
         Debug.Log($"Scene Reloaded - Player and boss Initialized");
 
         isUpdateEnabled = true;
+
+        //StartCoroutine(roundStartCutscene());
         //FUNÇÃO PARA CUIDAR DAS MUDANÇAS NOS CORAÇÕES
-        //UpdateHUD();
+        UpdateHUD();
 
         Debug.Log($"LifeIcon length: {lifeIcon.Length}");
         foreach (var icon in lifeIcon)
@@ -89,7 +94,7 @@ public class RoundCount : MonoBehaviour
 
     void GameSet()
     {
-        if (playerData.fainted == true || bossData.fainted == true)//(playerData.life <= 0 || bossData.life <= 0)
+        if (playerData.fainted || bossData.fainted)//(playerData.life <= 0 || bossData.life <= 0)
         {
             GettingRoundResults();
             isUpdateEnabled = false; //para de rodar no update
@@ -103,7 +108,7 @@ public class RoundCount : MonoBehaviour
                                        //playerCombo.gameObject.SetActive(false);
 
                 isUpdateEnabled = false; //para de rodar no update
-                UpdateHUD(); //se não for ou for, tentar trocar pela corrotina aqui
+                //UpdateHUD(); //se não for ou for, tentar trocar pela corrotina aqui
                 return;
             }
 
@@ -115,25 +120,16 @@ public class RoundCount : MonoBehaviour
 
     private void GettingRoundResults()
     {
-        //float resultsTime = 4f;
 
         RoundCheck();
 
-        //desativar os controles do player e do chefe aqui
-
-        //for (float i = 0; i < resultsTime; i += Time.deltaTime)
-        //{
-        //    playerWalk.gameObject.SetActive(false);
-        //    playerCombo.gameObject.SetActive(false);
-        //    //bossMov aqui
-        //}
         playerWalk.enabled = false; //o comando assim desativa SOMENTE o SCRIPT(valor que tá nessa variável no momento)
         playerCombo.enabled = false;
         //playerWalk.gameObject.SetActive(false);//O PROBLEMA PROVAVELMENTE TÁ AQUI NESSAS
         //playerCombo.gameObject.SetActive(false);//DUAS LINHAS
 
-        StartCoroutine(RoundTransition()); //ESSA DAQUI É A DO ROUNDCOUNT E NÃO DO SINGLETON
-
+        //StartCoroutine(RoundTransition()); //ESSA DAQUI É A DO ROUNDCOUNT E NÃO DO SINGLETON
+        RoundTransition();
     }
 
     private void RoundCheckByTime()
@@ -183,56 +179,19 @@ public class RoundCount : MonoBehaviour
 
     private void RoundCheck()
     {
-        if (playerData.fainted == true)//&& round1Ended == false) //não tá entrando aqui na segunda vez
+        if (playerData.fainted == true)
         {
-            //escurecer a tela aqui e fazer a troca de rouds
-            //StartCoroutine(RoundTransition());
-            //lifeIcon[0].sprite = hollow;            
-            //
-            //if (RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right) > RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left)) //"se o boss tiver ganhado o primeiro round..."  - (round1Ended == true) Trocado pelo singleton
-            //{
-            //    //RoundSingleton.Instance.FinalRound();
-            //    RoundSingleton.Instance.RecordRoundWinner(winner: RoundSingleton.Side.Right);
-            //    //lifeIcon[1].sprite = hollow;
-            //    //tela de game over e restart aqui, talvez utilizemos velocidade mais lenta, pra dar tempo das transições
-            //}
-
 
             RoundSingleton.Instance.RecordRoundWinner(winner: RoundSingleton.Side.Right);
             playerData.fainted = false;
 
-
-            //if (RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right) < 2)
-            //{
-            //    //playerData.life = 60f;
-            //    playerData.fainted = false; //pronto pra outro round >:3
-            //}
-
         }
 
-        else if (bossData.fainted == true)//(bossData.life <= 0)//&& round1Ended == false)                       //lembrando que preciso fazer isso pros 2 rounds(ganhos)
+        else if (bossData.fainted == true) //lembrando que preciso fazer isso pros 2 rounds(ganhos)
         {
-            //StartCoroutine(RoundTransition());
-            //lifeIcon[3].sprite = hollow;
 
-            //if (RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left) > RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right)) //"se o player tiver ganhado o primeiro round..."
-            //{
-
-            //    //RoundSingleton.Instance.FinalRound();
-            //    RoundSingleton.Instance.RecordRoundWinner(winner: RoundSingleton.Side.Left);
-            //    //lifeIcon[2].sprite = hollow;
-            //    //tela de vitória aqui
-            //}
-            //else
             RoundSingleton.Instance.RecordRoundWinner(winner: RoundSingleton.Side.Left);
             bossData.fainted = false;
-
-            //if (RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left) < 2)
-            //{
-            //    //bossData.life = 60f;
-            //    //new WaitForEndOfFrame();
-            //    bossData.fainted = false;
-            //}
 
         }
     }
@@ -241,41 +200,45 @@ public class RoundCount : MonoBehaviour
     {
        if(lifeIcon != null && lifeIcon.Length > 0)
         {
-            Debug.Log($"Victory on boss side: " + RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right));
-            Debug.Log($"Victory on Player side: " + RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left));
+            int rightWins = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right);
+            int leftWins = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left);
 
-            lifeIcon[0].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right) > 0 ? hollow : full;
-            lifeIcon[1].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right) > 1 ? hollow : full;
-            lifeIcon[2].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left) > 0 ? hollow : full;
-            lifeIcon[3].sprite = RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left) > 1 ? hollow : full;
+            Debug.Log($"Victory on boss side: " + rightWins);
+            Debug.Log($"Victory on Player side: " + leftWins);
+
+            lifeIcon[0].sprite = rightWins > 0 ? hollow : full;
+            lifeIcon[1].sprite = rightWins > 1 ? hollow : full;
+            lifeIcon[3].sprite = leftWins > 0 ? hollow : full;
+            lifeIcon[2].sprite = leftWins > 1 ? hollow : full;
 
             Debug.Log("HUD updated");
         }
         else Debug.LogError("lifeIcon array retornou null");
     }
 
-    public Animator bossAnim;
-    IEnumerator RoundTransition() //preciso desativar os scripts do player e do boss e retornar eles pras posições originais
-    {                             //enquanto a transição está ativa
-        roundEnd.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2.1f);
-        roundEnd.gameObject.SetActive(false);
+    IEnumerator roundStartCutscene()
+    {
+        roundStartEffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.04f);//0.99f);
+        roundStartEffect.gameObject.SetActive(false);
 
+    }
+
+    public Animator bossAnim;
+    //IEnumerator RoundTransition() //preciso desativar os scripts do player e do boss e retornar eles pras posições originais
+    void RoundTransition()
+    {                             //enquanto a transição está ativa
+        //NOVO
+        StartCoroutine(RoundSingleton.Instance.ReloadScene()); //Colocamos a transição de cena inteira dentro de um objeto vazio
+                                                               //e colocamos esse objeto dentro do singleton para que a animação
+                                                               //continuasse mesmo no momento de recarregamento da cena \o/
+        //ANTIGO
+        //roundEndEffect.gameObject.SetActive(true);
+        //yield return new WaitForSeconds(1.1f);//0.99f);
 
         //recarregar a cena e reativar os scripts
-        RoundSingleton.Instance.ReloadScene();
-
-        yield return new WaitForSeconds(0.1f); //pequeno delay para garantir que a cena foi carregada
-
-        playerWalk.enabled = true;
-        playerCombo.enabled = true;
-
-        //FUNÇÃO PARA CUIDAR DAS MUDANÇAS NOS CORAÇÕES
-        Debug.Log("Calling UpdateHUD after round transition");
-        UpdateHUD();
-        Debug.Log("UpdateHUD called");
-        //playerWalk.gameObject.SetActive(true);
-        //playerCombo.gameObject.SetActive(true);
+        //RoundSingleton.Instance.ReloadScene();
+        //
     }
 
 }

@@ -17,8 +17,14 @@ public class RoundSingleton : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            if (FinalRound())
+            {
+                Reset();
+            }
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -35,7 +41,7 @@ public class RoundSingleton : MonoBehaviour
     private const int WINS_REQUIRED = 2;
     int _leftWins, _rightWins;
 
-    //void Awake() => Reset(); fazer uma função de reset do nível, temos a antiga do nível 2 "ResetLevel"
+    //void Awake() => Reset(); //isso aqui serve para usar a void reset e zerar os rounds
     void OnEnable() => Instance = this;
 //    void OnDisable() => Instance = null; PROBLEMA ERA NESSE CORNO que tava nulificando o singleton
     public void Reset() { _leftWins = _rightWins = 0; }
@@ -70,23 +76,18 @@ public class RoundSingleton : MonoBehaviour
         Right = 1
     }
     //Operador Ternário => "is this condition true ? yes : no"
-    
-    public void ReloadScene()
+
+    [SerializeField] Animator transitionAnim;
+    //public void ReloadScene()
+    public IEnumerator ReloadScene()
     {
         string sceneName = SceneManager.GetActiveScene().name;
 
+        transitionAnim.SetTrigger("Round End");
+        yield return new WaitForSeconds(1);
         //StartCoroutine(RoundTransition()); ATIVA ISSO AQUI MAIS NÃO MEU AMIGO PFV
 
         SceneManager.LoadScene(sceneName);
-    }
-
-    public Image roundEnd; //transição de um round pro outro
-    IEnumerator RoundTransition() //preciso desativar os scripts do player e do boss e retornar eles pras posições originais
-    {                             //enquanto a transição está ativa
-        roundEnd.gameObject.SetActive(true);
-        
-        yield return new WaitForSeconds(2.19f);
-
-        roundEnd.gameObject.SetActive(false);
+        transitionAnim.SetTrigger("Round Start");
     }
 }
