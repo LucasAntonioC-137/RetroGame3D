@@ -52,11 +52,11 @@ public class RoundCount : MonoBehaviour
         //FUNÇÃO PARA CUIDAR DAS MUDANÇAS NOS CORAÇÕES
         UpdateHUD();
 
-        Debug.Log($"LifeIcon length: {lifeIcon.Length}");
-        foreach (var icon in lifeIcon)
-        {
-            Debug.Log(icon?.name ?? "null");
-        }
+        //Debug.Log($"LifeIcon length: {lifeIcon.Length}");
+        //foreach (var icon in lifeIcon)
+        //{
+        //    Debug.Log(icon?.name ?? "null");
+        //}
     }
 
 
@@ -123,10 +123,10 @@ public class RoundCount : MonoBehaviour
 
         RoundCheck();
 
+        //playerWalk.gameObject.SetActive(false);//O PROBLEMA PROVAVELMENTE TAVA NESSAS
+        //playerCombo.gameObject.SetActive(false);//DUAS LINHAS, estavam desativando os gameObjects por inteiro
         playerWalk.enabled = false; //o comando assim desativa SOMENTE o SCRIPT(valor que tá nessa variável no momento)
         playerCombo.enabled = false;
-        //playerWalk.gameObject.SetActive(false);//O PROBLEMA PROVAVELMENTE TÁ AQUI NESSAS
-        //playerCombo.gameObject.SetActive(false);//DUAS LINHAS
 
         //StartCoroutine(RoundTransition()); //ESSA DAQUI É A DO ROUNDCOUNT E NÃO DO SINGLETON
         RoundTransition();
@@ -216,7 +216,7 @@ public class RoundCount : MonoBehaviour
         else Debug.LogError("lifeIcon array retornou null");
     }
 
-    IEnumerator roundStartCutscene()
+    IEnumerator roundStartCutscene()//Defasado por enquanto
     {
         roundStartEffect.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.04f);//0.99f);
@@ -225,7 +225,6 @@ public class RoundCount : MonoBehaviour
     }
 
     public Animator bossAnim;
-    //IEnumerator RoundTransition() //preciso desativar os scripts do player e do boss e retornar eles pras posições originais
     void RoundTransition()
     {                             //enquanto a transição está ativa
         //NOVO

@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,8 +31,9 @@ public class RoundSingleton : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Start - Current wins - Left: {RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Left)}," +
-                                        $" Right: {RoundSingleton.Instance.CurrentWinsOf(RoundSingleton.Side.Right)}");
+        Debug.Log($"Start - Current wins - Left: {CurrentWinsOf(Side.Left)}," +
+                                        $" Right: {CurrentWinsOf(Side.Right)}");
+        //rdNumberAnim.SetTrigger("Round Start");
     }
 
     void OnDestroy()
@@ -43,7 +46,7 @@ public class RoundSingleton : MonoBehaviour
 
     //void Awake() => Reset(); //isso aqui serve para usar a void reset e zerar os rounds
     void OnEnable() => Instance = this;
-//    void OnDisable() => Instance = null; PROBLEMA ERA NESSE CORNO que tava nulificando o singleton
+    //void OnDisable() => Instance = null; PROBLEMA ERA NESSE CORNO que tava nulificando o singleton
     public void Reset() { _leftWins = _rightWins = 0; }
 
     public void RecordRoundWinner(Side winner)
@@ -78,7 +81,8 @@ public class RoundSingleton : MonoBehaviour
     //Operador Ternário => "is this condition true ? yes : no"
 
     [SerializeField] Animator transitionAnim;
-    //public void ReloadScene()
+    [SerializeField] Animator rdNumberAnim;
+
     public IEnumerator ReloadScene()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -88,6 +92,16 @@ public class RoundSingleton : MonoBehaviour
         //StartCoroutine(RoundTransition()); ATIVA ISSO AQUI MAIS NÃO MEU AMIGO PFV
 
         SceneManager.LoadScene(sceneName);
+
+        //ResetRdNumberAnim();
         transitionAnim.SetTrigger("Round Start");
+
+        yield return new WaitForSeconds(0.5f);
+
+
+        //NextRound();
+        //rdNumberAnim.ResetTrigger("Round Start");
+        
+        //rdNumberAnim.ResetTrigger("end");
     }
 }

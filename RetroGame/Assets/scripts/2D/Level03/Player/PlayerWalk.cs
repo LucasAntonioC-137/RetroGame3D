@@ -22,7 +22,6 @@ public class PlayerWalk : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rbody = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
-
     }
 
     // Update is called once per frame
