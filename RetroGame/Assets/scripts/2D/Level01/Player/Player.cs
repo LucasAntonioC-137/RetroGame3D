@@ -6,16 +6,32 @@ public class Player : MonoBehaviour
 {
     public float Speed;
     public float JumpForce;
+
+    Vector2 checkPointPos;
+    SpriteRenderer playerSprite;
+    public GameObject respawnEffect;
+
     private Rigidbody2D rig;
     private Animator anim;
 
     public bool isJumping;
+    Lifes playerGo;
+    //EnvironmentController envControll;
+
+    private void Awake()
+    {
+        playerSprite = GetComponent<SpriteRenderer>();
+        playerGo = GetComponent<Lifes>();
+        //envControll = GameObject.Find("Environment Controller").GetComponent<EnvironmentController>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        checkPointPos = transform.position;
     }
 
     // Update is called once per frame
@@ -58,6 +74,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Die()
+    {
+        StartCoroutine(Respawn());
+        EnvironmentController.instance.UpdateScoreText();
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.layer == 6)
@@ -68,10 +90,27 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag == "GameOver")
         {
+            //collision.gameObject.GetComponent<Lifes>().loseLife();
+            playerGo.loseLife();
             AudioController.current.PlayMusic(AudioController.current.deathSFX);
-            EnvironmentController.instance.ShowGameOver();
-            Destroy(gameObject);
+            Die();
         }
+
+        //if(collision.gameObject.tag == "GameOver" || collision.gameObject.tag == "Enemy")
+        //{
+        //    AudioController.current.PlayMusic(AudioController.current.deathSFX);
+
+        //    if(EnvironmentController.instance.playerLifes > 0)//envControll.playerLifes <= 1)
+        //    {
+        //        Die();
+                
+        //        //enabled = false;
+        //    } else
+        //    {
+        //        playerSprite.enabled = false;
+        //        EnvironmentController.instance.ShowGameOver();
+        //    }
+        //}
 
         if(collision.gameObject.tag == "Trampoline")
         {
@@ -86,5 +125,34 @@ public class Player : MonoBehaviour
         {
             isJumping = true;
         }
+
+        if((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "GameOver") && EnvironmentController.instance.playerLifes >= 0)
+        {
+            StartCoroutine(Respawn());
+        }
+    }
+
+    IEnumerator Respawn()
+    {
+        rig.velocity = Vector3.zero;
+        playerSprite.enabled = false;
+        rig.simulated = false;
+        respawnEffect.SetActive(true);
+        //transform.localScale = new Vector3(0,0,0);
+
+        yield return new WaitForSeconds(0.5f);
+
+        
+        respawnEffect.SetActive(false);
+        transform.position = checkPointPos;
+        playerSprite.enabled = true;
+        //transform.localScale = new Vector3(1, 1, 1);
+        rig.simulated = true;
+           
+    }
+    
+    public void UpdateCheckpoint(Vector2 pos)
+    {
+        checkPointPos = pos;
     }
 }

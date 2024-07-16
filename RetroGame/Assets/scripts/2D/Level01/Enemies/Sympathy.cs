@@ -20,6 +20,8 @@ public class Sympathy : MonoBehaviour
 
     public LayerMask layer;
 
+    [SerializeField]Player playerGO;
+
     void Start()
     {
         timerOn = true;
@@ -27,6 +29,8 @@ public class Sympathy : MonoBehaviour
         boxCol = GetComponent<BoxCollider2D>();
         cirCol = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
+
+        playerGO = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
@@ -87,12 +91,16 @@ public class Sympathy : MonoBehaviour
                 Destroy(gameObject, 1.4f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
-            }else
+            }
+            else
             {
+                collision.gameObject.GetComponent<Lifes>().loseLife();
+                
                 playerDestroyed = true;
                 AudioController.current.PlayMusic(AudioController.current.deathSFX);
-                EnvironmentController.instance.ShowGameOver();
-                Destroy(collision.gameObject);
+                playerGO.Die();
+                //EnvironmentController.instance.ShowGameOver();
+                //Destroy(collision.gameObject);
             }
         }
     }

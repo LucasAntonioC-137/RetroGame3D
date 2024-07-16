@@ -15,10 +15,14 @@ public class Misery : MonoBehaviour
     private bool colliding;
 
     public LayerMask layer;
+
+    [SerializeField] Player playerGO;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        playerGO = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
@@ -46,6 +50,13 @@ public class Misery : MonoBehaviour
                 Destroy(gameObject, 0.3f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Lifes>().loseLife();
+                
+                AudioController.current.PlayMusic(AudioController.current.deathSFX);
+                playerGO.Die();
             }
         }
     }

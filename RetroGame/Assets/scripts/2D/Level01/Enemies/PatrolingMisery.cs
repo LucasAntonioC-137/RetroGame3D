@@ -14,7 +14,9 @@ public class PatrolingMisery : MonoBehaviour
     private CircleCollider2D cirCol;
     private Animator anim;
     private Transform currentPoint;
-    
+
+    [SerializeField] Player playerGO;
+
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -22,7 +24,7 @@ public class PatrolingMisery : MonoBehaviour
         cirCol = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
-        
+        playerGO = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
@@ -66,12 +68,16 @@ public class PatrolingMisery : MonoBehaviour
                 Destroy(transform.parent.gameObject, 1.35f);
                 EnvironmentController.instance.playerScore +=  Score;
                 EnvironmentController.instance.UpdateScoreText();
-            }else
+            }
+            else
             {
+                collision.gameObject.GetComponent<Lifes>().loseLife();
+
                 playerDestroyed = true;
                 AudioController.current.PlayMusic(AudioController.current.deathSFX);
-                EnvironmentController.instance.ShowGameOver();
-                Destroy(collision.gameObject);
+                playerGO.Die();
+                //EnvironmentController.instance.ShowGameOver();
+                
             }
         }
     }

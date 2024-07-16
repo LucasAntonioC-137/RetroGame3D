@@ -19,7 +19,6 @@ public class FallingPlatform : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            Debug.Log("Colidiu");
             Invoke("Falling", fallingTime);
         }
     }
