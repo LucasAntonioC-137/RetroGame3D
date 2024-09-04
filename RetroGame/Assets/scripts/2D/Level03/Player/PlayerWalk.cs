@@ -96,7 +96,7 @@ public class PlayerWalk : MonoBehaviour
             rbody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             //deactivate();
-            //anim.SetBool("jump", true);
+            anim.SetBool("jumping", true);
         }
     }
 
@@ -105,7 +105,7 @@ public class PlayerWalk : MonoBehaviour
         if (collision.gameObject.layer == 6)
         {
             isJumping = false;
-            //anim.SetBool("jump", false);
+            anim.SetBool("jumping", false);
         }
     }
     #endregion

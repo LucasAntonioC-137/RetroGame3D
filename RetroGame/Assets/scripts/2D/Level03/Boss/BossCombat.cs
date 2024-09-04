@@ -190,7 +190,7 @@ public class BossCombat : MonoBehaviour
                 player.TakeDamage(punchDamage / 2);
                 playerDirection.canMove = false;
 
-                enemyRb.AddForce(repulsionDirection * (repulsionForce * 0.2f), ForceMode2D.Force);
+                enemyRb.AddForce(repulsionDirection * (repulsionForce * 0.6f), ForceMode2D.Force);
                 StartCoroutine(dealingDamage(1f));
             }
         }
@@ -216,8 +216,8 @@ public class BossCombat : MonoBehaviour
                 repulsionDirection.Normalize();
                 if (playerDirection.isFacingRight == true) { directionX = repulsionX; } else { directionX = -repulsionX; }
 
-                repulsionDirection.y += 3f;
-                
+                repulsionDirection.y += 8f;
+                repulsionDirection.x = 0f;
 
                 player.TakeDamage(punchDamage / 2);
                 playerDirection.canMove = false;
@@ -253,7 +253,7 @@ public class BossCombat : MonoBehaviour
                 player.TakeDamage(punchDamage);
                 playerDirection.canMove = false;
                 
-                enemyRb.AddForce(repulsionDirection * (repulsionForce * 3f), ForceMode2D.Force);
+                enemyRb.AddForce(repulsionDirection * (repulsionForce * 5f), ForceMode2D.Force);
                 StartCoroutine(dealingDamage(1f));
 
             }
@@ -305,7 +305,7 @@ public class BossCombat : MonoBehaviour
                 Vector2 repulsionDirection = (Vector2)enemyRb.position - (Vector2)punchAttack.position;
                 repulsionDirection.Normalize();
 
-                repulsionDirection.y += repulsionY * 8; //aumentei a altura
+                repulsionDirection.y += repulsionY * 30; //aumentei a altura
                 repulsionDirection.x += directionX * repulsionX;
 
                 player.TakeDamage(punchDamage * 6);

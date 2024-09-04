@@ -1020,7 +1020,7 @@ Transform:
   m_GameObject: {fileID: 361255010}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.226, y: 0, z: -25}
+  m_LocalPosition: {x: -0.36, y: 0, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1058,9 +1058,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.053954303}
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.1539543
 --- !u!50 &361255013
 Rigidbody2D:
   serializedVersion: 4
@@ -1364,7 +1364,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480718878}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fb53787e30ea734cb08ed3fa073382d, type: 3}
   m_Name: 
@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 50
+  life: 200
   special: 100
   lifeBar: {fileID: 546563745}
   specialBar: {fileID: 902387780}
@@ -1444,7 +1444,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionAnim: {fileID: 230146086}
   rdNumberAnim: {fileID: 1567812436}
-  roundText: {fileID: 7718182}
 --- !u!4 &497448377
 Transform:
   m_ObjectHideFlags: 0
@@ -3414,7 +3413,7 @@ Transform:
   m_GameObject: {fileID: 1359542994}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3462,7 +3461,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cffff69af639f0e409e84abcff6dbe06, type: 3}
+  m_Sprite: {fileID: 410622461, guid: bdb05f3d2aabca84196025caf1a57657, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3762,7 +3761,7 @@ Transform:
   m_GameObject: {fileID: 1440636163}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 25}
+  m_LocalPosition: {x: 0, y: 0.34, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3811,9 +3810,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6367560908665664636, guid: cd947491a13509945aa1b644f9db3ef2, type: 3}
+  m_Sprite: {fileID: -749162169, guid: 369de1f276ecc9c478f67f330f836f37, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.32, y: 0.32}
@@ -3850,7 +3849,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440636163}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fb53787e30ea734cb08ed3fa073382d, type: 3}
   m_Name: 
@@ -4658,7 +4657,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.5
+  m_GravityScale: 2.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -4703,14 +4702,14 @@ MonoBehaviour:
   - hits:
     - animation: Attack_1
       inputButton: Fire1
-      animationTime: 0.35
+      animationTime: 0.333
       resetTime: 0.6
       damage: 5
       hitSound: {fileID: 8300000, guid: 2f9513e7769a4db4d9cc1ebbfb10f3a7, type: 3}
       slowDown: 0
     - animation: Attack_2
       inputButton: Fire2
-      animationTime: 0.167
+      animationTime: 0.417
       resetTime: 0.5
       damage: 5
       hitSound: {fileID: 8300000, guid: 3e00fb807ba9b8443afd7b55fda31830, type: 3}
@@ -4725,21 +4724,21 @@ MonoBehaviour:
   - hits:
     - animation: Attack_1
       inputButton: Fire1
-      animationTime: 0.35
+      animationTime: 0.333
       resetTime: 0.6
       damage: 6
       hitSound: {fileID: 8300000, guid: 2f9513e7769a4db4d9cc1ebbfb10f3a7, type: 3}
       slowDown: 0
     - animation: Attack_2
       inputButton: Fire2
-      animationTime: 0.167
+      animationTime: 0.417
       resetTime: 0.5
       damage: 8
       hitSound: {fileID: 8300000, guid: 3e00fb807ba9b8443afd7b55fda31830, type: 3}
       slowDown: 0
     - animation: Attack_3
       inputButton: Fire3
-      animationTime: 0.333
+      animationTime: 0.583
       resetTime: 0.5
       damage: 10
       hitSound: {fileID: 8300000, guid: b0179846ff5c56c49bdaa33076264e05, type: 3}
@@ -4747,14 +4746,14 @@ MonoBehaviour:
   - hits:
     - animation: Attack_2
       inputButton: Fire2
-      animationTime: 0.167
+      animationTime: 0.417
       resetTime: 0.5
       damage: 6
       hitSound: {fileID: 8300000, guid: 3e00fb807ba9b8443afd7b55fda31830, type: 3}
       slowDown: 0
     - animation: Attack_3
       inputButton: Fire3
-      animationTime: 0.35
+      animationTime: 0.583
       resetTime: 0.5
       damage: 8
       hitSound: {fileID: 8300000, guid: b0179846ff5c56c49bdaa33076264e05, type: 3}
@@ -4773,8 +4772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 40
-  special: 25
+  life: 200
+  special: 100
   lifeBar: {fileID: 1477508685}
   specialBar: {fileID: 48748839}
   fainted: 0
@@ -4900,7 +4899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 1773142800}
   playerSpeed: 5
-  jumpForce: 9
+  jumpForce: 15
   isFacingRight: 1
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
@@ -4920,6 +4919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: {fileID: 1773142800}
+  anim: {fileID: 0}
 --- !u!114 &1773142808
 MonoBehaviour:
   m_ObjectHideFlags: 0

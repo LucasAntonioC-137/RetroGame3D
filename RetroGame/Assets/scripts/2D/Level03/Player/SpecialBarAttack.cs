@@ -11,6 +11,7 @@ public class SpecialBarAttack : MonoBehaviour
     public float spSpeed;
     public bool spIsActive;
     private PlayerWalk facingDir;
+    private Animator anim;
 
     //Special variables
     [SerializeField] private float timeLeft;
@@ -20,6 +21,7 @@ public class SpecialBarAttack : MonoBehaviour
     {
         spBar = GameObject.Find("Player").GetComponent<Life>();
         facingDir = GameObject.Find("Player").GetComponent<PlayerWalk>();
+        anim = GameObject.Find("Player").GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -39,6 +41,7 @@ public class SpecialBarAttack : MonoBehaviour
         {
             SpecialATK();
             StartCoroutine(CameraReturn());
+            //anim.ResetTrigger("Special");
         }
         
     }
@@ -48,6 +51,7 @@ public class SpecialBarAttack : MonoBehaviour
         //specBar = spBar.specialBar;
 
         CameraChange();
+        anim.SetTrigger("Special");
 
         spBar.special = 0;
         Debug.Log("Ativamos o special!");

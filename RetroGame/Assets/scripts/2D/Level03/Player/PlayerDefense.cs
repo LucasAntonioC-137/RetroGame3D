@@ -10,10 +10,12 @@ public class PlayerDefense : MonoBehaviour
     public static bool isDefending = false; //utilizar para desativar a possibilidade de movimentação na defesa
     private PlayerWalk walk;
     public Rigidbody2D weight; //pego no editor
+    public Animator anim;
 
     private void Awake()
     {
         walk = GameObject.Find("Player").GetComponent<PlayerWalk>();
+        anim = GameObject.Find("Player").GetComponentInChildren <Animator>();
         //playerCol = gameObject.GetComponent<BoxCollider2D>();
     }
 
@@ -52,10 +54,12 @@ public class PlayerDefense : MonoBehaviour
         {
 
             isDefending = true;
+            anim.SetBool("isDefending", true);
 
         } else if (Input.GetKeyUp(KeyCode.L)) 
         { 
             isDefending = false;
+            anim.SetBool("isDefending", false);
         }
     }
 
