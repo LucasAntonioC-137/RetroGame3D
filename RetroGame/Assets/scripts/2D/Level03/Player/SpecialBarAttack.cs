@@ -49,7 +49,7 @@ public class SpecialBarAttack : MonoBehaviour
     void SpecialATK()
     {
         //specBar = spBar.specialBar;
-
+        //StartCoroutine(CameraChange());
         CameraChange();
         anim.SetTrigger("Special");
 
@@ -70,6 +70,11 @@ public class SpecialBarAttack : MonoBehaviour
 
     }
 
+    //IEnumerator CameraChange()
+    //{
+    //    _virtualCameras[1].SetActive(true);
+    //    yield return new WaitForSeconds(0.6f);
+    //}
     void CameraChange()
     {
         _virtualCameras[1].SetActive(true);
@@ -77,7 +82,7 @@ public class SpecialBarAttack : MonoBehaviour
 
     IEnumerator CameraReturn()
     {
-        Time.timeScale = 0.001f;
+        Time.timeScale = 0.01f;
         yield return new WaitForSecondsRealtime(timeLeft);
         _virtualCameras[1].SetActive(false);
         Time.timeScale = 1f;

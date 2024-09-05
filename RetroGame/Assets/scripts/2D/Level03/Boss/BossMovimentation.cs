@@ -82,10 +82,10 @@ public class BossMovimentation : StateMachineBehaviour
                 {
                     //if(tempoPassado > 1.5f) { speed = 2f; }
                     //Testes
-                    randomBehavior = Random.Range(4, 5);
+                    //randomBehavior = Random.Range(4, 5);
 
                     //DEFINITIVO
-                    //randomBehavior = Random.Range(1, 6);
+                    randomBehavior = Random.Range(1, 6);
 
                     lastState = randomBehavior; //usado para mudança de velocidade
 
