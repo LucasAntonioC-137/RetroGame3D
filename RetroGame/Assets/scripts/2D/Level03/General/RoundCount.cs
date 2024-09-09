@@ -35,7 +35,7 @@ public class RoundCount : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         playerData = GameObject.Find("Player").GetComponent<Life>();
         bossData = GameObject.Find("Enemy Test").GetComponent<Life>();
         timeCount = GameObject.Find("Main Camera").GetComponent<TimeCounter>();

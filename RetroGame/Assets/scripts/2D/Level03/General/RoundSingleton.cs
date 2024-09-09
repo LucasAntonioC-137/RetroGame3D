@@ -10,6 +10,8 @@ public class RoundSingleton : MonoBehaviour
 {
     public static RoundSingleton Instance { get; private set; }
 
+    //private bool startOrNot;
+    public GameObject dialogPrefab;
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -33,6 +35,11 @@ public class RoundSingleton : MonoBehaviour
     {
         Debug.Log($"Start - Current wins - Left: {CurrentWinsOf(Side.Left)}," +
                                         $" Right: {CurrentWinsOf(Side.Right)}");
+        
+        if(totalRounds == 0)
+        {
+            dialogPrefab.SetActive(true);
+        }else dialogPrefab.SetActive(false);
         //rdNumberAnim.SetTrigger("Round Start");
     }
 

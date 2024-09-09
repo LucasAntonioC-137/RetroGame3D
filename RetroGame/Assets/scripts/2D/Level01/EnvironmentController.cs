@@ -22,6 +22,8 @@ public class EnvironmentController : MonoBehaviour
     public static EnvironmentController instance;
 
     public Button restartButton;
+
+    public GameObject dialogPrefab;
     //Player envPlayer;
     //private void Awake()
     //{
@@ -47,6 +49,10 @@ public class EnvironmentController : MonoBehaviour
         //Time.timeScale = 1f;
 
         UpdateScoreText();
+        if(playerScore == 0)
+        {
+            dialogPrefab.SetActive(true);
+        }else dialogPrefab.SetActive(false);
 
         //restartButton = GameObject.Find("Button").GetComponent<Button>();
         if (restartButton != null)
