@@ -18,7 +18,10 @@ public class SpecialBarAttack : MonoBehaviour
     [SerializeField] private GameObject[] _virtualCameras;
 
     public AudioManager audioManager;
-
+    private void Awake()
+    {
+        audioManager = GameObject.FindWithTag("Audio").GetComponent<AudioManager>();
+    }
     void Start()
     {
         spBar = GameObject.Find("Player").GetComponent<Life>();

@@ -1101,7 +1101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0c49cac10af584ca65913c45867027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Level03
+  sceneName: Level_03
+  gameOverScreen: {fileID: 640487815}
 --- !u!114 &227608845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1155,7 +1156,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Level03
+          m_StringArgument: Level_03
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &227608846
@@ -2517,7 +2518,7 @@ GameObject:
   - component: {fileID: 640487817}
   m_Layer: 5
   m_Name: Game Over Screen
-  m_TagString: Untagged
+  m_TagString: GameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3678,6 +3679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Ending_Level03
+  gameOverScreen: {fileID: 0}
 --- !u!114 &1082534698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6315,7 +6317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad6bbc3bb861e24c8a510fd7408d968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 200
+  life: 50
   special: 100
   lifeBar: {fileID: 1477508685}
   specialBar: {fileID: 48748839}

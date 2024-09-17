@@ -59,6 +59,7 @@ public class RoundCount : MonoBehaviour
         {
             isUpdateEnabled = false;
             gameOverScreen.SetActive(true);//ATIVAR TELA DE DERROTA AQUI
+            RoundSingleton.Instance.Reset();
         }
         else isUpdateEnabled = true;
         //StartCoroutine(roundStartCutscene());
