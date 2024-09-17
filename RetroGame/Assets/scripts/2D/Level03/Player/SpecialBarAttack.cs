@@ -17,6 +17,8 @@ public class SpecialBarAttack : MonoBehaviour
     [SerializeField] private float timeLeft;
     [SerializeField] private GameObject[] _virtualCameras;
 
+    public AudioManager audioManager;
+
     void Start()
     {
         spBar = GameObject.Find("Player").GetComponent<Life>();
@@ -52,6 +54,7 @@ public class SpecialBarAttack : MonoBehaviour
         //StartCoroutine(CameraChange());
         CameraChange();
         anim.SetTrigger("Special");
+        audioManager.PlaySFX(audioManager.specialATK);
 
         spBar.special = 0;
         Debug.Log("Ativamos o special!");

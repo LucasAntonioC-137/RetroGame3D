@@ -32,6 +32,9 @@ public class RoundCount : MonoBehaviour
     public Image roundStartEffect;
 
     private bool isUpdateEnabled;
+
+    public GameObject victoryScreen;
+    public GameObject gameOverScreen;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,8 +49,18 @@ public class RoundCount : MonoBehaviour
 
         Debug.Log($"Scene Reloaded - Player and boss Initialized");
 
-        isUpdateEnabled = true;
-
+        
+        if (RoundSingleton.Instance.FinalRound() && (RoundSingleton.Instance.finalWinner == RoundSingleton.Side.Left))
+        {
+            isUpdateEnabled = false;
+            victoryScreen.SetActive(true);//ATIVAR A TELA FINAL AQUI
+        }
+        else if (RoundSingleton.Instance.FinalRound() && (RoundSingleton.Instance.finalWinner == RoundSingleton.Side.Right))
+        {
+            isUpdateEnabled = false;
+            gameOverScreen.SetActive(true);//ATIVAR TELA DE DERROTA AQUI
+        }
+        else isUpdateEnabled = true;
         //StartCoroutine(roundStartCutscene());
         //FUNÇÃO PARA CUIDAR DAS MUDANÇAS NOS CORAÇÕES
         UpdateHUD();
@@ -86,10 +99,10 @@ public class RoundCount : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Time.timeScale = 1f;
-        }
+        //if (Input.GetKeyDown(KeyCode.V))
+        //{
+        //    Time.timeScale = 1f;
+        //}
     }
 
     void GameSet()
@@ -99,18 +112,18 @@ public class RoundCount : MonoBehaviour
             GettingRoundResults();
             isUpdateEnabled = false; //para de rodar no update
 
-            if (RoundSingleton.Instance.FinalRound())
-            {
-                //Time.timeScale = 0.01f; //vai ficar essa câmera lenta no final mesmo, até a tela de game over aparecer
-                Debug.Log("Ultimo round"); //Funcionando
-                Time.timeScale = 0.2f; //vai ficar essa câmera lenta no final mesmo, até a tela de game over aparecer
-                                       //playerWalk.gameObject.SetActive(false);
-                                       //playerCombo.gameObject.SetActive(false);
+            //if (RoundSingleton.Instance.FinalRound())
+            //{
+            //    //Time.timeScale = 0.01f; //vai ficar essa câmera lenta no final mesmo, até a tela de game over aparecer
+            //    Debug.Log("Ultimo round"); //Funcionando
+            //                               //Time.timeScale = 0.2f; //vai ficar essa câmera lenta no final mesmo, até a tela de game over aparecer
+                
+            //    victoryScreen.SetActive(true);//ATIVAR A TELA FINAL AQUI AQUI                 
 
-                isUpdateEnabled = false; //para de rodar no update
-                //UpdateHUD(); //se não for ou for, tentar trocar pela corrotina aqui
-                return;
-            }
+            //    isUpdateEnabled = false; //para de rodar no update
+            //    //UpdateHUD(); //se não for ou for, tentar trocar pela corrotina aqui
+            //    return;
+            //}
 
             Debug.Log("saímos do for");
 
@@ -222,6 +235,14 @@ public class RoundCount : MonoBehaviour
         yield return new WaitForSeconds(1.04f);//0.99f);
         roundStartEffect.gameObject.SetActive(false);
 
+    }
+
+    IEnumerator roundEndCutscene()
+    {
+        Time.timeScale = 0.2f;
+        yield return new WaitForSeconds(1f);
+        Time.timeScale = 1;
+        victoryScreen.SetActive(true);
     }
 
     public Animator bossAnim;

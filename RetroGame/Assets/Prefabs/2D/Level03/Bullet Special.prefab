@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b4c655ecddacd04f94cbdd807075b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spDamage: 50
+  spDamage: 80
   spLifeTime: 3
   spDistance: 5
   BoltHit: {fileID: 7415934532144042678, guid: 5fe918e37d832804eba40a332440bb8f, type: 3}

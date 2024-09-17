@@ -11,13 +11,14 @@ public class BossCombat : MonoBehaviour
 {
     public LayerMask playerLayer;
     private PlayerWalk playerDirection;
-    
 
+    [SerializeField] AudioManager audioManager;
+    
     #region Dados de ataque
     [SerializeField] Transform punchAttack;
     [SerializeField] Transform specialAttack;
     public float punchRange = 0.5f;
-    private float punchDamage = 10;
+    private float punchDamage = 16;
     public float repulsionForce = 100f;
     
     public float repulsionY = 0.9f;
@@ -42,6 +43,7 @@ public class BossCombat : MonoBehaviour
         bossRb = GameObject.Find("Enemy Test").GetComponentInParent<Rigidbody2D>();
         bossAnim = GetComponentInChildren<Animator>();
         playerDirection = GameObject.Find("Player").GetComponent<PlayerWalk>();
+        audioManager= GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Start()
@@ -81,6 +83,7 @@ public class BossCombat : MonoBehaviour
 
             if (PlayerDefense.isDefending == true && playerRb != null)
             {
+                audioManager.PlaySFX(audioManager.bossPunches);
                 player.TakeDamage(punchDamage / 2); //diminuimos o dano pegando a variável isDefending
                 StartCoroutine(dealingDamage(0.3f));
             }
@@ -102,6 +105,7 @@ public class BossCombat : MonoBehaviour
 
                 playerRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
                 StartCoroutine(dealingDamage(1f));
+                audioManager.PlaySFX(audioManager.bossPunches);
             }
         }
 
@@ -134,6 +138,7 @@ public class BossCombat : MonoBehaviour
                 player.TakeDamage(punchDamage / 3);
                 enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
                 StartCoroutine(dealingDamage(0.3f));
+                audioManager.PlaySFX(audioManager.bossPunches);
                 return;
             }
             else if (PlayerDefense.isDefending == false && enemyRb != null)
@@ -152,6 +157,7 @@ public class BossCombat : MonoBehaviour
                 playerDirection.canMove = false;
 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce), ForceMode2D.Force);
+                audioManager.PlaySFX(audioManager.bossPunches);
                 StartCoroutine(dealingDamage(1f));
             }
         }
@@ -173,6 +179,7 @@ public class BossCombat : MonoBehaviour
             if (PlayerDefense.isDefending == true && enemyRb != null)
             {
                 //fazer ele parar o ataque aqui
+                audioManager.PlaySFX(audioManager.bossPunches);
                 return;
             }
             else if (PlayerDefense.isDefending == false && enemyRb != null)
@@ -191,6 +198,7 @@ public class BossCombat : MonoBehaviour
                 playerDirection.canMove = false;
 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce * 0.6f), ForceMode2D.Force);
+                audioManager.PlaySFX(audioManager.bossPunches);
                 StartCoroutine(dealingDamage(1f));
             }
         }
@@ -223,6 +231,7 @@ public class BossCombat : MonoBehaviour
                 playerDirection.canMove = false;
                 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce), ForceMode2D.Force);
+                audioManager.PlaySFX(audioManager.bossPunches);
                 StartCoroutine(dealingDamage(1f));
             }
         }
@@ -254,6 +263,7 @@ public class BossCombat : MonoBehaviour
                 playerDirection.canMove = false;
                 
                 enemyRb.AddForce(repulsionDirection * (repulsionForce * 5f), ForceMode2D.Force);
+                audioManager.PlaySFX(audioManager.bossPunches);
                 StartCoroutine(dealingDamage(1f));
 
             }
@@ -293,6 +303,7 @@ public class BossCombat : MonoBehaviour
                 //aplicar metade do dano do special aqui
                 enemyRb.AddForce(repulsionDirection * (repulsionForce * 0.2f), ForceMode2D.Force);
                 player.TakeDamage(punchDamage * 3);
+                audioManager.PlaySFX(audioManager.bossSpecialATK);
                 return;
             }
             else if (PlayerDefense.isDefending == false && enemyRb != null)
@@ -312,6 +323,7 @@ public class BossCombat : MonoBehaviour
                 playerDirection.canMove = false;
 
                 enemyRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Force);
+                audioManager.PlaySFX(audioManager.bossSpecialATK);
                 StartCoroutine(dealingDamage(1f));
 
             }

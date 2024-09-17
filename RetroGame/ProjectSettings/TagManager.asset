@@ -19,6 +19,7 @@ TagManager:
   - Boss
   - PlayerAttack
   - EnemyAttack
+  - Audio
   layers:
   - Default
   - TransparentFX
