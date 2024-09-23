@@ -17,13 +17,12 @@ public class EnvironmentController : MonoBehaviour
     public GameObject gameOver;
     public GameObject winingScreen;
 
-    public bool isPaused;
-
     public static EnvironmentController instance;
 
     public Button restartButton;
 
     public GameObject dialogPrefab;
+
     //Player envPlayer;
     //private void Awake()
     //{
@@ -60,13 +59,19 @@ public class EnvironmentController : MonoBehaviour
             restartButton.onClick.AddListener(() => RestartGame(SceneManager.GetActiveScene().name));
         }
     }
-
+    
+    //PAUSE
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Pause();
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    Pause();
+        //}
+
+        //if (btn != null)
+        //{
+        //    btn.onClick.AddListener(Buttons);
+        //}
     }
 
     public void SetLives(int life)
@@ -100,18 +105,22 @@ public class EnvironmentController : MonoBehaviour
         winingScreen.SetActive(true);
     }
 
-    private void Pause()
-    {
-        if(isPaused == false)
-        {
-            Time.timeScale = 0f;
-            isPaused = true;
-        } 
-        else
-        {
-            Time.timeScale = 1f;
-            isPaused = false;
-        }
+    //private void Pause()
+    //{
+        
+        
+    //    if (isPaused == false)
+    //    {
+    //        Time.timeScale = 0f;
+    //        pauseScreen.SetActive(true);
+    //        isPaused = true;
+    //    } 
+    //    else
+    //    {
+    //        Time.timeScale = 1f;
+    //        //isPaused = false;
+    //    }
 
-    }
+    //}
+
 }
