@@ -1,2 +1,2 @@
-# RetroGameTCC
-This is a project from students of UNIFESSPA
+# RetroGame3D
+This is a project of UNIFESSPA by Lucas Antonio
