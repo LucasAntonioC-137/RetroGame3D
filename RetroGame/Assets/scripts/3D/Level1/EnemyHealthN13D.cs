@@ -17,11 +17,11 @@ public class EnemyHealthN13D : MonoBehaviour
         if (health <= 0)
         {
             // Instantiate the audio source prefab
-            AudioSource laserSfxInstance = Instantiate(explosionSfx, transform.position, Quaternion.identity);
+            AudioSource explosionSfxInstance = Instantiate(explosionSfx, transform.position, Quaternion.identity);
             // Play the sound
-            laserSfxInstance.Play();
+            explosionSfxInstance.Play();
             // Destroy the audio source after the sound has finished playing
-            Destroy(laserSfxInstance.gameObject, laserSfxInstance.clip.length);
+            Destroy(explosionSfxInstance.gameObject, explosionSfxInstance.clip.length);
             
             destroyedByPlayer = true;
             

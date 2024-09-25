@@ -6000,7 +6000,7 @@ MonoBehaviour:
   m_Path: {fileID: 2117714494}
   m_UpdateMethod: 0
   m_PositionUnits: 1
-  m_Speed: 20
+  m_Speed: 0
   m_Position: 0
 --- !u!222 &3202964973132186876
 CanvasRenderer:

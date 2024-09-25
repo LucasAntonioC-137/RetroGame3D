@@ -52,10 +52,10 @@ public class CameraFollow : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(new Vector3(-limits.x, -limits.y, transform.position.z), new Vector3(limits.x, -limits.y, transform.position.z));
-        Gizmos.DrawLine(new Vector3(-limits.x, limits.y, transform.position.z), new Vector3(limits.x, limits.y, transform.position.z));
-        Gizmos.DrawLine(new Vector3(-limits.x, -limits.y, transform.position.z), new Vector3(-limits.x, limits.y, transform.position.z));
-        Gizmos.DrawLine(new Vector3(limits.x, -limits.y, transform.position.z), new Vector3(limits.x, limits.y, transform.position.z));
+        Gizmos.DrawLine(new Vector3(-limits.x, -(limits.y + 2.5f), transform.position.z), new Vector3(limits.x, -(limits.y + 2.5f), transform.position.z));
+        Gizmos.DrawLine(new Vector3(-limits.x, limits.y - 2.5f, transform.position.z), new Vector3(limits.x, limits.y - 2.5f, transform.position.z));
+        Gizmos.DrawLine(new Vector3(-limits.x, -(limits.y + 2.5f), transform.position.z), new Vector3(-limits.x, limits.y -2.5f, transform.position.z));
+        Gizmos.DrawLine(new Vector3(limits.x, -(limits.y + 2.5f), transform.position.z), new Vector3(limits.x, limits.y - 2.5f, transform.position.z));
 
     }
 }

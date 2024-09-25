@@ -50,16 +50,17 @@ public class PlayerMovement2 : MonoBehaviour
         aimTarget = aimTargetObject.transform;
         //Debug.Log(originalFov.ToString());
     }
+
     // Update is called once per frame
     void Update()
     {
         if (playerModel != null)
         {
             float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontal, invert * vertical, 0);
-        LocalMove(horizontal, vertical, xySpeed);
-        RotationLookPath(horizontal, vertical, lookSpeed);
+            float vertical = Input.GetAxis("Vertical");
+            Vector3 direction = new Vector3(horizontal, invert * vertical, 0);
+            LocalMove(horizontal, vertical, xySpeed);
+            RotationLookPath(horizontal, vertical, lookSpeed);
         
             HorizontalLean(playerModel, horizontal, 50, .1f);
         

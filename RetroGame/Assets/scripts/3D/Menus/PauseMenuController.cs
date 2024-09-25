@@ -79,7 +79,6 @@ public class PauseMenuController : MonoBehaviour
             controlScreens[0].SetActive(false);
             controlScreens[1].SetActive(true);
         }
-        
     }
 
     //MainMenu
