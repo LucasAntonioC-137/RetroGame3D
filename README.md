@@ -1,7 +1,7 @@
 # RetroGame3D
 This is a project of UNIFESSPA by Lucas Antonio
 
-Este é um projeto realizado para fins de estudo como critério para avaliação de trabalho de conclusão de curso na UNIFESSPA. Deste mesmo projeto não foi gerada nenhuma forma de lucro sobre ele. Sendo apenas catalogado pela biblioteca da instituição e disponibilizado de forma pública para que outras pessoas consigam ler o texto e também se utilizar da parte prática do projeto disponibilizado no repositório GITHUB.
+Este é um projeto realizado para fins de estudo como critério para avaliação de trabalho de conclusão de curso na UNIFESSPA. Deste mesmo projeto não foi gerada nenhuma forma de lucro sobre ele. Sendo apenas catalogado pela biblioteca da instituição e disponibilizado de forma pública para que outras pessoas consigam ler o texto e também se utilizar da parte prática do projeto disponibilizado no repositório GITHUB, neste mesmo repositório também tem um "realease" com um ZIP para executar o jogo em windows.
 
 Créditos
 
